@@ -1,8 +1,8 @@
-# Sample Agent Definitions
+# Agent 定義範例
 
-This folder contains some simple agent templates for GitHub Copilot CLI intended to help you get started using agents.
+此資料夾包含數個簡單的 agent 範本，專為 GitHub Copilot CLI 設計，幫助你快速上手使用 agents。
 
-## Quick Start
+## 快速開始
 
 ```bash
 # Copy an agent to your personal agents folder
@@ -12,23 +12,23 @@ cp hello-world.agent.md ~/.copilot/agents/
 cp python-reviewer.agent.md .github/agents/
 ```
 
-## Sample Files in This Folder
+## 本資料夾的範例檔案
 
-| File | Description | Best For |
-|------|-------------|----------|
-| `hello-world.agent.md` | Minimal example (11 lines) | Learning the format |
-| `python-reviewer.agent.md` | Python code quality reviewer | Code reviews, PEP 8, type hints |
-| `pytest-helper.agent.md` | Pytest testing specialist | Test generation, fixtures, edge cases |
+| 檔案 | 說明 | 適用情境 |
+|------|------|----------|
+| `hello-world.agent.md` | 最簡範例（11 行） | 學習格式 |
+| `python-reviewer.agent.md` | Python 程式碼品質審查員 | 程式碼審查、PEP 8、型別提示 |
+| `pytest-helper.agent.md` | Pytest 測試專家 | 生成測試、fixtures、邊界案例 |
 
-## Finding More Agents
+## 探索更多 Agents
 
-- **[github/awesome-copilot](https://github.com/github/awesome-copilot)** - Official GitHub resources with community agents and instructions
+- **[github/awesome-copilot](https://github.com/github/awesome-copilot)** - GitHub 官方資源，收錄社群 agents 與使用說明
 
 ---
 
-## Agent File Format
+## Agent 檔案格式
 
-Each agent file requires YAML frontmatter with at least a `description` field:
+每個 agent 檔案需要包含 YAML 前置區塊，至少須有 `description` 欄位：
 
 ```markdown
 ---
@@ -42,33 +42,33 @@ tools: ["read", "edit", "search"]  # Optional: limit available tools
 Agent instructions go here...
 ```
 
-**Available YAML Properties:**
+**可用的 YAML 屬性：**
 
-| Property | Required | Description |
-|----------|----------|-------------|
-| `description` | **Yes** | What the agent does |
-| `name` | No | Display name (defaults to filename) |
-| `tools` | No | List of allowed tools (omit = all). See aliases below. |
-| `target` | No | Limit to `vscode` or `github-copilot` only |
+| 屬性 | 必填 | 說明 |
+|------|------|------|
+| `description` | **是** | Agent 的功能描述 |
+| `name` | 否 | 顯示名稱（預設為檔案名稱） |
+| `tools` | 否 | 允許使用的工具清單（省略則允許全部）。請參閱下方別名說明。 |
+| `target` | 否 | 限制僅適用於 `vscode` 或 `github-copilot` |
 
-**Tool Aliases**: `read`, `edit`, `search`, `execute` (shell), `web`, `agent`
+**工具別名**：`read`、`edit`、`search`、`execute`（shell）、`web`、`agent`
 
-> 💡 **Note**: The `model` property works in VS Code but is not yet supported in Copilot CLI.
+> 💡 **注意**：`model` 屬性在 VS Code 中可用，但目前尚未在 Copilot CLI 中支援。
 >
-> 📖 **Official docs**: [Custom agents configuration](https://docs.github.com/copilot/reference/custom-agents-configuration)
+> 📖 **官方文件**：[Custom agents configuration](https://docs.github.com/copilot/reference/custom-agents-configuration)
 
-## Agent File Locations
+## Agent 檔案存放位置
 
-Agents can be stored in:
-- `~/.copilot/agents/` - Global agents available in all projects
-- `.github/agents/` - Project-specific agents
-- `.agent.md` files - VS Code-compatible format
+Agents 可存放於以下位置：
+- `~/.copilot/agents/` - 全域 agents，適用於所有專案
+- `.github/agents/` - 專案專屬 agents
+- `.agent.md` 檔案 - 相容 VS Code 的格式
 
-Each agent is a separate file with the `.agent.md` extension.
+每個 agent 各為一個獨立檔案，副檔名為 `.agent.md`。
 
 ---
 
-## Usage Examples
+## 使用範例
 
 ```bash
 # Start with a specific agent
@@ -91,16 +91,16 @@ copilot
 
 ---
 
-## Creating Your Own Agents
+## 建立你自己的 Agent
 
-1. Create a new file in `~/.copilot/agents/` with `.agent.md` extension
-2. Add YAML frontmatter with at least a `description` field
-3. Add a descriptive header (e.g., `# Security Agent`)
-4. Define the agent's expertise, standards, and behaviors
-5. Use the agent with `/agent` or `--agent <name>`
+1. 在 `~/.copilot/agents/` 中建立一個副檔名為 `.agent.md` 的新檔案
+2. 加入 YAML 前置區塊，至少須包含 `description` 欄位
+3. 加入描述性標題（例如 `# Security Agent`）
+4. 定義 agent 的專業領域、規範與行為準則
+5. 使用 `/agent` 或 `--agent <name>` 來啟用該 agent
 
-**Tips for effective agents:**
-- Be specific about expertise areas
-- Include code standards and patterns
-- Define what the agent checks for
-- Include output format preferences
+**打造高效 agent 的小訣竅：**
+- 明確定義專業領域
+- 納入程式碼規範與模式
+- 說明 agent 的審查重點
+- 指定輸出格式的偏好設定

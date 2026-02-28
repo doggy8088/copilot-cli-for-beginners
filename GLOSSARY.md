@@ -1,6 +1,6 @@
-# Glossary
+# 術語表
 
-Quick reference for technical terms used throughout this course. Don't worry about memorizing these now - refer back as needed.
+本課程使用的技術術語快速參考。現在不需要背起來——有需要時再回來查閱即可。
 
 ---
 
@@ -8,11 +8,11 @@ Quick reference for technical terms used throughout this course. Don't worry abo
 
 ### Agent
 
-A specialized AI personality with domain expertise (e.g., frontend, security). Defined in `.agent.md` files with YAML frontmatter containing at minimum a `description` field.
+具有特定領域專業知識的 AI 角色（例如：前端、安全性）。定義於 `.agent.md` 檔案中，以 YAML frontmatter 表示，至少須包含 `description` 欄位。
 
 ### API
 
-Application Programming Interface. A way for programs to communicate with each other.
+應用程式介面（Application Programming Interface）。程式之間互相溝通的方式。
 
 ---
 
@@ -20,27 +20,27 @@ Application Programming Interface. A way for programs to communicate with each o
 
 ### CI/CD
 
-Continuous Integration/Continuous Deployment. Automated testing and deployment pipelines.
+持續整合／持續部署（Continuous Integration/Continuous Deployment）。自動化測試與部署流程。
 
 ### CLI
 
-Command Line Interface. A text-based way to interact with software (like this tool!).
+命令列介面（Command Line Interface）。以文字為基礎的軟體操作方式（就像這個工具！）。
 
 ### Context Window
 
-The amount of text an AI can consider at once. Like a desk that can only hold so much. When you add files, conversation history, and system prompts, they all take up space in this window.
+AI 一次可考量的文字量。就像一張只能放有限東西的桌子。當你加入檔案、對話記錄和系統提示時，這些內容都會佔用此窗口的空間。
 
 ### Context Manager
 
-A Python construct using the `with` statement that automatically handles setup and cleanup (like opening and closing files). Example: `with open("file.txt") as f:` ensures the file is closed even if an error occurs.
+Python 中使用 `with` 陳述式的結構，可自動處理初始化與清理作業（例如開啟和關閉檔案）。範例：`with open("file.txt") as f:` 確保即使發生錯誤，檔案也一定會被關閉。
 
 ### Conventional Commit
 
-A commit message format that follows a standardized structure: `type(scope): description`. Common types include `feat` (new feature), `fix` (bug fix), `docs` (documentation), `refactor`, and `test`. Example: `feat(auth): add password reset flow`.
+遵循標準化格式的提交訊息：`type(scope): description`。常見類型包括 `feat`（新功能）、`fix`（錯誤修正）、`docs`（文件）、`refactor` 和 `test`。範例：`feat(auth): add password reset flow`。
 
 ### Dataclass
 
-A Python decorator (`@dataclass`) that automatically generates `__init__`, `__repr__`, and other methods for classes that primarily store data. Used in the book app to define the `Book` class with fields like `title`, `author`, `year`, and `read`.
+Python 裝飾器（`@dataclass`），可為主要用於儲存資料的類別自動生成 `__init__`、`__repr__` 等方法。在書籍應用程式中，用於定義具有 `title`、`author`、`year` 和 `read` 欄位的 `Book` 類別。
 
 ---
 
@@ -48,7 +48,7 @@ A Python decorator (`@dataclass`) that automatically generates `__init__`, `__re
 
 ### Frontmatter
 
-Metadata at the top of a Markdown file enclosed in `---` delimiters. Used in agent and skill files to define properties like `description` and `name` in YAML format.
+位於 Markdown 檔案頂部、以 `---` 分隔符包圍的元資料。用於 Agent 和 Skill 檔案中，以 YAML 格式定義 `description`、`name` 等屬性。
 
 ---
 
@@ -56,7 +56,7 @@ Metadata at the top of a Markdown file enclosed in `---` delimiters. Used in age
 
 ### Glob Pattern
 
-A pattern using wildcards to match file paths (e.g., `*.py` matches all Python files, `*.js` matches all JavaScript files).
+使用萬用字元來比對檔案路徑的模式（例如：`*.py` 比對所有 Python 檔案，`*.js` 比對所有 JavaScript 檔案）。
 
 ---
 
@@ -64,7 +64,7 @@ A pattern using wildcards to match file paths (e.g., `*.py` matches all Python f
 
 ### JWT
 
-JSON Web Token. A secure way to transmit authentication information between systems.
+JSON Web Token。一種在系統之間安全傳遞身分驗證資訊的方式。
 
 ---
 
@@ -72,7 +72,7 @@ JSON Web Token. A secure way to transmit authentication information between syst
 
 ### MCP
 
-Model Context Protocol. A standard for connecting AI assistants to external data sources.
+模型情境協定（Model Context Protocol）。一種將 AI 助手與外部資料來源連接的標準。
 
 ---
 
@@ -80,7 +80,7 @@ Model Context Protocol. A standard for connecting AI assistants to external data
 
 ### npx
 
-A Node.js tool that runs npm packages without installing them globally. Used in MCP server configurations to launch servers (e.g., `npx @modelcontextprotocol/server-filesystem`).
+Node.js 工具，無需全域安裝即可執行 npm 套件。用於 MCP Server 設定中啟動伺服器（例如：`npx @modelcontextprotocol/server-filesystem`）。
 
 ---
 
@@ -88,7 +88,7 @@ A Node.js tool that runs npm packages without installing them globally. Used in 
 
 ### OWASP
 
-Open Web Application Security Project. An organization that publishes security best practices and maintains the "OWASP Top 10" list of most critical web application security risks.
+開放網路應用程式安全專案（Open Web Application Security Project）。一個發布安全最佳實踐並維護「OWASP Top 10」（最關鍵網路應用程式安全風險清單）的組織。
 
 ---
 
@@ -96,19 +96,19 @@ Open Web Application Security Project. An organization that publishes security b
 
 ### PEP 8
 
-Python Enhancement Proposal 8. The official style guide for Python code, covering naming conventions (snake_case for functions, PascalCase for classes), indentation (4 spaces), and code layout. Following PEP 8 makes Python code consistent and readable.
+Python 增強提案 8（Python Enhancement Proposal 8）。Python 程式碼的官方風格指南，涵蓋命名慣例（函式用 snake_case，類別用 PascalCase）、縮排（4 個空格）和程式碼版面配置。遵循 PEP 8 可讓 Python 程式碼保持一致且易於閱讀。
 
 ### Pre-commit Hook
 
-A script that runs automatically before each `git commit`. Can be used to run Copilot security reviews or code quality checks before code is committed.
+在每次 `git commit` 前自動執行的腳本。可用於在提交程式碼前執行 Copilot 安全審查或程式碼品質檢查。
 
 ### pytest
 
-A popular Python testing framework known for its simple syntax, powerful fixtures, and rich plugin ecosystem. Used throughout this course for testing the book app. Tests are run with `python -m pytest tests/`.
+廣受歡迎的 Python 測試框架，以簡潔的語法、強大的 Fixture 機制和豐富的外掛生態系統著稱。本課程全程使用它來測試書籍應用程式。執行方式：`python -m pytest tests/`。
 
 ### Programmatic Mode
 
-Running Copilot with `-p` flag for single commands without interaction.
+使用 `-p` 旗標執行 Copilot，以非互動方式執行單一指令。
 
 ---
 
@@ -116,7 +116,7 @@ Running Copilot with `-p` flag for single commands without interaction.
 
 ### Rate Limiting
 
-Restrictions on how many requests you can make to an API within a time period. Copilot may temporarily limit responses if you exceed your plan's usage quota.
+在特定時間內對 API 請求數量的限制。若你超出方案的使用配額，Copilot 可能會暫時限制回應。
 
 ---
 
@@ -124,15 +124,15 @@ Restrictions on how many requests you can make to an API within a time period. C
 
 ### Session
 
-A conversation with Copilot that maintains context and can be resumed later.
+與 Copilot 的對話，可保留情境並於稍後繼續。
 
 ### Skill
 
-A folder with instructions that Copilot automatically loads when relevant to your prompt. Defined in `SKILL.md` files with YAML frontmatter.
+包含指令的資料夾，當提示詞與其相關時，Copilot 會自動載入。定義於具有 YAML frontmatter 的 `SKILL.md` 檔案中。
 
 ### Slash Command
 
-Commands starting with `/` that control Copilot (e.g., `/help`, `/clear`, `/model`).
+以 `/` 開頭的指令，用於控制 Copilot（例如：`/help`、`/clear`、`/model`）。
 
 ---
 
@@ -140,11 +140,11 @@ Commands starting with `/` that control Copilot (e.g., `/help`, `/clear`, `/mode
 
 ### Token
 
-A unit of text that AI models process. Roughly 4 characters or 0.75 words. Used to measure both input (your prompts and context) and output (AI responses).
+AI 模型處理文字的基本單位。大約等於 4 個字元或 0.75 個英文單字。用於衡量輸入（你的提示詞與情境）和輸出（AI 的回應）。
 
 ### Type Hints
 
-Python annotations that indicate the expected types of function parameters and return values (e.g., `def add_book(title: str, year: int) -> Book:`). They don't enforce types at runtime but help with code clarity, IDE support, and static analysis tools like mypy.
+Python 標註，用於說明函式參數和回傳值的預期型別（例如：`def add_book(title: str, year: int) -> Book:`）。它們不會在執行期強制型別，但有助於提升程式碼可讀性、IDE 支援，以及 mypy 等靜態分析工具的效果。
 
 ---
 
@@ -152,7 +152,7 @@ Python annotations that indicate the expected types of function parameters and r
 
 ### WCAG
 
-Web Content Accessibility Guidelines. Standards published by W3C for making web content accessible to people with disabilities. WCAG 2.1 AA is a common compliance target.
+網路內容無障礙指引（Web Content Accessibility Guidelines）。由 W3C 發布的標準，旨在讓殘障人士能無障礙地使用網路內容。WCAG 2.1 AA 是常見的合規目標。
 
 ---
 
@@ -160,4 +160,4 @@ Web Content Accessibility Guidelines. Standards published by W3C for making web 
 
 ### YAML
 
-YAML Ain't Markup Language. A human-readable data format used for configuration. In this course, YAML appears in agent and skill frontmatter (the `---` delimited block at the top of `.agent.md` and `SKILL.md` files).
+YAML 不是標記語言（YAML Ain't Markup Language）。一種人類可讀的資料格式，用於設定檔。在本課程中，YAML 出現於 Agent 和 Skill 的 frontmatter（即 `.agent.md` 和 `SKILL.md` 檔案頂部以 `---` 分隔的區塊）中。

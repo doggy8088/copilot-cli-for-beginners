@@ -1,8 +1,8 @@
-# Buggy Code Samples
+# 有缺陷的程式碼範例
 
-This folder contains intentionally buggy code for practicing code review and debugging with GitHub Copilot CLI.
+此資料夾包含刻意埋入 bugs 的程式碼，用於搭配 GitHub Copilot CLI 練習程式碼審查與除錯。
 
-## Folder Structure
+## 資料夾結構
 
 ```
 buggy-code/
@@ -14,7 +14,7 @@ buggy-code/
     └── payment_processor.py # Payment handling with 12 bugs
 ```
 
-## Quick Start
+## 快速開始
 
 ### JavaScript
 
@@ -40,35 +40,35 @@ copilot
 > Find all bugs in @samples/buggy-code/python/payment_processor.py
 ```
 
-## Bug Categories
+## Bug 類別
 
-### Common to Both Languages
+### 兩種語言共同的問題
 
-| Bug Type | Description |
-|----------|-------------|
-| SQL Injection | User input directly in SQL queries |
-| Hardcoded Secrets | API keys and passwords in source code |
-| Race Conditions | Shared state without proper synchronization |
-| Sensitive Data Logging | Passwords and card numbers in logs |
-| Missing Input Validation | No checks on user-provided data |
-| No Error Handling | Missing try/catch or try/except blocks |
-| Weak Password Comparison | Plain text or timing-vulnerable comparisons |
-| Missing Auth Checks | Operations without authorization verification |
+| Bug 類型 | 說明 |
+|----------|------|
+| SQL Injection | 使用者輸入直接拼接進 SQL 查詢 |
+| Hardcoded Secrets | API 金鑰與密碼寫死在原始碼中 |
+| Race Conditions | 共用狀態缺乏適當的同步機制 |
+| Sensitive Data Logging | 密碼與卡號被寫入日誌 |
+| Missing Input Validation | 未對使用者提供的資料進行檢查 |
+| No Error Handling | 缺少 try/catch 或 try/except 區塊 |
+| Weak Password Comparison | 使用明文比對或存在計時攻擊漏洞的比對方式 |
+| Missing Auth Checks | 操作前未驗證授權 |
 
-### Python-Specific Bugs
+### Python 特有的 Bugs
 
-| Bug Type | Description |
-|----------|-------------|
-| Pickle Deserialization | `pickle.loads()` on untrusted data |
-| eval() Injection | User input passed to `eval()` |
-| Unsafe YAML Loading | `yaml.load()` without safe loader |
-| Shell Injection | User input in `os.system()` calls |
-| Weak Hashing | MD5 for password hashing |
-| Insecure Random | `random` module for security purposes |
+| Bug 類型 | 說明 |
+|----------|------|
+| Pickle Deserialization | 對不可信資料使用 `pickle.loads()` |
+| eval() Injection | 將使用者輸入傳入 `eval()` |
+| Unsafe YAML Loading | 未使用安全載入器呼叫 `yaml.load()` |
+| Shell Injection | 在 `os.system()` 呼叫中使用使用者輸入 |
+| Weak Hashing | 使用 MD5 進行密碼雜湊 |
+| Insecure Random | 將 `random` 模組用於安全用途 |
 
-## Practice Exercises
+## 練習題
 
-1. **Security Audit**: Run a comprehensive security review and list all vulnerabilities by severity
-2. **Fix One Bug**: Pick a critical bug, get the fix from Copilot, understand why it works
-3. **Generate Tests**: Create tests that would catch these bugs before deployment
-4. **Refactor Safely**: Fix the SQL injection bugs while maintaining functionality
+1. **安全性審計**：執行全面的安全審查，依嚴重程度列出所有漏洞
+2. **修復單一 Bug**：挑選一個關鍵 bug，透過 Copilot 取得修復方案，並理解其原理
+3. **生成測試**：建立能在部署前捕捉這些 bugs 的測試案例
+4. **安全重構**：在維持功能不變的前提下，修復 SQL injection 漏洞

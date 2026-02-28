@@ -1,31 +1,31 @@
-# Book Collection App
+# 書籍收藏應用程式
 
-*(This README is intentionally rough so you can improve it with GitHub Copilot CLI)*
+*(此 README 刻意寫得較為粗略，供你使用 GitHub Copilot CLI 加以改善)*
 
-A C# console app for managing books you have or want to read.
-It can add, remove, and list books. Also mark them as read.
-
----
-
-## Current Features
-
-* Reads books from a JSON file (our database)
-* Input checking is weak in some areas
-* Some tests exist but probably not enough
+一個用於管理你已擁有或想閱讀的書籍的 C# 主控台應用程式。
+支援新增、刪除與列出書籍，也可以將書籍標記為已讀。
 
 ---
 
-## Files
+## 目前功能
 
-* `Program.cs` - Main CLI entry point
-* `Models/Book.cs` - Book model class
-* `Services/BookCollection.cs` - BookCollection class with data logic
-* `data.json` - Sample book data
-* `Tests/BookCollectionTests.cs` - xUnit tests
+* 從 JSON 檔案讀取書籍資料（作為資料庫使用）
+* 部分區域的輸入驗證較為薄弱
+* 已有部分測試，但可能尚不充足
 
 ---
 
-## Running the App
+## 檔案說明
+
+* `Program.cs` - CLI 主程式進入點
+* `Models/Book.cs` - Book 模型類別
+* `Services/BookCollection.cs` - 含資料邏輯的 BookCollection 類別
+* `data.json` - 書籍範例資料
+* `Tests/BookCollectionTests.cs` - xUnit 測試
+
+---
+
+## 執行應用程式
 
 ```bash
 dotnet run -- list
@@ -35,7 +35,7 @@ dotnet run -- remove
 dotnet run -- help
 ```
 
-## Running Tests
+## 執行測試
 
 ```bash
 cd Tests
@@ -44,8 +44,8 @@ dotnet test
 
 ---
 
-## Notes
+## 備註
 
-* Not production-ready (obviously)
-* Some code could be improved
-* Could add more commands later
+* 尚未達到正式上線的品質（顯而易見）
+* 部分程式碼仍有改善空間
+* 未來可考慮新增更多指令

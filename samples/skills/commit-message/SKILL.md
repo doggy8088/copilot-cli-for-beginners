@@ -3,11 +3,11 @@ name: commit-message
 description: Generate conventional commit messages - use when creating commits, writing commit messages, or asking for git commit help
 ---
 
-# Commit Message Skill
+# Commit Message 技能
 
-Generate commit messages following the Conventional Commits specification.
+依照 Conventional Commits 規範產生 commit 訊息。
 
-## Format
+## 格式
 
 ```
 <type>(<scope>): <description>
@@ -17,35 +17,35 @@ Generate commit messages following the Conventional Commits specification.
 [optional footer]
 ```
 
-## Types
+## 類型
 
-| Type | When to Use |
+| 類型 | 使用時機 |
 |------|-------------|
-| `feat` | New feature |
-| `fix` | Bug fix |
-| `docs` | Documentation only |
-| `style` | Formatting (no code change) |
-| `refactor` | Code change that neither fixes nor adds |
-| `perf` | Performance improvement |
-| `test` | Adding or updating tests |
-| `chore` | Maintenance tasks |
+| `feat` | 新功能 |
+| `fix` | 錯誤修正 |
+| `docs` | 僅修改文件 |
+| `style` | 格式調整（不影響程式邏輯） |
+| `refactor` | 既非修正錯誤也非新增功能的程式碼重構 |
+| `perf` | 效能改善 |
+| `test` | 新增或更新測試 |
+| `chore` | 維護性工作 |
 
-## Rules
+## 規則
 
-1. Subject line maximum 72 characters
-2. Use imperative mood ("add" not "added" or "adds")
-3. No period at the end of subject line
-4. Separate subject from body with blank line
-5. Body explains **what** and **why**, not how
+1. 標題行最多 72 個字元
+2. 使用祈使語氣（用「add」而非「added」或「adds」）
+3. 標題行結尾不加句點
+4. 標題與內文之間以空行分隔
+5. 內文說明**做了什麼**以及**為什麼**，而非如何做
 
-## Examples
+## 範例
 
-Simple:
+簡單格式：
 ```
 fix(auth): prevent redirect loop on expired sessions
 ```
 
-With body:
+含內文格式：
 ```
 feat(api): add rate limiting to public endpoints
 

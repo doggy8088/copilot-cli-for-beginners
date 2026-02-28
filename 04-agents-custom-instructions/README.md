@@ -1,78 +1,78 @@
 ![Chapter 04: Agents and Custom Instructions](images/chapter-header.png)
 
-> **What if you could hire a Python code reviewer, testing expert, and security reviewer... all in one tool?**
+> **如果您能在同一個工具中，同時聘用 Python 程式碼審查員、測試專家和安全性審查員，那會如何？**
 
-In Chapter 03, you mastered the essential workflows: code review, refactoring, debugging, test generation, and git integration. Those make you highly productive with GitHub Copilot CLI. Now, let's take it further.
+在第 03 章中，您掌握了基本工作流程：程式碼審查、重構、除錯、測試生成以及 git 整合，這些都讓您在使用 GitHub Copilot CLI 時大幅提升生產力。現在，讓我們更進一步。
 
-So far, you've been using Copilot CLI as a general-purpose assistant. Agents let you give it a specific persona with built-in standards, like a code reviewer that enforces type hints and PEP 8, or a testing helper that writes pytest cases. You'll see how the same prompt gets noticeably better results when handled by an agent with targeted instructions.
+到目前為止，您一直將 Copilot CLI 當作通用助理來使用。代理程式讓您能賦予它特定的角色，並內建相應的標準——例如強制要求型別提示和 PEP 8 的程式碼審查員，或是撰寫 pytest 測試案例的測試輔助工具。您將會看到，當同一個提示詞交由具備針對性指令的代理程式處理時，輸出結果會有多明顯的提升。
 
-## 🎯 Learning Objectives
+## 🎯 學習目標
 
-By the end of this chapter, you'll be able to:
+完成本章後，您將能夠：
 
-- Use built-in agents: Plan (`/plan`), Code-review (`/review`), and understand automatic agents (Explore, Task)
-- Create specialized agents using agent files (`.agent.md`)
-- Use agents for domain-specific tasks
-- Switch between agents using `/agent` and `--agent`
-- Write custom instruction files for project-specific standards
+- 使用內建代理程式：Plan（`/plan`）、Code-review（`/review`），並了解自動代理程式（Explore、Task）
+- 使用代理程式檔案（`.agent.md`）建立專業代理程式
+- 將代理程式應用於特定領域的任務
+- 使用 `/agent` 和 `--agent` 切換代理程式
+- 為專案撰寫自訂指令檔案，建立專案特定的規範
 
-> ⏱️ **Estimated Time**: ~55 minutes (20 min reading + 35 min hands-on)
+> ⏱️ **預估時間**：約 55 分鐘（閱讀 20 分鐘 + 實作 35 分鐘）
 
 ---
 
-## 🧩 Real-World Analogy: Hiring Specialists
+## 🧩 真實世界類比：聘用專業人員
 
-When you need help with your house, you don't call one "general helper." You call specialists:
+當您需要房屋維修時，您不會找一位「通用幫手」，而是找專業人員：
 
-| Problem | Specialist | Why |
+| 問題 | 專業人員 | 原因 |
 |---------|------------|-----|
-| Leaky pipe | Plumber | Knows plumbing codes, has specialized tools |
-| Rewiring | Electrician | Understands safety requirements, up to code |
-| New roof | Roofer | Knows materials, local weather considerations |
+| 水管漏水 | 水管工 | 熟悉管道規範，擁有專業工具 |
+| 電路重接 | 電工 | 了解安全需求，符合法規 |
+| 屋頂翻新 | 屋頂工 | 熟悉建材，考量當地氣候條件 |
 
-Agents work the same way. Instead of a generic AI, use agents that focus on specific tasks and know the right process to follow. Set up the instructions once, then reuse them whenever you need that specialty: code review, testing, security, documentation.
+代理程式的運作方式相同。不同於通用 AI，代理程式專注於特定任務，並了解應遵循的正確流程。設定一次指令，便可在需要時反覆使用該專業：程式碼審查、測試、安全性、文件撰寫。
 
 <img src="images/hiring-specialists-analogy.png" alt="Hiring Specialists Analogy - Just as you call specialized tradespeople for house repairs, AI agents are specialized for specific tasks like code review, testing, security, and documentation" width="800" />
 
 ---
 
-# Using Agents
+# 使用代理程式
 
-Get started with built-in and custom agents right away.
+立即開始使用內建和自訂代理程式。
 
 ---
 
-## *New to Agents?* Start Here!
-Never used or made an agent? Here's all you need to know to get started for this course.
+## *初次使用代理程式？* 從這裡開始！
+從未使用或建立過代理程式？以下是入門所需的一切知識。
 
-1. **Try a *built-in* agent right now:**
+1. **立即試用*內建*代理程式：**
    ```bash
    copilot
    > /plan Add input validation for book year in the book app
    ```
-   This invokes the Plan agent to create a step-by-step implementation plan.
+   這會呼叫 Plan 代理程式，為實作建立逐步計畫。
 
-2. **See one of our custom agent examples:** It's simple to define an agent's instructions, look at our provided [python-reviewer.agent.md](../.github/agents/python-reviewer.agent.md) file to see the pattern.
+2. **查看我們的自訂代理程式範例：** 定義代理程式指令非常簡單，請查看我們提供的 [python-reviewer.agent.md](../.github/agents/python-reviewer.agent.md) 檔案，了解其格式。
 
-3. **Understand the core concept:** Agents are like consulting a specialist instead of a generalist. A "frontend agent" will focus on accessibility and component patterns automatically, you don't have to remind it because it is already specified in the agent's instructions.
+3. **理解核心概念：** 代理程式就像諮詢專家而非通才。「前端代理程式」會自動聚焦於無障礙設計和元件模式，您無需提醒，因為這些已在代理程式指令中指定。
 
 
-## Built-in Agents
+## 內建代理程式
 
-**You've already used some built-in agents in Chapter 03 Development Workflow!**
-<br>`/plan` and `/review` are actually built-in agents. Now you know what's happening under the hood. Here's the full list:
+**您在第 03 章開發工作流程中已用過部分內建代理程式！**
+<br>`/plan` 和 `/review` 實際上就是內建代理程式。現在您了解了背後的運作機制。以下是完整清單：
 
-| Agent | How to Invoke | What It Does |
+| 代理程式 | 呼叫方式 | 功能說明 |
 |-------|---------------|--------------|
-| **Plan** | `/plan` or `Shift+Tab` (cycle modes) | Creates step-by-step implementation plans before coding |
-| **Code-review** | `/review` | Reviews staged/unstaged changes with focused, actionable feedback |
-| **Init** | `/init` | Generates project configuration files (instructions, agents) |
-| **Explore** | *Automatic* | Used internally when you ask Copilot to explore or analyze the codebase |
-| **Task** | *Automatic* | Executes commands like tests, builds, lints, and dependency installs |
+| **Plan** | `/plan` 或 `Shift+Tab`（循環切換模式） | 在撰寫程式碼前建立逐步實作計畫 |
+| **Code-review** | `/review` | 審查已暫存/未暫存的變更，提供具體可行的回饋 |
+| **Init** | `/init` | 產生專案設定檔（指令、代理程式） |
+| **Explore** | *自動* | 在您要求 Copilot 探索或分析程式碼庫時，於內部自動使用 |
+| **Task** | *自動* | 執行測試、建置、程式碼檢查及依賴套件安裝等指令 |
 
 <br>
 
-**Built-in agents in action** - Examples of invoking Plan, Code-review, Explore, and Task
+**內建代理程式實際運作** - 呼叫 Plan、Code-review、Explore 和 Task 的範例
 
 ```bash
 copilot
@@ -89,31 +89,31 @@ copilot
 > Explore how book data is loaded    # Uses Explore agent
 ```
 
-What about the Task Agent? It works behind the scenes to manage and track what is going on and to report back in a clean and clear format:
+那 Task 代理程式呢？它在幕後運作，負責管理和追蹤進行中的任務，並以清晰明瞭的格式回報：
 
-| Outcome | What You See |
+| 結果 | 您看到的內容 |
 |---------|--------------|
-| ✅ **Success** | Brief summary (e.g., "All 247 tests passed", "Build succeeded") |
-| ❌ **Failure** | Full output with stack traces, compiler errors, and detailed logs |
+| ✅ **成功** | 簡短摘要（例如：「所有 247 個測試已通過」、「建置成功」） |
+| ❌ **失敗** | 完整輸出，包含堆疊追蹤、編譯器錯誤和詳細日誌 |
 
 
-> 📚 **Official Documentation**: [GitHub Copilot CLI Agents](https://docs.github.com/copilot/how-tos/use-copilot-agents/use-copilot-cli#use-custom-agents)
+> 📚 **官方文件**：[GitHub Copilot CLI Agents](https://docs.github.com/copilot/how-tos/use-copilot-agents/use-copilot-cli#use-custom-agents)
 
 ---
 
-# Adding Agents to Copilot CLI
+# 將代理程式加入 Copilot CLI
 
-You can simply define your own agents to be part of your workflow! Define once, then direct!
+您可以輕鬆定義自己的代理程式，將其納入工作流程！定義一次，隨時指揮！
 
 <img src="images/using-agents.png" alt="Four colorful AI robots standing together, each with different tools representing specialized agent capabilities" width="800"/>
 
-## 🗂️ Add your agents 
+## 🗂️ 新增您的代理程式
 
-Agent files are markdown files with a `.agent.md` extension. They have two parts: YAML frontmatter (metadata) and markdown instructions.
+代理程式檔案是副檔名為 `.agent.md` 的 Markdown 檔案，由兩個部分組成：YAML 前置資料（元資料）和 Markdown 指令內容。
 
-> 💡 **New to YAML frontmatter?** It's a small block of settings at the top of the file, surrounded by `---` markers. YAML is just `key: value` pairs. The rest of the file is regular markdown.
+> 💡 **初次接觸 YAML 前置資料？** 它是位於檔案頂端的小型設定區塊，以 `---` 標記包圍。YAML 的格式就是 `鍵: 值` 的配對。檔案其餘部分則是一般的 Markdown。
 
-Here's a minimal agent:
+以下是一個最精簡的代理程式：
 
 ```markdown
 ---
@@ -131,91 +131,91 @@ When reviewing code, always check for:
 - Hardcoded secrets
 ```
 
-> 💡 **Required vs Optional**: The `description` field is required. Other fields like `name`, `tools`, and `model` are optional.
+> 💡 **必填與選填**：`description` 欄位為必填。`name`、`tools` 和 `model` 等其他欄位則為選填。
 
-## Where to put agent files
+## 代理程式檔案的存放位置
 
-| Location | Scope | Best For |
+| 位置 | 適用範圍 | 最佳用途 |
 |----------|-------|----------|
-| `.github/agents/` | Project-specific | Team-shared agents with project conventions |
-| `~/.copilot/agents/` | Global (all projects) | Personal agents you use everywhere |
+| `.github/agents/` | 專案特定 | 含有專案慣例的團隊共用代理程式 |
+| `~/.copilot/agents/` | 全域（所有專案） | 您在所有地方都會使用的個人代理程式 |
 
-**This project includes sample agent files in the [.github/agents/](../.github/agents/) folder**. You can write your own, or customize the ones already provided.
+**本專案在 [.github/agents/](../.github/agents/) 資料夾中包含範例代理程式檔案**。您可以自行撰寫，或自訂已提供的範例。
 
 <details>
-<summary>📂 See the sample agents in this course</summary>
+<summary>📂 查看本課程的範例代理程式</summary>
 
-| File | Description |
+| 檔案 | 說明 |
 |------|-------------|
-| `hello-world.agent.md` | Minimal example - start here |
-| `python-reviewer.agent.md` | Python code quality reviewer |
-| `pytest-helper.agent.md` | Pytest testing specialist |
+| `hello-world.agent.md` | 最簡範例，從這裡開始 |
+| `python-reviewer.agent.md` | Python 程式碼品質審查員 |
+| `pytest-helper.agent.md` | Pytest 測試專家 |
 
 ```bash
 # Or copy one to your personal agents folder (available in every project)
 cp .github/agents/python-reviewer.agent.md ~/.copilot/agents/
 ```
 
-For more community agents, see [github/awesome-copilot](https://github.com/github/awesome-copilot)
+若想取得更多社群代理程式，請參閱 [github/awesome-copilot](https://github.com/github/awesome-copilot)
 
 </details>
 
 
-## 🚀 Two ways to use custom agents
+## 🚀 兩種使用自訂代理程式的方式
 
-### Interactive mode
-Inside interactive mode, list agents using `/agent` and select the agent to start working with. 
-Select an agent to continue your conversation with.
+### 互動模式
+在互動模式中，使用 `/agent` 列出代理程式，並選擇要開始使用的代理程式。
+選擇代理程式後，即可繼續對話。
 
 ```bash
 copilot
 > /agent
 ```
 
-To change to a different agent, or to return to default mode, use the `/agent` command again.
+若要切換到其他代理程式或返回預設模式，請再次使用 `/agent` 指令。
 
-### Programmatic mode
+### 程式化模式
 
-Launch straight into a new session with an agent.
+直接啟動新的代理程式工作階段。
 
 ```bash
 copilot --agent python-reviewer
 > Review @samples/book-app-project/books.py
 ```
 
-> 💡 **Switching agents**: You can switch to a different agent at any time by using `/agent` or `--agent` again. To return to the standard Copilot CLI experience, use `/agent` and select **no agent**.
+> 💡 **切換代理程式**：您可以隨時使用 `/agent` 或 `--agent` 切換到不同的代理程式。若要返回標準 Copilot CLI 體驗，請使用 `/agent` 並選擇**不使用代理程式**。
 
 ---
 
-# Going Deeper with Agents
+# 深入了解代理程式
 
 <img src="images/creating-custom-agents.png" alt="Robot being assembled on a workbench surrounded by components and tools representing custom agent creation" width="800"/>
 
-> 💡 **This section is optional.** The built-in agents (`/plan`, `/review`) are powerful enough for most workflows. Create custom agents when you need specialized expertise that's consistently applied across your work.
+> 💡 **本節為選讀內容。** 內建代理程式（`/plan`、`/review`）已足夠應付大多數工作流程。當您需要持續應用於工作中的專業技能時，再建立自訂代理程式。
 
-Each topic below is self-contained. **Pick what interests you - you don't need to read them all at once.**
+以下各主題均可獨立閱讀。**選擇您感興趣的主題，無需一次全部讀完。**
 
-| I want to... | Jump to |
+| 我想要... | 跳至 |
 |---|---|
-| See why agents beat generic prompts | [Specialist vs Generic](#specialist-vs-generic-see-the-difference) |
-| Combine agents on a feature | [Working with Multiple Agents](#working-with-multiple-agents) |
-| Organize, name, and share agents | [Organizing & Sharing Agents](#organizing--sharing-agents) |
-| Set up always-on project context | [Configuring Your Project for Copilot](#configuring-your-project-for-copilot) |
-| Look up YAML properties and tools | [Agent File Reference](#agent-file-reference) |
+| 了解為何代理程式優於通用提示詞 | [專家 vs. 通用：看見差異](#specialist-vs-generic-see-the-difference) |
+| 在功能開發中組合使用代理程式 | [多代理程式協作](#working-with-multiple-agents) |
+| 整理、命名和分享代理程式 | [整理與分享代理程式](#organizing--sharing-agents) |
+| 設定始終生效的專案情境 | [設定 Copilot 的專案環境](#configuring-your-project-for-copilot) |
+| 查詢 YAML 屬性和工具 | [代理程式檔案參考](#agent-file-reference) |
 
-Select a scenario below to expand it.
+點選下方項目以展開說明。
 
 ---
 
 <a id="specialist-vs-generic-see-the-difference"></a>
 <details>
-<summary><strong>Specialist vs Generic: See the Difference</strong> - Why agents produce better output than generic prompts</summary>
+<summary><strong>專家 vs. 通用：看見差異</strong> - 為何代理程式比通用提示詞產生更好的輸出</summary>
 
-## Specialist vs Generic: See the Difference
+## 專家 vs. 通用：看見差異
 
-This is where agents prove their value. Watch the difference:
+這正是代理程式展現其價值的地方。請觀察以下差異：
 
-### Without an Agent (Generic Copilot)
+### 不使用代理程式（通用 Copilot）
 
 ```bash
 copilot
@@ -223,7 +223,7 @@ copilot
 > Add a function to search books by year range in the book app
 ```
 
-**Generic output**:
+**通用輸出**：
 ```python
 def search_by_year_range(books, start_year, end_year):
     results = []
@@ -233,11 +233,11 @@ def search_by_year_range(books, start_year, end_year):
     return results
 ```
 
-Basic. Works. But missing a lot.
+基本可用，但缺少許多重要元素。
 
 ---
 
-### With the Python Reviewer Agent
+### 使用 Python Reviewer 代理程式
 
 ```bash
 copilot
@@ -248,7 +248,7 @@ copilot
 > Add a function to search books by year range in the book app
 ```
 
-**Specialist output**:
+**專家輸出**：
 ```python
 from typing import List, Dict, Any
 
@@ -285,16 +285,16 @@ def search_by_year_range(
     ]
 ```
 
-**What the python-reviewer agent automatically includes**:
-- ✅ Type hints on all parameters and return values
-- ✅ Comprehensive docstring with Args/Returns/Raises
-- ✅ Input validation with proper error handling
-- ✅ List comprehension for better performance
-- ✅ Edge case handling (missing/invalid year values)
-- ✅ PEP 8 compliant formatting
-- ✅ Defensive programming practices
+**python-reviewer 代理程式自動加入的內容**：
+- ✅ 所有參數和回傳值的型別提示
+- ✅ 包含 Args/Returns/Raises 的完整 docstring
+- ✅ 具備適當錯誤處理的輸入驗證
+- ✅ 使用 list comprehension 提升效能
+- ✅ 邊緣案例處理（缺少/無效的年份值）
+- ✅ 符合 PEP 8 的程式碼格式
+- ✅ 防禦性程式設計實踐
 
-**The difference**: Same prompt, dramatically better output. The agent brings expertise you'd forget to ask for.
+**差異所在**：同樣的提示詞，輸出結果卻大幅提升。代理程式帶來了您平時可能忘記要求的專業知識。
 
 </details>
 
@@ -302,13 +302,13 @@ def search_by_year_range(
 
 <a id="working-with-multiple-agents"></a>
 <details>
-<summary><strong>Working with Multiple Agents</strong> - Combine specialists, switch mid-session, agent-as-tools</summary>
+<summary><strong>多代理程式協作</strong> - 組合專家、中途切換、代理程式作為工具</summary>
 
-## Working with Multiple Agents
+## 多代理程式協作
 
-The real power comes when specialists work together on a feature.
+真正的強大之處，在於讓多位專家共同開發一個功能。
 
-### Example: Building a Simple Feature
+### 範例：建立簡單功能
 
 ```bash
 copilot
@@ -332,20 +332,20 @@ copilot
 > Create an implementation plan that includes the method implementation and comprehensive tests.
 ```
 
-**The key insight**: You're the architect directing specialists. They handle the details, you handle the vision.
+**核心洞察**：您是指揮專家的架構師。他們處理細節，您掌握全局。
 
 <details>
-<summary>🎬 See it in action!</summary>
+<summary>🎬 看看實際效果！</summary>
 
 ![Python Reviewer Demo](images/python-reviewer-demo.gif)
 
-*Demo output varies - your model, tools, and responses will differ from what's shown here.*
+*示範輸出因人而異——您的模型、工具和回應結果可能與這裡顯示的有所不同。*
 
 </details>
 
-### Agent as Tools
+### 代理程式作為工具
 
-When agents are configured, Copilot can also call them as tools during complex tasks. If you ask for a full-stack feature, Copilot may automatically delegate parts to the appropriate specialist agents.
+當代理程式已設定完成後，Copilot 在執行複雜任務時也可以將其作為工具呼叫。如果您要求開發全端功能，Copilot 可能會自動將部分工作委派給適合的專業代理程式。
 
 </details>
 
@@ -353,15 +353,15 @@ When agents are configured, Copilot can also call them as tools during complex t
 
 <a id="organizing--sharing-agents"></a>
 <details>
-<summary><strong>Organizing & Sharing Agents</strong> - Naming, file placement, instruction files, and team sharing</summary>
+<summary><strong>整理與分享代理程式</strong> - 命名、檔案位置、指令檔案及團隊分享</summary>
 
-## Organizing & Sharing Agents
+## 整理與分享代理程式
 
-### Naming Your Agents
+### 為您的代理程式命名
 
-When you create agent files, the name matters. It's what you'll type after `/agent` or `--agent`, and what your teammates will see in the agent list.
+建立代理程式檔案時，命名非常重要。它是您在 `/agent` 或 `--agent` 後輸入的內容，也是隊友在代理程式清單中看到的名稱。
 
-| ✅ Good Names | ❌ Avoid |
+| ✅ 好的命名 | ❌ 應避免 |
 |--------------|----------|
 | `frontend` | `my-agent` |
 | `backend-api` | `agent1` |
@@ -369,28 +369,28 @@ When you create agent files, the name matters. It's what you'll type after `/age
 | `react-specialist` | `code` |
 | `python-backend` | `assistant` |
 
-**Naming conventions:**
-- Use lowercase with hyphens: `my-agent-name.agent.md`
-- Include the domain: `frontend`, `backend`, `devops`, `security`
-- Be specific when needed: `react-typescript` vs just `frontend`
+**命名慣例：**
+- 使用小寫加連字號：`my-agent-name.agent.md`
+- 包含領域名稱：`frontend`、`backend`、`devops`、`security`
+- 必要時更加具體：`react-typescript` 而非只寫 `frontend`
 
 ---
 
-### Sharing with Your Team
+### 與團隊分享
 
-Place agent files in `.github/agents/` and they're version controlled. Push to your repo and every team member gets them automatically. But agents are just one type of file Copilot reads from your project. It also supports **instruction files** that apply automatically to every session, without anyone needing to run `/agent`.
+將代理程式檔案放在 `.github/agents/` 中，它們就會受到版本控制。推送到您的程式庫後，所有團隊成員都能自動取得。代理程式只是 Copilot 從您的專案讀取的一種檔案類型。它還支援**指令檔案**，這些檔案在每次工作階段中自動套用，無需任何人執行 `/agent`。
 
-Think of it this way: agents are specialists you call on, and instruction files are team rules that are always active.
+這樣理解：代理程式是您隨時呼叫的專家，而指令檔案則是始終生效的團隊規範。
 
-### Where to Put Your Files
+### 檔案的存放位置
 
-You already know the two main locations (see [Where to put agent files](#where-to-put-agent-files) above). Use this decision tree to choose:
+您已了解兩個主要位置（見上方[代理程式檔案的存放位置](#where-to-put-agent-files)）。使用以下決策樹來選擇：
 
 <img src="images/agent-file-placement-decision-tree.png" alt="Decision tree for where to put agent files: experimenting → current folder, team use → .github/agents/, everywhere → ~/.copilot/agents/" width="800"/>
 
-**Start simple:** Create a single `*.agent.md` file in your project folder. Move it to a permanent location once you're happy with it.
+**從簡單開始：** 在您的專案資料夾中建立單一 `*.agent.md` 檔案。對其感到滿意後，再移至永久位置。
 
-Beyond agent files, Copilot also reads **project-level instruction files** automatically, no `/agent` needed. See [Configuring Your Project for Copilot](#configuring-your-project-for-copilot) below for `AGENTS.md`, `.instructions.md`, and `/init`.
+除了代理程式檔案外，Copilot 還會自動讀取**專案層級的指令檔案**，無需 `/agent`。有關 `AGENTS.md`、`.instructions.md` 和 `/init` 的詳細說明，請參閱下方的[設定 Copilot 的專案環境](#configuring-your-project-for-copilot)。
 
 </details>
 
@@ -398,43 +398,43 @@ Beyond agent files, Copilot also reads **project-level instruction files** autom
 
 <a id="configuring-your-project-for-copilot"></a>
 <details>
-<summary><strong>Configuring Your Project for Copilot</strong> - AGENTS.md, instruction files, and /init setup</summary>
+<summary><strong>設定 Copilot 的專案環境</strong> - AGENTS.md、指令檔案與 /init 設定</summary>
 
-## Configuring Your Project for Copilot
+## 設定 Copilot 的專案環境
 
-Agents are specialists you invoke on demand. **Project configuration files** are different: Copilot reads them automatically in every session to understand your project's conventions, tech stack, and rules. No one needs to run `/agent`; the context is always active for everyone working in the repo.
+代理程式是您按需呼叫的專家。**專案設定檔**則不同：Copilot 在每次工作階段中自動讀取它們，以了解您專案的慣例、技術架構和規則。無需任何人執行 `/agent`；所有在此程式庫工作的人都能自動套用這些情境。
 
-### Quick Setup with /init
+### 使用 /init 快速設定
 
-The fastest way to get started is to let Copilot generate configuration files for you:
+最快的入門方式，是讓 Copilot 為您產生設定檔：
 
 ```bash
 copilot
 > /init
 ```
 
-Copilot will scan your project and create tailored instruction files. You can edit them afterwards.
+Copilot 會掃描您的專案並建立量身定制的指令檔案。您可以在之後進行編輯。
 
-### Instruction File Formats
+### 指令檔案格式
 
-| File | Scope | Notes |
+| 檔案 | 適用範圍 | 備註 |
 |------|-------|-------|
-| `AGENTS.md` | Project root or nested | **Cross-platform standard** - works with Copilot and other AI assistants |
-| `.github/copilot-instructions.md` | Project | GitHub Copilot specific |
-| `.github/instructions/*.instructions.md` | Project | Granular, topic-specific instructions |
-| `CLAUDE.md`, `GEMINI.md` | Project root | Supported for compatibility |
+| `AGENTS.md` | 專案根目錄或子目錄 | **跨平台標準** - 適用於 Copilot 及其他 AI 助理 |
+| `.github/copilot-instructions.md` | 專案 | GitHub Copilot 專用 |
+| `.github/instructions/*.instructions.md` | 專案 | 細粒度、主題特定的指令 |
+| `CLAUDE.md`、`GEMINI.md` | 專案根目錄 | 支援以確保相容性 |
 
-> 🎯 **Just getting started?** Use `AGENTS.md` for project instructions. You can explore the other formats later as needed.
+> 🎯 **剛開始？** 使用 `AGENTS.md` 儲存專案指令。日後可按需探索其他格式。
 
 ### AGENTS.md
 
-`AGENTS.md` is the recommended format. It's an [open standard](https://agents.md/) that works across Copilot and other AI coding tools. Place it in your repository root and Copilot reads it automatically. This project's own [AGENTS.md](../AGENTS.md) is a working example.
+`AGENTS.md` 是推薦的格式。它是一種[開放標準](https://agents.md/)，適用於 Copilot 及其他 AI 程式碼工具。將其放置於程式庫根目錄，Copilot 便會自動讀取。本專案的 [AGENTS.md](../AGENTS.md) 即為一個實際範例。
 
-A typical `AGENTS.md` describes your project context, code style, security requirements, and testing standards. Use `/init` to generate one, or write your own following the pattern in our example file.
+典型的 `AGENTS.md` 描述您的專案情境、程式碼風格、安全性需求和測試標準。使用 `/init` 產生一份，或按照我們範例檔案的格式自行撰寫。
 
-### Custom Instruction Files (.instructions.md)
+### 自訂指令檔案（.instructions.md）
 
-For teams that want more granular control, split instructions into topic-specific files. Each file covers one concern and applies automatically:
+對於需要更精細控制的團隊，可將指令拆分為主題特定的檔案。每個檔案涵蓋一個關注點，並自動套用：
 
 ```
 .github/
@@ -444,13 +444,13 @@ For teams that want more granular control, split instructions into topic-specifi
     └── api-design.instructions.md
 ```
 
-> 💡 **Note**: Instruction files work with any language. This example uses Python to match our course project, but you can create similar files for TypeScript, Go, Rust, or any technology your team uses.
+> 💡 **注意**：指令檔案適用於任何程式語言。此範例使用 Python 是為了與本課程專案一致，但您也可以為 TypeScript、Go、Rust 或團隊使用的任何技術建立類似的檔案。
 
-**Finding community instruction files**: Browse [github/awesome-copilot](https://github.com/github/awesome-copilot) for pre-made instruction files covering .NET, Angular, Azure, Python, Docker, and many more technologies.
+**尋找社群指令檔案**：瀏覽 [github/awesome-copilot](https://github.com/github/awesome-copilot)，可找到涵蓋 .NET、Angular、Azure、Python、Docker 等眾多技術的現成指令檔案。
 
-### Disabling Custom Instructions
+### 停用自訂指令
 
-If you need Copilot to ignore all project-specific configurations (useful for debugging or comparing behavior):
+如果您需要 Copilot 忽略所有專案特定設定（適用於除錯或比較行為的情況）：
 
 ```bash
 copilot --no-custom-instructions
@@ -462,13 +462,13 @@ copilot --no-custom-instructions
 
 <a id="agent-file-reference"></a>
 <details>
-<summary><strong>Agent File Reference</strong> - YAML properties, tool aliases, and complete examples</summary>
+<summary><strong>代理程式檔案參考</strong> - YAML 屬性、工具別名與完整範例</summary>
 
-## Agent File Reference
+## 代理程式檔案參考
 
-### A More Complete Example
+### 更完整的範例
 
-You've seen the [minimal agent format](#-add-your-agents) above. Here's a more comprehensive agent that uses the `tools` property. Create `~/.copilot/agents/python-reviewer.agent.md`:
+您已看過上方的[最簡代理程式格式](#-add-your-agents)。以下是使用 `tools` 屬性的更完整代理程式。請建立 `~/.copilot/agents/python-reviewer.agent.md`：
 
 ```markdown
 ---
@@ -500,52 +500,52 @@ You are a Python specialist focused on code quality and best practices.
 - Input validation completeness
 ```
 
-### YAML Properties
+### YAML 屬性
 
-| Property | Required | Description |
+| 屬性 | 必填 | 說明 |
 |----------|----------|-------------|
-| `name` | No | Display name (defaults to filename) |
-| `description` | **Yes** | What the agent does - helps Copilot understand when to suggest it |
-| `tools` | No | List of allowed tools (omit = all tools available). See tool aliases below. |
-| `target` | No | Limit to `vscode` or `github-copilot` only |
+| `name` | 否 | 顯示名稱（預設為檔案名稱） |
+| `description` | **是** | 代理程式的功能說明——幫助 Copilot 了解何時建議使用它 |
+| `tools` | 否 | 允許使用的工具清單（省略 = 所有工具皆可使用）。請參閱下方工具別名。 |
+| `target` | 否 | 限制為僅 `vscode` 或 `github-copilot` 使用 |
 
-### Tool Aliases
+### 工具別名
 
-Use these names in the `tools` list:
-- `read` - Read file contents
-- `edit` - Edit files
-- `search` - Search files (grep/glob)
-- `execute` - Run shell commands (also: `shell`, `Bash`)
-- `agent` - Invoke other custom agents
+在 `tools` 清單中使用以下名稱：
+- `read` - 讀取檔案內容
+- `edit` - 編輯檔案
+- `search` - 搜尋檔案（grep/glob）
+- `execute` - 執行 shell 指令（亦可用：`shell`、`Bash`）
+- `agent` - 呼叫其他自訂代理程式
 
-> 📖 **Official docs**: [Custom agents configuration](https://docs.github.com/copilot/reference/custom-agents-configuration)
+> 📖 **官方文件**：[自訂代理程式設定](https://docs.github.com/copilot/reference/custom-agents-configuration)
 >
-> ⚠️ **VS Code Only**: The `model` property (for selecting AI models) works in VS Code but is not supported in GitHub Copilot CLI. You can safely include it for cross-platform agent files. GitHub Copilot CLI will ignore it.
+> ⚠️ **僅限 VS Code**：`model` 屬性（用於選擇 AI 模型）適用於 VS Code，但 GitHub Copilot CLI 不支援。您可以安全地將其包含在跨平台代理程式檔案中，GitHub Copilot CLI 會忽略它。
 
-### More Agent Templates
+### 更多代理程式範本
 
-> 💡 **Note for beginners**: The examples below are templates. **Replace the specific technologies with whatever your project uses.** The important thing is the *structure* of the agent, not the specific technologies mentioned.
+> 💡 **初學者注意**：以下範例均為範本。**請將特定技術替換為您專案所使用的技術。** 重要的是代理程式的*架構*，而非其中提及的特定技術。
 
-This project includes working examples in the [.github/agents/](../.github/agents/) folder:
-- [hello-world.agent.md](../.github/agents/hello-world.agent.md) - Minimal example, start here
-- [python-reviewer.agent.md](../.github/agents/python-reviewer.agent.md) - Python code quality reviewer
-- [pytest-helper.agent.md](../.github/agents/pytest-helper.agent.md) - Pytest testing specialist
+本專案在 [.github/agents/](../.github/agents/) 資料夾中包含實際可用的範例：
+- [hello-world.agent.md](../.github/agents/hello-world.agent.md) - 最簡範例，從這裡開始
+- [python-reviewer.agent.md](../.github/agents/python-reviewer.agent.md) - Python 程式碼品質審查員
+- [pytest-helper.agent.md](../.github/agents/pytest-helper.agent.md) - Pytest 測試專家
 
-For community agents, see [github/awesome-copilot](https://github.com/github/awesome-copilot).
+若想取得社群代理程式，請參閱 [github/awesome-copilot](https://github.com/github/awesome-copilot)。
 
 </details>
 
 ---
 
-# Practice
+# 練習
 
 <img src="../images/practice.png" alt="Warm desk setup with monitor showing code, lamp, coffee cup, and headphones ready for hands-on practice" width="800"/>
 
-Create your own agents and see them in action.
+建立您自己的代理程式，並親身體驗其效果。
 
 ---
 
-## ▶️ Try It Yourself
+## ▶️ 親自試試看
 
 ```bash
 
@@ -605,29 +605,29 @@ copilot
 
 ---
 
-## 📝 Assignment
+## 📝 作業
 
-### Main Challenge: Build a Specialized Agent Team
+### 主要挑戰：建立專業代理程式團隊
 
-The hands-on example created `reviewer` and `documentor` agents. Now practice creating and using agents for a different task - improving data validation in the book app:
+實作範例已建立了 `reviewer` 和 `documentor` 代理程式。現在練習為不同的任務建立和使用代理程式——改善書籍應用程式的資料驗證：
 
-1. Create 3 agent files (`.agent.md`) tailored to the book app, one per agent, placed in `.github/agents/`
-2. Your agents:
-   - **data-validator**: checks `data.json` for missing or malformed data (empty authors, year=0, missing fields)
-   - **error-handler**: reviews Python code for inconsistent error handling and suggests a unified approach
-   - **doc-writer**: generates or updates docstrings and README content
-3. Use each agent on the book app:
-   - `data-validator` → audit `@samples/book-app-project/data.json`
-   - `error-handler` → review `@samples/book-app-project/books.py` and `@samples/book-app-project/utils.py`
-   - `doc-writer` → add docstrings to `@samples/book-app-project/books.py`
-4. Collaborate: use `error-handler` to identify error-handling gaps, then `doc-writer` to document the improved approach
+1. 建立 3 個代理程式檔案（`.agent.md`），每個代理程式一個，針對書籍應用程式量身定制，存放於 `.github/agents/`
+2. 您的代理程式：
+   - **data-validator**：檢查 `data.json` 中缺失或格式錯誤的資料（空白作者、year=0、缺少欄位）
+   - **error-handler**：審查 Python 程式碼中不一致的錯誤處理，並建議統一的方式
+   - **doc-writer**：產生或更新 docstring 和 README 內容
+3. 在書籍應用程式上使用每個代理程式：
+   - `data-validator` → 稽核 `@samples/book-app-project/data.json`
+   - `error-handler` → 審查 `@samples/book-app-project/books.py` 和 `@samples/book-app-project/utils.py`
+   - `doc-writer` → 為 `@samples/book-app-project/books.py` 新增 docstring
+4. 協作使用：先用 `error-handler` 找出錯誤處理的不足，再用 `doc-writer` 記錄改進後的方式
 
-**Success criteria**: You have 3 working agents that produce consistent, high-quality output and you can switch between them with `/agent`.
+**成功標準**：您有 3 個運作正常的代理程式，能產生一致、高品質的輸出，並且可以使用 `/agent` 在它們之間切換。
 
 <details>
-<summary>💡 Hints (click to expand)</summary>
+<summary>💡 提示（點擊展開）</summary>
 
-**Starter templates**: create one file per agent in `.github/agents/`:
+**起始範本**：在 `.github/agents/` 中每個代理程式建立一個檔案：
 
 `data-validator.agent.md`:
 ```markdown
@@ -674,7 +674,7 @@ You are a technical writer who creates clear Python documentation.
 - Note any exceptions raised
 ```
 
-**Testing your agents:**
+**測試您的代理程式：**
 ```bash
 copilot
 > /agent
@@ -682,42 +682,42 @@ copilot
 > @samples/book-app-project/data.json Check for books with empty author fields or invalid years
 ```
 
-**Tip:** The `description` field in the YAML frontmatter is required for agents to work.
+**提示：** YAML 前置資料中的 `description` 欄位是代理程式正常運作的必要條件。
 
 </details>
 
-### Bonus Challenge: Instruction Library
+### 加分挑戰：指令資料庫
 
-You've built agents you invoke on demand. Now try the other side: **instruction files** that Copilot reads automatically in every session, no `/agent` needed.
+您已建立了按需呼叫的代理程式。現在試試另一面：**指令檔案**，讓 Copilot 在每次工作階段中自動讀取，無需 `/agent`。
 
-Create a `.github/instructions/` folder with at least 3 instruction files:
-- `python-style.instructions.md` for enforcing PEP 8 and type hint conventions
-- `test-standards.instructions.md` for enforcing pytest conventions in test files
-- `data-quality.instructions.md` for validating JSON data entries
+在 `.github/instructions/` 資料夾中建立至少 3 個指令檔案：
+- `python-style.instructions.md` 用於強制執行 PEP 8 和型別提示慣例
+- `test-standards.instructions.md` 用於強制執行測試檔案中的 pytest 慣例
+- `data-quality.instructions.md` 用於驗證 JSON 資料條目
 
-Test each instruction file on the book app code.
+在書籍應用程式程式碼上測試每個指令檔案。
 
 ---
 
 <details>
-<summary>🔧 <strong>Common Mistakes & Troubleshooting</strong> (click to expand)</summary>
+<summary>🔧 <strong>常見錯誤與疑難排解</strong>（點擊展開）</summary>
 
-### Common Mistakes
+### 常見錯誤
 
-| Mistake | What Happens | Fix |
+| 錯誤 | 發生情況 | 修正方式 |
 |---------|--------------|-----|
-| Missing `description` in agent frontmatter | Agent won't load or won't be discoverable | Always include `description:` in YAML frontmatter |
-| Wrong file location for agents | Agent not found when you try to use it | Place in `~/.copilot/agents/` (personal) or `.github/agents/` (project) |
-| Using `.md` instead of `.agent.md` | File may not be recognized as an agent | Name files like `python-reviewer.agent.md` |
-| Overly long agent prompts | May hit the 30,000 character limit | Keep agent definitions focused; use skills for detailed instructions |
+| 代理程式前置資料中缺少 `description` | 代理程式無法載入或無法被發現 | 務必在 YAML 前置資料中加入 `description:` |
+| 代理程式檔案位置錯誤 | 嘗試使用時找不到代理程式 | 存放於 `~/.copilot/agents/`（個人）或 `.github/agents/`（專案） |
+| 使用 `.md` 而非 `.agent.md` | 檔案可能無法被識別為代理程式 | 將檔案命名為 `python-reviewer.agent.md` 的格式 |
+| 代理程式提示詞過長 | 可能超過 30,000 字元限制 | 保持代理程式定義精簡；詳細指令使用技能 |
 
-### Troubleshooting
+### 疑難排解
 
-**Agent not found** - Check that the agent file exists in one of these locations:
+**找不到代理程式** - 確認代理程式檔案存在於以下位置之一：
 - `~/.copilot/agents/`
 - `.github/agents/`
 
-List available agents:
+列出可用代理程式：
 
 ```bash
 copilot
@@ -725,19 +725,19 @@ copilot
 # Shows all available agents
 ```
 
-**Agent not following instructions** - Be explicit in your prompts and add more detail to agent definitions:
-- Specific frameworks/libraries with versions
-- Team conventions
-- Example code patterns
+**代理程式未遵循指令** - 在提示詞中更加明確，並為代理程式定義增加更多細節：
+- 包含版本的具體框架/套件
+- 團隊慣例
+- 程式碼範例模式
 
-**Custom instructions not loading** - Run `/init` in your project to set up project-specific instructions:
+**自訂指令未載入** - 在您的專案中執行 `/init` 以設定專案特定指令：
 
 ```bash
 copilot
 > /init
 ```
 
-Or check if they're disabled:
+或確認它們未被停用：
 ```bash
 # Don't use --no-custom-instructions if you want them loaded
 copilot  # This loads custom instructions by default
@@ -747,33 +747,33 @@ copilot  # This loads custom instructions by default
 
 ---
 
-# Summary
+# 總結
 
-## 🔑 Key Takeaways
+## 🔑 重點摘要
 
-1. **Built-in agents**: `/plan` and `/review` are directly invoked; Explore and Task work automatically
-2. **Custom agents** are specialists defined in `.agent.md` files
-3. **Good agents** have clear expertise, standards, and output formats
-4. **Multi-agent collaboration** solves complex problems by combining expertise
-5. **Instruction files** (`.instructions.md`) encode team standards for automatic application
-6. **Consistent output** comes from well-defined agent instructions
+1. **內建代理程式**：`/plan` 和 `/review` 可直接呼叫；Explore 和 Task 則自動運作
+2. **自訂代理程式**是定義於 `.agent.md` 檔案中的專業人員
+3. **好的代理程式**具有清晰的專業知識、標準和輸出格式
+4. **多代理程式協作**透過結合專業知識解決複雜問題
+5. **指令檔案**（`.instructions.md`）將團隊標準編碼為自動套用的規範
+6. **一致的輸出**來自明確定義的代理程式指令
 
-> 📋 **Quick Reference**: See the [GitHub Copilot CLI command reference](https://docs.github.com/en/copilot/reference/cli-command-reference) for a complete list of commands and shortcuts.
-
----
-
-## ➡️ What's Next
-
-Agents change *how Copilot approaches and takes targeted actions* in your code. Next, you'll learn about **skills** - which change *what steps* it follows. Wondering how agents and skills differ? Chapter 05 covers that head-on.
-
-In **[Chapter 05: Skills System](../05-skills/README.md)**, you'll learn:
-
-- How skills auto-trigger from your prompts (no slash command needed)
-- Installing community skills
-- Creating custom skills with SKILL.md files
-- The difference between agents, skills, and MCP
-- When to use each one
+> 📋 **快速參考**：請參閱 [GitHub Copilot CLI 指令參考](https://docs.github.com/en/copilot/reference/cli-command-reference)，取得完整的指令和快捷鍵清單。
 
 ---
 
-**[← Back to Chapter 03](../03-development-workflows/README.md)** | **[Continue to Chapter 05 →](../05-skills/README.md)**
+## ➡️ 接下來
+
+代理程式改變了 *Copilot 如何在您的程式碼中執行針對性操作*。接下來，您將學習**技能（skills）**——它改變的是 *Copilot 遵循哪些步驟*。好奇代理程式和技能有何不同？第 05 章將正面解答這個問題。
+
+在**[第 05 章：技能系統](../05-skills/README.md)**中，您將學習：
+
+- 技能如何根據您的提示詞自動觸發（無需斜線指令）
+- 安裝社群技能
+- 使用 SKILL.md 檔案建立自訂技能
+- 代理程式、技能和 MCP 之間的差異
+- 各自的使用時機
+
+---
+
+**[← 返回第 03 章](../03-development-workflows/README.md)** | **[繼續前往第 05 章 →](../05-skills/README.md)**

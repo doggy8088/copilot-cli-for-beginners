@@ -1,27 +1,27 @@
 ---
 name: pytest-gen
-description: Generate comprehensive pytest tests - use when generating tests, creating test suites, or testing Python code
+description: 生成全面的 pytest 測試 - 適用於生成測試、建立測試套件或測試 Python 程式碼
 ---
 
-# Pytest Generation Skill
+# Pytest 生成技能
 
-When generating tests, follow this structure.
+生成測試時，請遵循以下結構。
 
-## Test Organization
+## 測試組織
 
-- Group tests by function under test
-- Use `@pytest.mark.parametrize` for multiple inputs
-- Use fixtures for shared setup
-- Follow arrange/act/assert pattern
+- 依受測函式分組測試
+- 多組輸入使用 `@pytest.mark.parametrize`
+- 共用設置使用 fixtures
+- 遵循 arrange/act/assert（安排／執行／斷言）模式
 
-## Coverage Requirements
+## 涵蓋需求
 
-- Happy path (expected usage)
-- Edge cases (empty strings, None, boundary values)
-- Error cases (invalid input, file not found, wrong types)
-- Integration (functions working together)
+- 正常路徑（預期用法）
+- 邊界情況（空字串、None、邊界值）
+- 錯誤情況（無效輸入、找不到檔案、錯誤型別）
+- 整合測試（函式協同運作）
 
-## Template
+## 範本
 
 ```python
 import pytest

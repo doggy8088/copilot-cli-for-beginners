@@ -5,89 +5,89 @@
 [![Official Copilot CLI documentation](https://img.shields.io/badge/GitHub-CLI_Documentation-00a3ee?style=flat-square&logo=github)](https://docs.github.com/en/copilot/how-tos/copilot-cli)&ensp;
 [![Join AI Foundry Discord](https://img.shields.io/badge/Discord-AI_Community-blue?style=flat-square&logo=discord&color=5865f2&logoColor=fff)](https://aka.ms/foundry/discord)
 
-🎯 [What You'll Learn](#what-youll-learn) &ensp; ✅ [Prerequisites](#prerequisites) &ensp; 🤖 [Copilot Family](#understanding-the-github-copilot-family) &ensp; 📚 [Course Structure](#course-structure) &ensp; 📋 [Command Reference](#-github-copilot-cli-command-reference)
+🎯 [學習目標](#學習目標) &ensp; ✅ [前置需求](#前置需求) &ensp; 🤖 [Copilot 家族](#瞭解-github-copilot-家族) &ensp; 📚 [課程架構](#課程架構) &ensp; 📋 [指令參考](#-github-copilot-cli-指令參考)
 
 # GitHub Copilot CLI for Beginners
 
-> **✨ Learn to supercharge your development workflow with AI-powered command-line assistance.**
+> **✨ 學習如何以 AI 驅動的命令列助手為你的開發工作流程加速。**
 
-GitHub Copilot CLI brings AI assistance directly to your terminal. Instead of switching to a browser or code editor, you can ask questions, generate full-featured applications, review code, generate tests, and debug issues without leaving your command line.
+GitHub Copilot CLI 將 AI 助手直接帶到你的終端機。你不再需要切換到瀏覽器或程式碼編輯器，就能提問、生成完整應用程式、審查程式碼、產生測試，以及除錯——一切盡在命令列完成。
 
-Think of it as having a knowledgeable colleague available 24/7 who can read your code, explain confusing patterns, and help you work faster!
+把它想像成一位全天候待命的博學同事，能閱讀你的程式碼、解釋令人困惑的模式，並幫助你更有效率地工作！
 
-This course is designed for:
+本課程適合以下對象：
 
-- **Software Developers** who want to use AI from the command line
-- **Terminal users** who prefer keyboard-driven workflows over IDE integrations
-- **Teams looking to standardize** AI-assisted code review and development practices
+- **軟體開發者**：希望從命令列使用 AI
+- **終端機愛好者**：偏好鍵盤驅動的工作流程，而非 IDE 整合
+- **希望統一規範的團隊**：推動 AI 輔助的程式碼審查與開發實踐
 
-## 🎯 What You'll Learn
+## 🎯 學習目標
 
-This hands-on course takes you from zero to productive with GitHub Copilot CLI. You'll work with a single Python book collection app throughout all chapters, progressively improving it using AI-assisted workflows. By the end, you'll confidently use AI to review code, generate tests, debug issues, and automate workflows: all from your terminal.
+本實作課程帶你從零開始，逐步掌握 GitHub Copilot CLI。你將在所有章節中持續改進同一個 Python 書籍收藏應用程式，透過 AI 輔助的工作流程逐步提升它的品質。課程結束後，你將能自信地使用 AI 審查程式碼、生成測試、除錯，以及自動化工作流程——全部在終端機中完成。
 
-**No AI experience required.** If you can use a terminal, you can learn this.
+**不需要 AI 相關經驗。** 只要你會使用終端機，就能學會。
 
-**Perfect for:** Developers, students, and anyone who has experience with software development.
+**適合對象：** 開發者、學生，以及任何具備軟體開發基礎的人。
 
-## ✅ Prerequisites
+## ✅ 前置需求
 
-Before starting, ensure you have:
+開始之前，請確認你已備妥：
 
-- **GitHub account**: [Create one free](https://github.com/signup)<br>
-- **GitHub Copilot access**: [Free offering](https://github.com/features/copilot/plans), [Monthly subscription](https://github.com/features/copilot/plans), or [Free for students/teachers](https://education.github.com/pack)<br>
-- **Terminal basics**: Comfortable with `cd`, `ls`, running commands
+- **GitHub 帳號**：[免費申請](https://github.com/signup)<br>
+- **GitHub Copilot 使用權限**：[免費方案](https://github.com/features/copilot/plans)、[月費訂閱](https://github.com/features/copilot/plans)，或[學生／教師免費方案](https://education.github.com/pack)<br>
+- **終端機基礎操作**：熟悉 `cd`、`ls` 及執行指令
 
-## 🤖 Understanding the GitHub Copilot Family
+## 🤖 瞭解 GitHub Copilot 家族
 
-GitHub Copilot has evolved into a family of AI-powered tools. Here's where each one lives:
+GitHub Copilot 已演進為一系列 AI 工具。以下說明各工具的使用場景：
 
-| Product | Where It Runs | Description |
+| 產品 | 執行環境 | 說明 |
 |---------|---------------|----------|
-| [**GitHub Copilot CLI**](https://docs.github.com/copilot/how-tos/copilot-cli/cli-getting-started)<br>(this course) | Your terminal |  Terminal-native AI coding assistant  |
-| [**GitHub Copilot**](https://docs.github.com/copilot) | VS Code, Visual Studio, JetBrains, etc. | Agent mode, chat, inline suggestions  |
-| [**Copilot on GitHub.com**](https://github.com/copilot) | GitHub | Immersive chat about your repos, create agents, and more |
-| [**GitHub Copilot coding agent**](https://docs.github.com/copilot/using-github-copilot/using-copilot-coding-agent-to-work-on-tasks) | GitHub  | Assign issues to agents, get PRs back |
+| [**GitHub Copilot CLI**](https://docs.github.com/copilot/how-tos/copilot-cli/cli-getting-started)<br>（本課程） | 終端機 | 原生終端機 AI 程式開發助手 |
+| [**GitHub Copilot**](https://docs.github.com/copilot) | VS Code、Visual Studio、JetBrains 等 | Agent 模式、對話、行內建議 |
+| [**Copilot on GitHub.com**](https://github.com/copilot) | GitHub | 深度對話你的程式庫、建立 Agent 等更多功能 |
+| [**GitHub Copilot coding agent**](https://docs.github.com/copilot/using-github-copilot/using-copilot-coding-agent-to-work-on-tasks) | GitHub | 將 Issue 指派給 Agent，自動取得 PR |
 
-This course focuses on **GitHub Copilot CLI**, bringing AI assistance directly to your terminal.
+本課程專注於 **GitHub Copilot CLI**，將 AI 助手直接帶入你的終端機。
 
-## 📚 Course Structure
+## 📚 課程架構
 
 ![GitHub Copilot CLI Learning Path](images/learning-path.png)
 
-| Chapter | Title | What You'll Build |
+| 章節 | 標題 | 你將完成的內容 |
 |:-------:|-------|-------------------|
-| 00 | 🚀 [Quick Start](./00-quick-start/README.md) | Installation and verification |
-| 01 | 👋 [First Steps](./01-setup-and-first-steps/README.md) | Live demos + three interaction modes |
-| 02 | 🔍 [Context and Conversations](./02-context-conversations/README.md) | Multi-file project analysis |
-| 03 | ⚡ [Development Workflows](./03-development-workflows/README.md) | Code review, debug, test generation |
-| 04 | 🤖 [Create Specialized AI Assistants](./04-agents-custom-instructions/README.md) | Custom agents for your workflow |
-| 05 | 🛠️ [Automate Repetitive Tasks](./05-skills/README.md) | Skills that load automatically |
-| 06 | 🔌 [Connect to GitHub, Databases & APIs](./06-mcp-servers/README.md) | MCP server integration |
-| 07 | 🎯 [Putting It All Together](./07-putting-it-together/README.md) | Complete feature workflows |
+| 00 | 🚀 [快速入門](./00-quick-start/README.md) | 安裝與驗證 |
+| 01 | 👋 [第一步](./01-setup-and-first-steps/README.md) | 即時示範 + 三種互動模式 |
+| 02 | 🔍 [情境與對話](./02-context-conversations/README.md) | 多檔案專案分析 |
+| 03 | ⚡ [開發工作流程](./03-development-workflows/README.md) | 程式碼審查、除錯、測試生成 |
+| 04 | 🤖 [建立專屬 AI 助手](./04-agents-custom-instructions/README.md) | 為你的工作流程打造自訂 Agent |
+| 05 | 🛠️ [自動化重複任務](./05-skills/README.md) | 自動載入的 Skill |
+| 06 | 🔌 [連接 GitHub、資料庫與 API](./06-mcp-servers/README.md) | MCP Server 整合 |
+| 07 | 🎯 [整合應用](./07-putting-it-together/README.md) | 完整功能開發流程 |
 
-## 📖 How This Course Works
+## 📖 課程學習方式
 
-Each chapter follows the same pattern:
+每個章節均遵循相同的學習流程：
 
-1. **Real-World Analogy**: Understand the concept through familiar comparisons
-2. **Core Concepts**: Learn the essential knowledge
-3. **Hands-On Examples**: Run actual commands and see results
-4. **Assignment**: Practice what you learned
-5. **What's Next**: Preview of the following chapter
+1. **生活化類比**：透過熟悉的比喻理解概念
+2. **核心概念**：學習必要的知識
+3. **實作範例**：執行實際指令並觀察結果
+4. **作業練習**：實踐所學
+5. **預告下一章**：預覽下一章節的內容
 
-**Code examples are runnable.** Every copilot text block in this course can be copied and run in your terminal.
+**所有程式碼範例皆可直接執行。** 本課程中每個 copilot 文字區塊都可以複製並在終端機中執行。
 
-## 📋 GitHub Copilot CLI Command Reference
+## 📋 GitHub Copilot CLI 指令參考
 
-The **[GitHub Copilot CLI command reference](https://docs.github.com/en/copilot/reference/cli-command-reference)** helps you find commands and keyboard shortcuts to help you use Copilot CLI effectively.
+**[GitHub Copilot CLI 指令參考文件](https://docs.github.com/en/copilot/reference/cli-command-reference)** 可協助你查找指令和鍵盤快捷鍵，讓你更有效率地使用 Copilot CLI。
 
-## 🙋 Getting Help
+## 🙋 取得協助
 
-- 🐛 **Found a bug?** [Open an Issue](https://github.com/github/copilot-cli-for-beginners/issues)
-- 🤝 **Want to contribute?** PRs welcome!
-- 📚 **Official Docs:** [GitHub Copilot CLI Documentation](https://docs.github.com/copilot/concepts/agents/about-copilot-cli)
+- 🐛 **發現錯誤？** [開啟 Issue](https://github.com/github/copilot-cli-for-beginners/issues)
+- 🤝 **想要貢獻？** 歡迎提交 PR！
+- 📚 **官方文件：** [GitHub Copilot CLI 說明文件](https://docs.github.com/copilot/concepts/agents/about-copilot-cli)
 
-## License 
+## 授權條款
 
-This project is licensed under the terms of the MIT open source license. Please refer to the [LICENSE](./LICENSE) file for the full terms.
+本專案採用 MIT 開源授權條款。完整條款請參閱 [LICENSE](./LICENSE) 檔案。
 

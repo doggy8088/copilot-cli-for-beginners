@@ -1,35 +1,35 @@
-# Book App - Buggy Version
+# 書籍應用程式 - 含缺陷版本
 
-This directory contains an intentionally buggy version of the book collection app for debugging exercises in Chapter 03.
+此目錄包含書籍收藏應用程式的刻意含缺陷版本，供第 03 章的除錯練習使用。
 
-**Do NOT fix these bugs directly.** They exist so learners can practice using GitHub Copilot CLI to identify and debug issues.
+**請勿直接修復這些缺陷。** 它們的存在是為了讓學習者練習使用 GitHub Copilot CLI 來找出並排除問題。
 
 ---
 
-## Intentional Bugs
+## 刻意埋入的缺陷
 
 ### books_buggy.py
 
-| # | Bug | Symptom |
-|---|-----|---------|
-| 1 | `find_book_by_title()` uses exact case match | Searching for "the hobbit" returns nothing even though "The Hobbit" exists |
-| 2 | `save_books()` doesn't use context manager | File handle leak; no error handling for permission issues |
-| 3 | `add_book()` has no year validation | Accepts negative years, year 0, and years far in the future |
-| 4 | `remove_book()` uses `in` substring check | Removing "Dune" also matches and removes "Dune Messiah" |
-| 5 | `mark_as_read()` marks ALL books as read | Loop variable bug - iterates all books instead of just the match |
-| 6 | `find_by_author()` requires exact match | "Tolkien" won't find "J.R.R. Tolkien" (no partial matching) |
+| # | 缺陷 | 症狀 |
+|---|------|------|
+| 1 | `find_book_by_title()` 使用大小寫完全相符的比對 | 搜尋 "the hobbit" 時毫無結果，即使 "The Hobbit" 存在於資料中 |
+| 2 | `save_books()` 未使用 context manager | 檔案句柄洩漏；對權限問題缺乏錯誤處理 |
+| 3 | `add_book()` 未進行年份驗證 | 接受負數年份、西元 0 年及遙遠未來的年份 |
+| 4 | `remove_book()` 使用 `in` 子字串比對 | 刪除 "Dune" 時也會誤刪 "Dune Messiah" |
+| 5 | `mark_as_read()` 將所有書籍標記為已讀 | 迴圈變數缺陷——遍歷了全部書籍，而非僅限符合的那本 |
+| 6 | `find_by_author()` 要求完全相符 | 搜尋 "Tolkien" 找不到 "J.R.R. Tolkien"（不支援部分比對） |
 
 ### book_app_buggy.py
 
-| # | Bug | Symptom |
-|---|-----|---------|
-| 7 | `show_books()` numbering starts at 0 | Books display as "0. ...", "1. ..." instead of "1. ...", "2. ..." |
-| 8 | `handle_add()` accepts empty title/author | Can add books with blank titles and authors |
-| 9 | `handle_remove()` always prints success | Says "Book removed" even when the book wasn't found |
+| # | 缺陷 | 症狀 |
+|---|------|------|
+| 7 | `show_books()` 編號從 0 開始 | 書籍顯示為 "0. ..."、"1. ..."，而非 "1. ..."、"2. ..." |
+| 8 | `handle_add()` 接受空白的書名／作者 | 可新增書名和作者皆為空白的書籍 |
+| 9 | `handle_remove()` 永遠顯示成功訊息 | 即使書籍不存在，也會顯示「書籍已移除」 |
 
 ---
 
-## How to Use in Chapter 03
+## 第 03 章使用方式
 
 ```bash
 copilot

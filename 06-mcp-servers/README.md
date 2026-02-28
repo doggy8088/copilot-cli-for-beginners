@@ -1,67 +1,67 @@
 ![Chapter 06: MCP Servers](images/chapter-header.png)
 
-> **What if Copilot could read your GitHub issues, check your database, and create PRs... all from the terminal?**
+> **如果 Copilot 能從終端機直接讀取您的 GitHub 議題、查詢資料庫並建立 PR，那會如何？**
 
-So far, Copilot can only work with what you give it directly: files you reference with `@`, conversation history, and its own training data. But what if it could reach out on its own to check your GitHub repository, browse your project files, or look up the latest documentation for a library?
+目前為止，Copilot 只能處理您直接提供的內容：以 `@` 引用的檔案、對話歷程，以及它自身的訓練資料。但如果它能自行查詢您的 GitHub 程式庫、瀏覽您的專案檔案，或查閱某個套件庫的最新文件呢？
 
-That's what MCP (Model Context Protocol) does. It's a way to connect Copilot to external services so it has access to live, real-world data. Each service Copilot connects to is called an "MCP server." In this chapter, you'll set up a few of these connections and see how they make Copilot dramatically more useful.
+這正是 MCP（模型情境協定，Model Context Protocol）的作用。它是一種將 Copilot 連接到外部服務的方式，讓它能存取即時的真實世界資料。每個 Copilot 連接的服務稱為「MCP 伺服器」。在本章中，您將設定幾個這樣的連線，並親眼見證它們如何讓 Copilot 大幅提升實用性。
 
-> 💡 **Already familiar with MCP?** [Jump to the quick start](#-use-the-built-in-github-mcp) to confirm it's working and start configuring servers.
+> 💡 **已熟悉 MCP？** [跳至快速入門](#-use-the-built-in-github-mcp)，確認運作正常並開始設定伺服器。
 
-## 🎯 Learning Objectives
+## 🎯 學習目標
 
-By the end of this chapter, you'll be able to:
+完成本章後，您將能夠：
 
-- Understand what MCP is and why it matters
-- Manage MCP servers using `/mcp` commands
-- Configure MCP servers for GitHub, filesystem, and documentation
-- Use MCP-powered workflows with the book app project
-- Know when and how to build a custom MCP server (optional)
+- 了解 MCP 是什麼以及為何重要
+- 使用 `/mcp` 指令管理 MCP 伺服器
+- 設定 GitHub、檔案系統和文件的 MCP 伺服器
+- 使用 MCP 驅動的工作流程搭配書籍應用程式專案
+- 了解何時以及如何建立自訂 MCP 伺服器（選讀）
 
-> ⏱️ **Estimated Time**: ~50 minutes (15 min reading + 35 min hands-on)
+> ⏱️ **預估時間**：約 50 分鐘（閱讀 15 分鐘 + 實作 35 分鐘）
 
 ---
 
-## 🧩 Real-World Analogy: Browser Extensions
+## 🧩 真實世界類比：瀏覽器擴充功能
 
 <img src="images/browser-extensions-analogy.png" alt="MCP Servers are like Browser Extensions" width="800"/>
 
-Think of MCP servers like browser extensions. Your browser on its own can display web pages, but extensions connect it to extra services:
+將 MCP 伺服器想像成瀏覽器擴充功能。您的瀏覽器本身可以顯示網頁，但擴充功能將其連接到額外的服務：
 
-| Browser Extension | What It Connects To | MCP Equivalent |
+| 瀏覽器擴充功能 | 連接對象 | MCP 對應項目 |
 |-------------------|---------------------|----------------|
-| Password manager | Your password vault | **GitHub MCP** → your repos, issues, PRs |
-| Grammarly | Writing analysis service | **Context7 MCP** → library documentation |
-| File manager | Cloud storage | **Filesystem MCP** → local project files |
+| 密碼管理員 | 您的密碼庫 | **GitHub MCP** → 您的程式庫、議題、PR |
+| Grammarly | 寫作分析服務 | **Context7 MCP** → 套件庫文件 |
+| 檔案管理員 | 雲端儲存 | **Filesystem MCP** → 本地專案檔案 |
 
-Without extensions, your browser is still useful, but with them, it becomes a powerhouse. MCP servers do the same for Copilot. They connect it to real, live data sources so it can read your GitHub issues, explore your file system, fetch up-to-date documentation, and more.
+沒有擴充功能，您的瀏覽器仍然好用，但有了擴充功能，它就變成了強大的工具。MCP 伺服器對 Copilot 的作用相同。它們將 Copilot 連接到真實的即時資料來源，讓它能讀取您的 GitHub 議題、探索您的檔案系統、擷取最新文件等等。
 
-***MCP servers connect Copilot to the outside world: GitHub, repositories, documentation, and more***
+***MCP 伺服器將 Copilot 與外部世界連接：GitHub、程式庫、文件等等***
 
-> 💡 **Key insight**: Without MCP, Copilot can only see files you explicitly share with `@`. With MCP, it can proactively explore your project, check your GitHub repo, and look up documentation, all automatically.
+> 💡 **核心洞察**：沒有 MCP，Copilot 只能看到您透過 `@` 明確分享的檔案。有了 MCP，它可以主動探索您的專案、查詢您的 GitHub 程式庫，並查閱文件，全部自動完成。
 
 ---
 
 <img src="images/quick-start-mcp.png" alt="Power cable connecting with bright electrical spark surrounded by floating tech icons representing MCP server connections" width="800"/>
 
-# Quick Start: MCP in 30 Seconds
+# 快速入門：30 秒了解 MCP
 
-## Get started with the built-in GitHub MCP server
-Let's see MCP in action right now, before configuring anything.
-The GitHub MCP server is included by default. Try this:
+## 開始使用內建 GitHub MCP 伺服器
+讓我們立即看看 MCP 的實際效果，無需任何設定。
+GitHub MCP 伺服器預設已包含在內。試試這個：
 
 ```bash
 copilot
 > List the recent commits in this repository
 ```
 
-If Copilot returns real commit data, you've just seen MCP in action. That's the GitHub MCP server reaching out to GitHub on your behalf. But GitHub is just *one* server. This chapter shows you how to add more (filesystem access, up-to-date documentation, and others) so Copilot can do even more.
+如果 Copilot 回傳了真實的提交資料，您剛才就看到了 MCP 的實際運作。那就是 GitHub MCP 伺服器代表您向 GitHub 發出請求。但 GitHub 只是*其中一個*伺服器。本章將向您展示如何新增更多伺服器（檔案系統存取、最新文件等），讓 Copilot 能做更多事情。
 
 ---
 
-## The `/mcp show` Command
+## `/mcp show` 指令
 
-Use `/mcp show` to see which MCP servers are configured and whether they're enabled:
+使用 `/mcp show` 查看已設定的 MCP 伺服器及其啟用狀態：
 
 ```bash
 copilot
@@ -73,33 +73,33 @@ MCP Servers:
 ✓ filesystem (enabled) - File system access
 ```
 
-> 💡 **Only seeing the GitHub server?** That's expected! If you haven't added any additional MCP servers yet, GitHub is the only one listed. You'll add more in the next section.
+> 💡 **只看到 GitHub 伺服器？** 這是正常的！如果您尚未新增任何額外的 MCP 伺服器，GitHub 是唯一列出的伺服器。您將在下一節新增更多。
 
-> 📚 **Want to see all `/mcp` commands?** There are additional commands for adding, editing, enabling, and deleting servers. See the [full command reference](#-additional-mcp-commands) at the end of this chapter.
+> 📚 **想查看所有 `/mcp` 指令？** 還有更多用於新增、編輯、啟用和刪除伺服器的指令。請參閱本章末尾的[完整指令參考](#-additional-mcp-commands)。
 
 <details>
-<summary>🎬 See it in action!</summary>
+<summary>🎬 看看實際效果！</summary>
 
 ![MCP Status Demo](images/mcp-status-demo.gif)
 
-*Demo output varies. Your model, tools, and responses will differ from what's shown here.*
+*示範輸出因人而異。您的模型、工具和回應結果可能與這裡顯示的有所不同。*
 
 </details>
 
 ---
 
-## What Changes with MCP?
+## MCP 帶來了什麼改變？
 
-Here's the difference MCP makes in practice:
+以下是 MCP 在實際使用中的差異：
 
-**Without MCP:**
+**沒有 MCP：**
 ```bash
 > What's in GitHub issue #42?
 
 "I don't have access to GitHub. You'll need to copy and paste the issue content."
 ```
 
-**With MCP:**
+**有了 MCP：**
 ```bash
 > What's in GitHub issue #42 of this repository?
 
@@ -109,23 +109,23 @@ Labels: bug, priority-high
 Description: Users report that passwords containing...
 ```
 
-MCP makes Copilot aware of your actual development environment.
+MCP 讓 Copilot 了解您真實的開發環境。
 
-> 📚 **Official Documentation**: [About MCP](https://docs.github.com/copilot/concepts/context/mcp) for a deeper look at how MCP works with GitHub Copilot.
+> 📚 **官方文件**：[About MCP](https://docs.github.com/copilot/concepts/context/mcp)，深入了解 MCP 如何與 GitHub Copilot 協作。
 
 ---
 
-# Configuring MCP Servers
+# 設定 MCP 伺服器
 
 <img src="images/configuring-mcp-servers.png" alt="Hands adjusting knobs and sliders on a professional audio mixing board representing MCP server configuration" width="800"/>
 
-Now that you've seen MCP in action, let's set up additional servers. This section covers the configuration file format and how to add new servers.
+既然您已看過 MCP 的實際運作，讓我們設定額外的伺服器。本節涵蓋設定檔格式以及如何新增新伺服器。
 
 ---
 
-## MCP Configuration File
+## MCP 設定檔
 
-MCP servers are configured in `~/.copilot/mcp-config.json` (global) or `.copilot/mcp-config.json` (project). 
+MCP 伺服器設定於 `~/.copilot/mcp-config.json`（全域）或 `.copilot/mcp-config.json`（專案）。
 
 ```json
 {
@@ -140,44 +140,44 @@ MCP servers are configured in `~/.copilot/mcp-config.json` (global) or `.copilot
 }
 ```
 
-*Most MCP servers are distributed as npm packages and run via the `npx` command.*
+*大多數 MCP 伺服器以 npm 套件的形式發布，並透過 `npx` 指令執行。*
 
 <details>
-<summary>💡 <strong>New to JSON?</strong> Click here to learn what each field means</summary>
+<summary>💡 <strong>初次接觸 JSON？</strong> 點擊了解各欄位含義</summary>
 
-| Field | What It Means |
+| 欄位 | 含義 |
 |-------|---------------|
-| `"mcpServers"` | Container for all your MCP server configurations |
-| `"server-name"` | A name you choose (e.g., "github", "filesystem") |
-| `"type": "local"` | The server runs on your machine |
-| `"command": "npx"` | The program to run (npx runs npm packages) |
-| `"args": [...]` | Arguments passed to the command |
-| `"tools": ["*"]` | Allow all tools from this server |
+| `"mcpServers"` | 所有 MCP 伺服器設定的容器 |
+| `"server-name"` | 您自訂的名稱（例如「github」、「filesystem」） |
+| `"type": "local"` | 伺服器在您的電腦上執行 |
+| `"command": "npx"` | 要執行的程式（npx 用於執行 npm 套件） |
+| `"args": [...]` | 傳遞給指令的參數 |
+| `"tools": ["*"]` | 允許此伺服器的所有工具 |
 
-**Important JSON rules:**
-- Use double quotes `"` for strings (not single quotes)
-- No trailing commas after the last item
-- File must be valid JSON (use a [JSON validator](https://jsonlint.com/) if unsure)
+**重要的 JSON 規則：**
+- 字串使用雙引號 `"`（不是單引號）
+- 最後一個項目後不加尾部逗號
+- 檔案必須是有效的 JSON（不確定時可使用 [JSON 驗證器](https://jsonlint.com/)）
 
 </details>
 
 ---
 
-## Adding MCP Servers
+## 新增 MCP 伺服器
 
-The GitHub MCP server is built-in and requires no setup. Below are additional servers you can add. **Pick what interests you, or work through them in order.**
+GitHub MCP 伺服器已內建，無需設定。以下是您可以新增的其他伺服器。**選擇您感興趣的，或依序操作。**
 
-| I want to... | Jump to |
+| 我想要... | 跳至 |
 |---|---|
-| Let Copilot browse my project files | [Filesystem Server](#filesystem-server) |
-| Get up-to-date library documentation | [Context7 Server](#context7-server-documentation) |
-| Explore optional extras (custom servers, web_fetch) | [Beyond the Basics](#beyond-the-basics) |
+| 讓 Copilot 瀏覽我的專案檔案 | [Filesystem 伺服器](#filesystem-server) |
+| 取得最新的套件庫文件 | [Context7 伺服器](#context7-server-documentation) |
+| 探索選讀內容（自訂伺服器、web_fetch） | [進階主題](#beyond-the-basics) |
 
 <details>
-<summary><strong>Filesystem Server</strong> - Let Copilot explore your project files</summary>
+<summary><strong>Filesystem 伺服器</strong> - 讓 Copilot 探索您的專案檔案</summary>
 <a id="filesystem-server"></a>
 
-### Filesystem Server
+### Filesystem 伺服器
 
 ```json
 {
@@ -192,19 +192,19 @@ The GitHub MCP server is built-in and requires no setup. Below are additional se
 }
 ```
 
-> 💡 **The `.` path**: The `.` means "current directory". Copilot can access files relative to where you launched it. In a Codespace, this is your workspace root. You can also use an absolute path like `/workspaces/copilot-cli-for-beginners` if you prefer.
+> 💡 **`.` 路徑的含義**：`.` 表示「目前目錄」。Copilot 可以存取相對於啟動位置的檔案。在 Codespace 中，這是您的工作區根目錄。您也可以使用絕對路徑，例如 `/workspaces/copilot-cli-for-beginners`。
 
-Add this to your `~/.copilot/mcp-config.json` and restart Copilot.
+將此設定加入您的 `~/.copilot/mcp-config.json` 並重新啟動 Copilot。
 
 </details>
 
 <details>
-<summary><strong>Context7 Server</strong> - Get up-to-date library docs</summary>
+<summary><strong>Context7 伺服器</strong> - 取得最新的套件庫文件</summary>
 <a id="context7-server-documentation"></a>
 
-### Context7 Server (Documentation)
+### Context7 伺服器（文件）
 
-Context7 gives Copilot access to up-to-date documentation for popular frameworks and libraries. Instead of relying on training data that might be outdated, Copilot fetches the actual current documentation.
+Context7 讓 Copilot 能存取熱門框架和套件庫的最新文件。不依賴可能已過時的訓練資料，而是擷取實際的當前文件。
 
 ```json
 {
@@ -219,31 +219,31 @@ Context7 gives Copilot access to up-to-date documentation for popular frameworks
 }
 ```
 
-✅ **No API key required** · ✅ **No account needed** · ✅ **Your code stays local**
+✅ **無需 API 金鑰** · ✅ **無需帳號** · ✅ **您的程式碼保留在本地**
 
-Add this to your `~/.copilot/mcp-config.json` and restart Copilot.
+將此設定加入您的 `~/.copilot/mcp-config.json` 並重新啟動 Copilot。
 
 </details>
 
 <details>
-<summary><strong>Beyond the Basics</strong> - Custom servers and web access (optional)</summary>
+<summary><strong>進階主題</strong> - 自訂伺服器和網頁存取（選讀）</summary>
 <a id="beyond-the-basics"></a>
 
-These are optional extras for when you're comfortable with the core servers above.
+這些是選讀的進階內容，適合您熟悉上述核心伺服器後再探索。
 
-### Building a Custom MCP Server
+### 建立自訂 MCP 伺服器
 
-Want to connect Copilot to your own APIs, databases, or internal tools? You can build a custom MCP server in Python. This is completely optional since the pre-built servers (GitHub, filesystem, Context7) cover most use cases.
+想將 Copilot 連接到您自己的 API、資料庫或內部工具？您可以用 Python 建立自訂 MCP 伺服器。由於預建的伺服器（GitHub、filesystem、Context7）已涵蓋大多數使用案例，這完全是選讀內容。
 
-📖 See the [Custom MCP Server Guide](mcp-custom-server.md) for a complete walkthrough using the book app as an example.
+📖 請參閱[自訂 MCP 伺服器指南](mcp-custom-server.md)，取得以書籍應用程式為範例的完整教學。
 
-📚 For more background, see the [MCP for Beginners course](https://github.com/microsoft/mcp-for-beginners).
+📚 如需更多背景知識，請參閱 [MCP for Beginners 課程](https://github.com/microsoft/mcp-for-beginners)。
 
-### Web Access with `web_fetch`
+### 使用 `web_fetch` 存取網頁
 
-Copilot CLI includes a built-in `web_fetch` tool that can fetch content from any URL. This is useful for pulling in READMEs, API docs, or release notes without leaving your terminal. No MCP server needed.
+Copilot CLI 內建 `web_fetch` 工具，可以從任何 URL 擷取內容。這對於在不離開終端機的情況下引入 README、API 文件或發行說明非常有用。無需 MCP 伺服器。
 
-You can control which URLs are accessible via `~/.copilot/config.json` (general Copilot settings), which is separate from `~/.copilot/mcp-config.json` (MCP server definitions).
+您可以透過 `~/.copilot/config.json`（一般 Copilot 設定）控制哪些 URL 可以存取，此檔案與 `~/.copilot/mcp-config.json`（MCP 伺服器定義）是分開的。
 
 ```json
 {
@@ -260,7 +260,7 @@ You can control which URLs are accessible via `~/.copilot/config.json` (general 
 }
 ```
 
-**Usage:**
+**使用方式：**
 ```bash
 copilot
 
@@ -271,11 +271,11 @@ copilot
 
 <a id="complete-configuration-file"></a>
 
-### Complete Configuration File
+### 完整設定檔
 
-Here's a full `mcp-config.json` with filesystem and Context7 servers:
+以下是包含 filesystem 和 Context7 伺服器的完整 `mcp-config.json`：
 
-> 💡 **Note:** GitHub MCP is built-in. You don't need to add it to your config file.
+> 💡 **注意：** GitHub MCP 已內建，無需加入設定檔。
 
 ```json
 {
@@ -296,46 +296,46 @@ Here's a full `mcp-config.json` with filesystem and Context7 servers:
 }
 ```
 
-Save this as `~/.copilot/mcp-config.json` for global access or `.copilot/mcp-config.json` for project-specific configuration.
+將此儲存為 `~/.copilot/mcp-config.json`（全域存取）或 `.copilot/mcp-config.json`（專案特定設定）。
 
 ---
 
-# Using MCP Servers
+# 使用 MCP 伺服器
 
-Now that you have MCP servers configured, let's see what they can do.
+設定好 MCP 伺服器後，讓我們看看它們能做什麼。
 
 <img src="images/using-mcp-servers.png" alt="Using MCP Servers - Hub-and-spoke diagram showing a Developer CLI connected to GitHub, Filesystem, Context7, and Custom/Web Fetch servers" width="800" />
 
 ---
 
-## Server Usage Examples
+## 伺服器使用範例
 
-**Pick a server to explore, or work through them in order.**
+**選擇您想探索的伺服器，或依序操作。**
 
-| I want to try... | Jump to |
+| 我想嘗試... | 跳至 |
 |---|---|
-| GitHub repos, issues, and PRs | [GitHub Server](#github-server-built-in) |
-| Browsing project files | [Filesystem Server Usage](#filesystem-server-usage) |
-| Library documentation lookup | [Context7 Server Usage](#context7-server-usage) |
-| Custom server and web_fetch usage | [Beyond the Basics Usage](#beyond-the-basics-usage) |
+| GitHub 程式庫、議題和 PR | [GitHub 伺服器](#github-server-built-in) |
+| 瀏覽專案檔案 | [Filesystem 伺服器用法](#filesystem-server-usage) |
+| 查詢套件庫文件 | [Context7 伺服器用法](#context7-server-usage) |
+| 自訂伺服器和 web_fetch 用法 | [進階主題用法](#beyond-the-basics-usage) |
 
 <details>
-<summary><strong>GitHub Server (Built-in)</strong> - Access repos, issues, PRs, and more</summary>
+<summary><strong>GitHub 伺服器（內建）</strong> - 存取程式庫、議題、PR 等</summary>
 <a id="github-server-built-in"></a>
 
-### GitHub Server (Built-in)
+### GitHub 伺服器（內建）
 
-The GitHub MCP server is **built-in**. If you logged into Copilot (which you did during initial setup), it already works. No configuration needed!
+GitHub MCP 伺服器已**內建**。如果您已登入 Copilot（在初始設定時完成），它即可直接使用，無需任何設定！
 
-> 💡 **Not working?** Run `/login` to re-authenticate with GitHub.
+> 💡 **無法使用？** 執行 `/login` 重新向 GitHub 驗證。
 
 <details>
-<summary><strong>Authentication in Dev Containers</strong></summary>
+<summary><strong>Dev Container 中的驗證</strong></summary>
 
-- **GitHub Codespaces** (recommended): Authentication is automatic. The `gh` CLI inherits your Codespace token. No action needed.
-- **Local dev container (Docker)**: Run `gh auth login` after the container starts, then restart Copilot.
+- **GitHub Codespaces**（推薦）：驗證是自動的。`gh` CLI 繼承您的 Codespace token，無需任何操作。
+- **本地 dev container（Docker）**：容器啟動後執行 `gh auth login`，然後重新啟動 Copilot。
 
-**Troubleshooting authentication:**
+**驗證疑難排解：**
 ```bash
 # Check if you're authenticated
 gh auth status
@@ -350,13 +350,13 @@ copilot
 
 </details>
 
-| Feature | Example |
+| 功能 | 範例 |
 |---------|----------|
-| **Repository info** | View commits, branches, contributors |
-| **Issues** | List, create, search, and comment on issues |
-| **Pull requests** | View PRs, diffs, create PRs, check status |
-| **Code search** | Search code across repositories |
-| **Actions** | Query workflow runs and status |
+| **程式庫資訊** | 查看提交、分支、貢獻者 |
+| **議題** | 列出、建立、搜尋議題並留言 |
+| **PR** | 查看 PR、差異，建立 PR，檢查狀態 |
+| **程式碼搜尋** | 跨程式庫搜尋程式碼 |
+| **Actions** | 查詢工作流程執行和狀態 |
 
 ```bash
 copilot
@@ -384,19 +384,19 @@ Found 1 file:
 - samples/book-app-project/tests/test_books.py
 ```
 
-> 💡 **Working on your own fork?** If you forked this course repo, you can also try write operations like creating issues and pull requests. We'll practice that in the exercises below.
+> 💡 **在您自己的 fork 上操作？** 如果您 fork 了本課程程式庫，還可以嘗試寫入操作，例如建立議題和 PR。我們將在下方的練習中實作。
 
-> ⚠️ **Don't see results?** The GitHub MCP operates on the repository's remote (on github.com), not just local files. Make sure your repo has a remote: run `git remote -v` to check.
+> ⚠️ **看不到結果？** GitHub MCP 操作的是程式庫的遠端（github.com 上的），而非僅限本地檔案。請確認您的程式庫有遠端：執行 `git remote -v` 來確認。
 
 </details>
 
 <details>
-<summary><strong>Filesystem Server</strong> - Browse and analyze project files</summary>
+<summary><strong>Filesystem 伺服器</strong> - 瀏覽和分析專案檔案</summary>
 <a id="filesystem-server-usage"></a>
 
-### Filesystem Server
+### Filesystem 伺服器
 
-Once configured, the filesystem MCP provides tools that Copilot can use automatically:
+設定完成後，filesystem MCP 提供 Copilot 可自動使用的工具：
 
 ```bash
 copilot
@@ -422,10 +422,10 @@ Found 2 functions without type hints:
 </details>
 
 <details>
-<summary><strong>Context7 Server</strong> - Look up library documentation</summary>
+<summary><strong>Context7 伺服器</strong> - 查詢套件庫文件</summary>
 <a id="context7-server-usage"></a>
 
-### Context7 Server
+### Context7 伺服器
 
 ```bash
 copilot
@@ -465,12 +465,12 @@ Best practices:
 </details>
 
 <details>
-<summary><strong>Beyond the Basics</strong> - Custom server and web_fetch usage</summary>
+<summary><strong>進階主題</strong> - 自訂伺服器和 web_fetch 用法</summary>
 <a id="beyond-the-basics-usage"></a>
 
-### Beyond the Basics
+### 進階主題
 
-**Custom MCP Server**: If you built the book-lookup server from the [Custom MCP Server Guide](mcp-custom-server.md), you can query your book collection directly:
+**自訂 MCP 伺服器**：如果您按照[自訂 MCP 伺服器指南](mcp-custom-server.md)建立了書籍查詢伺服器，可以直接查詢您的書籍集合：
 
 ```bash
 copilot
@@ -479,7 +479,7 @@ copilot
 > Search for books by George Orwell
 ```
 
-**Web Fetch**: Use the built-in `web_fetch` tool to pull in content from any URL:
+**Web Fetch**：使用內建的 `web_fetch` 工具從任何 URL 擷取內容：
 
 ```bash
 copilot
@@ -491,27 +491,27 @@ copilot
 
 ---
 
-## Multi-Server Workflows
+## 多伺服器工作流程
 
-These workflows show why developers say "I never want to work without this again." Each example combines multiple MCP servers in a single session.
+這些工作流程展示了為何開發者會說「我再也不想沒有這個工具了」。每個範例在單一工作階段中結合多個 MCP 伺服器。
 
 <img src="images/issue-to-pr-workflow.png" alt="Issue to PR Workflow using MCP - Shows the complete flow from getting a GitHub issue through creating a pull request" width="800"/>
 
-*Complete MCP workflow: GitHub MCP retrieves repo data, Filesystem MCP finds code, Context7 MCP provides best practices, and Copilot handles analysis*
+*完整的 MCP 工作流程：GitHub MCP 擷取程式庫資料、Filesystem MCP 找到程式碼、Context7 MCP 提供最佳實踐，Copilot 負責分析*
 
-Each example below is self-contained. **Pick one that interests you, or read them all.**
+以下每個範例均可獨立使用。**選擇您感興趣的，或全部閱讀。**
 
-| I want to see... | Jump to |
+| 我想看... | 跳至 |
 |---|---|
-| Multiple servers working together | [Multi-Server Exploration](#multi-server-exploration) |
-| Going from issue to PR in one session | [Issue-to-PR Workflow](#issue-to-pr-workflow) |
-| A quick project health check | [Health Dashboard](#health-dashboard) |
+| 多個伺服器協同運作 | [多伺服器探索](#multi-server-exploration) |
+| 在單一工作階段從議題到 PR | [議題轉 PR 工作流程](#issue-to-pr-workflow) |
+| 快速專案健康檢查 | [健康儀表板](#health-dashboard) |
 
 <details>
-<summary><strong>Multi-Server Exploration</strong> - Combine filesystem, GitHub, and Context7 in one session</summary>
+<summary><strong>多伺服器探索</strong> - 在單一工作階段中結合 filesystem、GitHub 和 Context7</summary>
 <a id="multi-server-exploration"></a>
 
-#### Exploring the Book App with Multiple MCP Servers
+#### 使用多個 MCP 伺服器探索書籍應用程式
 
 ```bash
 copilot
@@ -553,27 +553,27 @@ Suggestions:
 ```
 
 <details>
-<summary>🎬 See the MCP workflow in action!</summary>
+<summary>🎬 看看 MCP 工作流程的實際效果！</summary>
 
 ![MCP Workflow Demo](images/mcp-workflow-demo.gif)
 
-*Demo output varies. Your model, tools, and responses will differ from what's shown here.*
+*示範輸出因人而異。您的模型、工具和回應結果可能與這裡顯示的有所不同。*
 
 </details>
 
-**The result**: Code exploration → history review → best practices lookup → improvement plan. **All from one terminal session, using three MCP servers together.**
+**最終成果**：程式碼探索 → 歷程審查 → 最佳實踐查詢 → 改進計畫。**全程在單一終端機工作階段中完成，同時使用三個 MCP 伺服器。**
 
 </details>
 
 <details>
-<summary><strong>Issue-to-PR Workflow</strong> - Go from a GitHub issue to a pull request without leaving the terminal</summary>
+<summary><strong>議題轉 PR 工作流程</strong> - 不離開終端機，從 GitHub 議題直接建立 PR</summary>
 <a id="issue-to-pr-workflow"></a>
 
-#### The Issue-to-PR Workflow (On Your Own Repo)
+#### 議題轉 PR 工作流程（在您自己的程式庫上）
 
-This works best on your own fork or repository where you have write access:
+這在您有寫入權限的 fork 或程式庫上效果最佳：
 
-> 💡 **Don't worry if you can't try this right now.** If you're on a read-only clone, you'll practice this in the assignment. For now, just read through to understand the flow.
+> 💡 **現在無法嘗試也沒關係。** 如果您在唯讀的 clone 上，可以在作業中實作。現在只需閱讀以了解流程。
 
 ```bash
 copilot
@@ -597,15 +597,15 @@ All 8 tests passed ✓
 ✓ Created PR #2: Add year validation to book app
 ```
 
-**Zero copy-paste. Zero context switching. One terminal session.**
+**無需複製貼上。無需切換情境。一個終端機工作階段搞定。**
 
 </details>
 
 <details>
-<summary><strong>Health Dashboard</strong> - Get a quick project health check using multiple servers</summary>
+<summary><strong>健康儀表板</strong> - 使用多個伺服器進行快速專案健康檢查</summary>
 <a id="health-dashboard"></a>
 
-#### Book App Health Dashboard
+#### 書籍應用程式健康儀表板
 
 ```bash
 copilot
@@ -639,27 +639,27 @@ Recommendations:
 - All files well-sized (<100 lines) - good structure!
 ```
 
-**The result**: Multiple data sources aggregated in seconds. Manually, this would mean running grep, counting lines, checking git log, and browsing test files. Easily 15+ minutes of work.
+**最終成果**：多個資料來源在數秒內彙總完成。手動操作的話，需要執行 grep、計算行數、查看 git log 以及瀏覽測試檔案，輕鬆耗費 15 分鐘以上。
 
 </details>
 
 ---
 
-# Practice
+# 練習
 
 <img src="../images/practice.png" alt="Warm desk setup with monitor showing code, lamp, coffee cup, and headphones ready for hands-on practice" width="800"/>
 
-**🎉 You now know the essentials!** You understand MCP, you've seen how to configure servers, and you've seen real workflows in action. Now it's time to try it yourself.
+**🎉 您已掌握基本知識！** 您了解了 MCP，看過如何設定伺服器，也見過真實工作流程的示範。現在是親自動手的時候了。
 
 ---
 
-## ▶️ Try It Yourself
+## ▶️ 親自試試看
 
-Now it's your turn! Complete these exercises to practice using MCP servers with the book app project.
+現在輪到您了！完成以下練習，練習使用 MCP 伺服器搭配書籍應用程式專案。
 
-### Exercise 1: Check Your MCP Status
+### 練習 1：確認您的 MCP 狀態
 
-Start by seeing what MCP servers are available:
+首先確認哪些 MCP 伺服器可用：
 
 ```bash
 copilot
@@ -667,13 +667,13 @@ copilot
 > /mcp show
 ```
 
-You should see the GitHub server listed as enabled. If not, run `/login` to authenticate.
+您應該看到 GitHub 伺服器列為已啟用。如果沒有，執行 `/login` 進行驗證。
 
 ---
 
-### Exercise 2: Explore the Book App with Filesystem MCP
+### 練習 2：使用 Filesystem MCP 探索書籍應用程式
 
-If you've configured the filesystem server, use it to explore the book app:
+如果您已設定 filesystem 伺服器，請用它探索書籍應用程式：
 
 ```bash
 copilot
@@ -682,15 +682,15 @@ copilot
 > What functions are defined in each file?
 ```
 
-**Expected result**: Copilot lists `book_app.py`, `books.py`, and `utils.py` with their functions.
+**預期結果**：Copilot 列出 `book_app.py`、`books.py` 和 `utils.py` 及其函式。
 
-> 💡 **Don't have filesystem MCP configured yet?** Create the config file from the [Complete Configuration](#complete-configuration-file) section above. Then restart Copilot.
+> 💡 **尚未設定 filesystem MCP？** 使用上方[完整設定](#complete-configuration-file)章節的設定建立設定檔，然後重新啟動 Copilot。
 
 ---
 
-### Exercise 3: Query Repository History with GitHub MCP
+### 練習 3：使用 GitHub MCP 查詢程式庫歷程
 
-Use the built-in GitHub MCP to explore this course repository:
+使用內建的 GitHub MCP 探索本課程程式庫：
 
 ```bash
 copilot
@@ -700,15 +700,15 @@ copilot
 > What branches exist in this repository?
 ```
 
-**Expected result**: Copilot shows recent commit messages and branch names from the GitHub remote.
+**預期結果**：Copilot 顯示來自 GitHub 遠端的最新提交訊息和分支名稱。
 
-> ⚠️ **In a Codespace?** This works automatically. Authentication is inherited. If you're on a local clone, make sure `gh auth status` shows you're logged in.
+> ⚠️ **在 Codespace 中？** 這會自動運作，驗證已繼承。如果您在本地 clone 上，請確認 `gh auth status` 顯示您已登入。
 
 ---
 
-### Exercise 4: Combine Multiple MCP Servers
+### 練習 4：結合多個 MCP 伺服器
 
-Now combine filesystem and GitHub MCP in a single session:
+現在在單一工作階段中結合 filesystem 和 GitHub MCP：
 
 ```bash
 copilot
@@ -718,38 +718,38 @@ copilot
 > file was last modified.
 ```
 
-**Expected result**: Copilot reads the JSON file (filesystem MCP), lists the 5 books including "The Hobbit", "1984", "Dune", "To Kill a Mockingbird", and "Mysterious Book", then queries GitHub for commit history.
+**預期結果**：Copilot 讀取 JSON 檔案（filesystem MCP），列出 5 本書包括《哈比人》、《1984》、《沙丘》、《梅岡城故事》和《神秘之書》，然後查詢 GitHub 的提交歷程。
 
-**Self-Check**: You understand MCP when you can explain why "Check my repo's commit history" is better than manually running `git log` and pasting the output into your prompt.
+**自我檢核**：當您能解釋為何「Check my repo's commit history」比手動執行 `git log` 並貼上輸出到提示詞更好時，代表您已理解 MCP。
 
 ---
 
-## 📝 Assignment
+## 📝 作業
 
-### Main Challenge: Book App MCP Exploration
+### 主要挑戰：書籍應用程式 MCP 探索
 
-Practice using MCP servers together on the book app project. Complete these steps in a single Copilot session:
+練習在書籍應用程式專案上結合使用 MCP 伺服器。在單一 Copilot 工作階段中完成以下步驟：
 
-1. **Verify MCP is working**: Run `/mcp show` and confirm at least the GitHub server is enabled
-2. **Set up filesystem MCP** (if not already done): Create `~/.copilot/mcp-config.json` with the filesystem server configuration
-3. **Explore the code**: Ask Copilot to use the filesystem server to:
-   - List all functions in `samples/book-app-project/books.py`
-   - Check which functions in `samples/book-app-project/utils.py` are missing type hints
-   - Read `samples/book-app-project/data.json` and identify any data quality issues (hint: look at the last entry)
-4. **Check repository activity**: Ask Copilot to use GitHub MCP to:
-   - List recent commits that touched files in `samples/book-app-project/`
-   - Check if there are any open issues or pull requests
-5. **Combine servers**: In a single prompt, ask Copilot to:
-   - Read the test file at `samples/book-app-project/tests/test_books.py`
-   - Compare the tested functions against all functions in `books.py`
-   - Summarize what test coverage is missing
+1. **確認 MCP 運作**：執行 `/mcp show`，確認至少 GitHub 伺服器已啟用
+2. **設定 filesystem MCP**（若尚未完成）：使用 filesystem 伺服器設定建立 `~/.copilot/mcp-config.json`
+3. **探索程式碼**：要求 Copilot 使用 filesystem 伺服器：
+   - 列出 `samples/book-app-project/books.py` 中的所有函式
+   - 檢查 `samples/book-app-project/utils.py` 中哪些函式缺少型別提示
+   - 讀取 `samples/book-app-project/data.json` 並找出任何資料品質問題（提示：看看最後一筆條目）
+4. **查詢程式庫活動**：要求 Copilot 使用 GitHub MCP：
+   - 列出最近觸及 `samples/book-app-project/` 中檔案的提交
+   - 確認是否有任何開放的議題或 PR
+5. **結合伺服器**：在單一提示詞中，要求 Copilot：
+   - 讀取 `samples/book-app-project/tests/test_books.py` 的測試檔案
+   - 將已測試的函式與 `books.py` 中的所有函式進行比對
+   - 摘要缺少哪些測試覆蓋率
 
-**Success criteria**: You can seamlessly combine filesystem and GitHub MCP data in a single Copilot session, and you can explain what each MCP server contributed to the response.
+**成功標準**：您能在單一 Copilot 工作階段中無縫結合 filesystem 和 GitHub MCP 資料，並能解釋每個 MCP 伺服器對回應的貢獻。
 
 <details>
-<summary>💡 Hints (click to expand)</summary>
+<summary>💡 提示（點擊展開）</summary>
 
-**Step 1: Verify MCP**
+**步驟 1：確認 MCP**
 ```bash
 copilot
 > /mcp show
@@ -757,13 +757,13 @@ copilot
 # If not, run: /login
 ```
 
-**Step 2: Create the config file**
+**步驟 2：建立設定檔**
 
-Use the JSON from the [Complete Configuration](#complete-configuration-file) section above and save it as `~/.copilot/mcp-config.json`.
+使用上方[完整設定](#complete-configuration-file)章節的 JSON，儲存為 `~/.copilot/mcp-config.json`。
 
-**Step 3: Data quality issue to look for**
+**步驟 3：需要尋找的資料品質問題**
 
-The last book in `data.json` is:
+`data.json` 中的最後一本書是：
 ```json
 {
   "title": "Mysterious Book",
@@ -772,59 +772,59 @@ The last book in `data.json` is:
   "read": false
 }
 ```
-An empty author and year of 0. That's the data quality issue!
+空白的作者和年份為 0，這就是資料品質問題！
 
-**Step 5: Test coverage comparison**
+**步驟 5：測試覆蓋率比較**
 
-The tests in `test_books.py` cover: `add_book`, `mark_as_read`, `remove_book`, `get_unread_books`, and `find_book_by_title`. Functions like `load_books`, `save_books`, and `list_books` don't have direct tests. The CLI functions in `book_app.py` and helpers in `utils.py` have no tests at all.
+`test_books.py` 中的測試涵蓋：`add_book`、`mark_as_read`、`remove_book`、`get_unread_books` 和 `find_book_by_title`。`load_books`、`save_books` 和 `list_books` 等函式沒有直接測試。`book_app.py` 中的 CLI 函式和 `utils.py` 中的輔助函式完全沒有測試。
 
-**If MCP isn't working:** Restart Copilot after editing the config file.
+**如果 MCP 無法運作：** 編輯設定檔後重新啟動 Copilot。
 
 </details>
 
-### Bonus Challenge: Build a Custom MCP Server
+### 加分挑戰：建立自訂 MCP 伺服器
 
-Ready to go deeper? Follow the [Custom MCP Server Guide](mcp-custom-server.md) to build your own MCP server in Python that connects to any API.
+準備好深入了解了嗎？按照[自訂 MCP 伺服器指南](mcp-custom-server.md)，用 Python 建立您自己的 MCP 伺服器，連接任何 API。
 
 ---
 
 <details>
-<summary>🔧 <strong>Common Mistakes & Troubleshooting</strong> (click to expand)</summary>
+<summary>🔧 <strong>常見錯誤與疑難排解</strong>（點擊展開）</summary>
 
-### Common Mistakes
+### 常見錯誤
 
-| Mistake | What Happens | Fix |
+| 錯誤 | 發生情況 | 修正方式 |
 |---------|--------------|-----|
-| Not knowing GitHub MCP is built-in | Trying to install/configure it manually | GitHub MCP is included by default. Just try: "List the recent commits in this repo" |
-| Looking for config in wrong location | Can't find or edit MCP settings | Config is in `~/.copilot/mcp-config.json` |
-| Invalid JSON in config file | MCP servers fail to load | Use `/mcp show` to check configuration; validate JSON syntax |
-| Forgetting to authenticate MCP servers | "Authentication failed" errors | Some MCPs need separate auth. Check each server's requirements |
+| 不知道 GitHub MCP 已內建 | 嘗試手動安裝/設定 | GitHub MCP 預設已包含。直接嘗試：「List the recent commits in this repo」 |
+| 在錯誤位置尋找設定 | 找不到或無法編輯 MCP 設定 | 設定在 `~/.copilot/mcp-config.json` |
+| 設定檔中的 JSON 無效 | MCP 伺服器無法載入 | 使用 `/mcp show` 確認設定；驗證 JSON 語法 |
+| 忘記驗證 MCP 伺服器 | 出現「Authentication failed」錯誤 | 部分 MCP 需要單獨驗證，請確認每個伺服器的需求 |
 
-### Troubleshooting
+### 疑難排解
 
-**"MCP server not found"** - Check that:
-1. The npm package exists: `npm view @modelcontextprotocol/server-github`
-2. Your configuration is valid JSON
-3. The server name matches your config
+**「MCP server not found」** - 確認：
+1. npm 套件存在：`npm view @modelcontextprotocol/server-github`
+2. 您的設定是有效的 JSON
+3. 伺服器名稱與設定相符
 
-Use `/mcp show` to see the current configuration.
+使用 `/mcp show` 查看目前的設定。
 
-**"GitHub authentication failed"** - The built-in GitHub MCP uses your `/login` credentials. Try:
+**「GitHub authentication failed」** - 內建的 GitHub MCP 使用您的 `/login` 憑證。請嘗試：
 
 ```bash
 copilot
 > /login
 ```
 
-This will re-authenticate you with GitHub. If issues persist, check that your GitHub account has the necessary permissions for the repository you're accessing.
+這會重新向 GitHub 驗證。如果問題持續，請確認您的 GitHub 帳號對所存取的程式庫具有必要的權限。
 
-**"MCP server failed to start"** - Check the server logs:
+**「MCP server failed to start」** - 手動執行伺服器指令以查看錯誤：
 ```bash
 # Run the server command manually to see errors
 npx -y @modelcontextprotocol/server-github
 ```
 
-**MCP tools not available** - Make sure the server is enabled:
+**MCP 工具不可用** - 確認伺服器已啟用：
 ```bash
 copilot
 
@@ -832,59 +832,59 @@ copilot
 # Check if server is listed and enabled
 ```
 
-If a server is disabled, see the [additional `/mcp` commands](#-additional-mcp-commands) below for how to re-enable it.
+如果伺服器已停用，請參閱下方的[額外 `/mcp` 指令](#-additional-mcp-commands)以了解如何重新啟用。
 
 </details>
 
 ---
 
 <details>
-<summary>📚 <strong>Additional <code>/mcp</code> Commands</strong> (click to expand)</summary>
+<summary>📚 <strong>額外的 <code>/mcp</code> 指令</strong>（點擊展開）</summary>
 <a id="-additional-mcp-commands"></a>
 
-Beyond `/mcp show`, there are several other commands for managing your MCP servers:
+除了 `/mcp show` 之外，還有幾個管理 MCP 伺服器的指令：
 
-| Command | What It Does |
+| 指令 | 功能說明 |
 |---------|--------------|
-| `/mcp show` | Show all configured MCP servers and their status |
-| `/mcp add` | Interactive setup for adding a new server |
-| `/mcp edit <server-name>` | Edit an existing server configuration |
-| `/mcp enable <server-name>` | Enable a disabled server |
-| `/mcp disable <server-name>` | Temporarily disable a server |
-| `/mcp delete <server-name>` | Remove a server permanently |
+| `/mcp show` | 顯示所有已設定的 MCP 伺服器及其狀態 |
+| `/mcp add` | 互動式新增伺服器設定 |
+| `/mcp edit <server-name>` | 編輯現有的伺服器設定 |
+| `/mcp enable <server-name>` | 啟用已停用的伺服器 |
+| `/mcp disable <server-name>` | 暫時停用伺服器 |
+| `/mcp delete <server-name>` | 永久移除伺服器 |
 
-For most of this course, `/mcp show` is all you need. The other commands become useful as you manage more servers over time.
+在本課程大部分情況下，`/mcp show` 就足夠了。隨著您管理越來越多的伺服器，其他指令也會變得實用。
 
 </details>
 
 ---
 
-# Summary
+# 總結
 
-## 🔑 Key Takeaways
+## 🔑 重點摘要
 
-1. **MCP** connects Copilot to external services (GitHub, filesystem, documentation)
-2. **GitHub MCP is built-in** - no configuration needed, just `/login`
-3. **Filesystem and Context7** are configured via `~/.copilot/mcp-config.json`
-4. **Multi-server workflows** combine data from multiple sources in a single session
-5. **Check server status** with `/mcp show` (additional commands available for managing servers)
-6. **Custom servers** let you connect any API (optional, covered in the appendix guide)
+1. **MCP** 將 Copilot 連接到外部服務（GitHub、檔案系統、文件）
+2. **GitHub MCP 已內建** - 無需設定，只需 `/login`
+3. **Filesystem 和 Context7** 透過 `~/.copilot/mcp-config.json` 設定
+4. **多伺服器工作流程**在單一工作階段中結合來自多個來源的資料
+5. **使用 `/mcp show` 確認伺服器狀態**（還有更多管理指令可供使用）
+6. **自訂伺服器**讓您能連接任何 API（選讀，附錄指南中有說明）
 
-> 📋 **Quick Reference**: See the [GitHub Copilot CLI command reference](https://docs.github.com/en/copilot/reference/cli-command-reference) for a complete list of commands and shortcuts.
-
----
-
-## ➡️ What's Next
-
-You now have all the building blocks: modes, context, workflows, agents, skills, and MCP. Time to put them all together.
-
-In **[Chapter 07: Putting It All Together](../07-putting-it-together/README.md)**, you'll learn:
-
-- Combining agents, skills, and MCP in unified workflows
-- Complete feature development from idea to merged PR
-- Automation with hooks
-- Best practices for team environments
+> 📋 **快速參考**：請參閱 [GitHub Copilot CLI 指令參考](https://docs.github.com/en/copilot/reference/cli-command-reference)，取得完整的指令和快捷鍵清單。
 
 ---
 
-**[← Back to Chapter 05](../05-skills/README.md)** | **[Continue to Chapter 07 →](../07-putting-it-together/README.md)**
+## ➡️ 接下來
+
+您現在擁有了所有基礎：模式、情境、工作流程、代理程式、技能和 MCP。是時候將它們整合在一起了。
+
+在**[第 07 章：整合所有知識](../07-putting-it-together/README.md)**中，您將學習：
+
+- 在統一工作流程中結合代理程式、技能和 MCP
+- 從構想到合併 PR 的完整功能開發
+- 使用鉤子（hooks）進行自動化
+- 團隊環境的最佳實踐
+
+---
+
+**[← 返回第 05 章](../05-skills/README.md)** | **[繼續前往第 07 章 →](../07-putting-it-together/README.md)**

@@ -1,36 +1,36 @@
 ---
 name: code-checklist
-description: Team code quality checklist - use for checking Python code quality, bugs, security issues, and best practices
+description: 團隊程式碼品質清單 - 適用於檢查 Python 程式碼品質、錯誤、安全性問題及最佳實踐
 ---
 
-# Code Checklist Skill
+# 程式碼檢查清單技能
 
-Apply this checklist when checking Python code.
+檢查 Python 程式碼時，請套用此清單。
 
-## Code Quality Checklist
+## 程式碼品質清單
 
-- [ ] All functions have type hints
-- [ ] No bare except clauses
-- [ ] No mutable default arguments
-- [ ] Context managers used for file I/O
-- [ ] Functions are under 50 lines
-- [ ] Variable and function names follow PEP 8 (snake_case)
+- [ ] 所有函式均具備型別提示
+- [ ] 沒有裸露的 except 子句
+- [ ] 沒有可變的預設引數
+- [ ] 檔案 I/O 使用情境管理器
+- [ ] 函式不超過 50 行
+- [ ] 變數與函式命名遵循 PEP 8（snake_case）
 
-## Input Validation Checklist
+## 輸入驗證清單
 
-- [ ] User input is validated before processing
-- [ ] Edge cases handled (empty strings, None, out-of-range values)
-- [ ] Error messages are clear and helpful
+- [ ] 使用者輸入在處理前已驗證
+- [ ] 已處理邊界情況（空字串、None、超出範圍的值）
+- [ ] 錯誤訊息清晰且具指引性
 
-## Testing Checklist
+## 測試清單
 
-- [ ] New code has corresponding pytest tests
-- [ ] Edge cases are covered
-- [ ] Tests use descriptive names
+- [ ] 新程式碼具有對應的 pytest 測試
+- [ ] 邊界情況已涵蓋
+- [ ] 測試使用描述性名稱
 
-## Output Format
+## 輸出格式
 
-Present findings as:
+呈現結果如下：
 
 ```
 ## Code Checklist: [filename]

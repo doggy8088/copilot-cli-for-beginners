@@ -1,16 +1,16 @@
-# Additional Context Features
+# 額外情境功能
 
-> 📖 **Prerequisite**: Complete [Chapter 02: Context and Conversations](../02-context-conversations/README.md) before reading this appendix.
+> 📖 **先備條件**：請先完成[第 02 章：情境與對話](../02-context-conversations/README.md)後再閱讀本附錄。
 
-This appendix covers two additional context features: working with images and managing permissions across multiple directories.
+本附錄介紹兩項額外的情境功能：使用圖片，以及跨多個目錄的權限管理。
 
 ---
 
-## Working with Images
+## 使用圖片
 
-You can include images in your conversations using the `@` syntax. Copilot can analyze screenshots, mockups, diagrams, and other visual content.
+您可以在對話中使用 `@` 語法引用圖片。Copilot 能分析螢幕截圖、設計稿、架構圖及其他視覺內容。
 
-### Basic Image Reference
+### 基本圖片引用
 
 ```bash
 copilot
@@ -24,45 +24,45 @@ copilot
 # You can also drag and drop images or paste from clipboard
 ```
 
-### Supported Image Formats
+### 支援的圖片格式
 
-| Format | Best For |
-|--------|----------|
-| PNG | Screenshots, UI mockups, diagrams |
-| JPG/JPEG | Photos, complex images |
-| GIF | Simple diagrams (first frame only) |
-| WebP | Web screenshots |
+| 格式 | 最適用於 |
+|------|---------|
+| PNG | 螢幕截圖、UI 設計稿、架構圖 |
+| JPG/JPEG | 照片、複雜影像 |
+| GIF | 簡單示意圖（僅分析第一幀） |
+| WebP | 網頁截圖 |
 
-### Practical Image Use Cases
+### 圖片實用情境
 
-**1. UI Debugging**
+**1. UI 除錯**
 ```bash
 > @bug-screenshot.png The button doesn't align properly. What CSS might cause this?
 ```
 
-**2. Design Implementation**
+**2. 設計實作**
 ```bash
 > @figma-export.png Write the HTML and Tailwind CSS to match this design
 ```
 
-**3. Error Analysis**
+**3. 錯誤分析**
 ```bash
 > @error-screenshot.png What does this error mean and how do I fix it?
 ```
 
-**4. Architecture Review**
+**4. 架構審查**
 ```bash
 > @whiteboard-diagram.png Convert this architecture diagram to a Mermaid diagram I can put in docs
 ```
 
-**5. Before/After Comparison**
+**5. 前後對比**
 ```bash
 > @before.png @after.png What changed between these two versions of the UI?
 ```
 
-### Combining Images with Code
+### 圖片與程式碼的結合應用
 
-Images become even more powerful when combined with code context:
+將圖片與程式碼情境搭配使用，效果更為強大：
 
 ```bash
 copilot
@@ -71,20 +71,20 @@ copilot
 > The header looks wrong in the screenshot. What's causing it in the code?
 ```
 
-### Image Tips
+### 圖片使用技巧
 
-- **Crop screenshots** to show only relevant portions (saves context tokens)
-- **Use high contrast** for UI elements you want analyzed
-- **Annotate if needed** - circle or highlight problem areas before uploading
-- **One image per concept** - multiple images work, but be focused
+- **裁切截圖**，只保留相關區域（節省情境 token）
+- **提高對比度**，使欲分析的 UI 元素更清晰
+- **必要時加上標註**——上傳前圈出或標示問題區域
+- **一圖一概念**——雖可使用多張圖片，但保持焦點更有效率
 
 ---
 
-## Permission Patterns
+## 權限設定模式
 
-By default, Copilot can access files in your current directory. For files elsewhere, you need to grant access.
+預設情況下，Copilot 僅能存取您當前目錄中的檔案。若需存取其他位置的檔案，則須授予對應的存取權限。
 
-### Add Directories
+### 新增目錄
 
 ```bash
 # Add a directory to the allowed list
@@ -94,14 +94,14 @@ copilot --add-dir /path/to/other/project
 copilot --add-dir ~/workspace --add-dir /tmp
 ```
 
-### Allow All Paths
+### 開放所有路徑
 
 ```bash
 # Disable path restrictions entirely (use with caution)
 copilot --allow-all-paths
 ```
 
-### Inside a Session
+### 在對話中管理權限
 
 ```bash
 copilot
@@ -113,7 +113,7 @@ copilot
 # See all allowed directories
 ```
 
-### For Automation
+### 用於自動化腳本
 
 ```bash
 # Allow all permissions for non-interactive scripts
@@ -123,15 +123,15 @@ copilot -p "Review @src/" --allow-all
 copilot -p "Review @src/" --yolo
 ```
 
-### When You Need Multi-Directory Access
+### 需要多目錄存取的常見情境
 
-Common scenarios where you'll need these permissions:
+以下是常見的使用場景：
 
-1. **Monorepo work** - Comparing code across packages
-2. **Cross-project refactoring** - Updating shared libraries
-3. **Documentation projects** - Referencing multiple codebases
-4. **Migration work** - Comparing old and new implementations
+1. **Monorepo 開發** — 跨套件比較程式碼
+2. **跨專案重構** — 更新共用函式庫
+3. **文件編寫專案** — 同時參照多個程式碼庫
+4. **遷移作業** — 比對新舊實作
 
 ---
 
-**[← Back to Chapter 02](../02-context-conversations/README.md)** | **[Return to Appendices](README.md)**
+**[← 返回第 02 章](../02-context-conversations/README.md)** | **[返回附錄](README.md)**

@@ -1,20 +1,20 @@
 ---
 name: hello-world
-description: A minimal skill example - use when learning the skill format
+description: 最簡單的技能範例，適用於學習技能格式
 ---
 
-# Hello World Skill
+# Hello World 技能
 
-This is the simplest possible skill. It demonstrates the required format.
+這是最簡單的技能範例，示範所需的格式。
 
-## When This Skill Activates
+## 此技能的啟動時機
 
-This skill loads when you mention "hello world skill" or "test my skills setup".
+當您提及「hello world skill」或「test my skills setup」時，此技能即會載入。
 
-## What It Does
+## 功能說明
 
-Responds with a friendly confirmation that skills are working.
+以友善的確認訊息回應，表示技能運作正常。
 
-## Try It
+## 試試看
 
-Ask Copilot: "Test my skills setup" or "Use the hello world skill"
+詢問 Copilot：「Test my skills setup」或「Use the hello world skill」

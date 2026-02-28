@@ -1,82 +1,82 @@
 ![Chapter 00: Quick Start](images/chapter-header.png)
 
-Welcome! In this chapter, you'll get GitHub Copilot CLI (Command Line Interface) installed, signed in with your GitHub account, and verified that everything works. This is a quick setup chapter. Once you're up and running, the real demos start in Chapter 01!
+歡迎！本章將帶你完成 GitHub Copilot CLI（命令列介面）的安裝、GitHub 帳號登入，並確認一切正常運作。這是一章快速設定指南，等你準備就緒，精彩的示範就從第 01 章正式展開！
 
-## 🎯 Learning Objectives
+## 🎯 學習目標
 
-By the end of this chapter, you'll have:
+完成本章後，你將：
 
-- Installed GitHub Copilot CLI
-- Signed in with your GitHub account
-- Verified it works with a simple test
+- 安裝好 GitHub Copilot CLI
+- 以 GitHub 帳號完成登入
+- 透過簡單測試驗證功能正常
 
-> ⏱️ **Estimated Time**: ~10 minutes (5 min reading + 5 min hands-on)
-
----
-
-## ✅ Prerequisites
-
-- **GitHub Account** with Copilot access. [See subscription options](https://github.com/features/copilot/plans). Students/Teachers can access Copilot Pro for [free via GitHub Education](https://education.github.com/pack).
-- **Terminal basics**: Comfortable with commands like `cd` and `ls`
-
-### What "Copilot Access" Means
-
-GitHub Copilot CLI requires an active Copilot subscription. You can check your status at [github.com/settings/copilot](https://github.com/settings/copilot). You should see one of:
-
-- **Copilot Individual** - Personal subscription
-- **Copilot Business** - Through your organization
-- **Copilot Enterprise** - Through your enterprise
-- **GitHub Education** - Free for verified students/teachers
-
-If you see "You don't have access to GitHub Copilot," you'll need to use the free option, subscribe to a plan, or join an organization that provides access.
+> ⏱️ **預估時間**：約 10 分鐘（閱讀 5 分鐘 + 實作 5 分鐘）
 
 ---
 
-## Installation
+## ✅ 前置需求
 
-> ⏱️ **Time estimate**: Installation takes 2-5 minutes. Authentication adds another 1-2 minutes.
+- 具備 Copilot 存取權限的 **GitHub 帳號**。[查看訂閱方案](https://github.com/features/copilot/plans)。學生與教師可透過 [GitHub Education](https://education.github.com/pack) 免費取得 Copilot Pro。
+- **終端機基礎操作**：熟悉 `cd`、`ls` 等基本指令
 
-### Recommended: GitHub Codespaces (Zero Setup)
+### 「Copilot 存取權限」的意思
 
-If you don't want to install any of the prerequisites, you can use GitHub Codespaces, which has the GitHub Copilot CLI ready to go (you'll need to sign in), pre-installs Python 3.13, pytest, and the GitHub CLI.
+GitHub Copilot CLI 需要有效的 Copilot 訂閱。你可以前往 [github.com/settings/copilot](https://github.com/settings/copilot) 確認狀態，應會看到以下其中一項：
 
-1. [Fork this repository](https://github.com/github/copilot-cli-for-beginners/fork) to your GitHub account
-2. Select **Code** > **Codespaces** > **Create codespace on main**
-3. Wait a few minutes for the container to build
-4. You're ready to go! The terminal will open automatically in the Codespace environment.
+- **Copilot Individual** - 個人訂閱
+- **Copilot Business** - 透過組織提供
+- **Copilot Enterprise** - 透過企業提供
+- **GitHub Education** - 已驗證學生／教師免費使用
 
-> 💡 **Verify in Codespace**: Run `cd samples/book-app-project && python book_app.py help` to confirm Python and the sample app are working.
+若顯示「You don't have access to GitHub Copilot」，你需要選用免費方案、訂閱付費方案，或加入已提供存取權限的組織。
 
-### Alternative: Local Installation
+---
 
-> 💡 **Not sure which to pick?** Use `npm` if you have Node.js installed. Otherwise, choose the option that matches your system.
+## 安裝
 
-> 💡 **Python required for demos**: The course uses a Python sample app. If you're working locally, install [Python 3.10+](https://www.python.org/downloads/) before starting the demos.
+> ⏱️ **時間預估**：安裝約需 2-5 分鐘，驗證步驟再加 1-2 分鐘。
 
-> **Note:** While the primary examples shown throughout the course use Python (`samples/book-app-project`), JavaScript (`samples/book-app-project-js`) and C# (`samples/book-app-project-cs`) versions are also available if you prefer to work with those languages. Each sample has a README with instructions for running the app in that language.
+### 推薦方式：GitHub Codespaces（零設定）
 
-Choose the method that works for your system:
+若不想在本機安裝任何前置套件，可以使用 GitHub Codespaces——它已預先備妥 GitHub Copilot CLI（需登入）、Python 3.13、pytest 以及 GitHub CLI。
 
-### All Platforms (npm)
+1. 將此儲存庫 [Fork 到你的 GitHub 帳號](https://github.com/github/copilot-cli-for-beginners/fork)
+2. 選擇 **Code** > **Codespaces** > **Create codespace on main**
+3. 等待容器建置（需要幾分鐘）
+4. 準備完成！終端機會在 Codespace 環境中自動開啟。
+
+> 💡 **在 Codespace 中驗證**：執行 `cd samples/book-app-project && python book_app.py help`，確認 Python 與範例應用程式正常運作。
+
+### 替代方案：本機安裝
+
+> 💡 **不確定該選哪個？** 若已安裝 Node.js，請使用 `npm`；否則選擇適合你系統的方式。
+
+> 💡 **示範需要 Python**：本課程使用 Python 範例應用程式。若在本機操作，請在開始示範前先安裝 [Python 3.10+](https://www.python.org/downloads/)。
+
+> **備註：** 課程主要範例使用 Python（`samples/book-app-project`），但 JavaScript（`samples/book-app-project-js`）和 C#（`samples/book-app-project-cs`）版本也同樣提供，可依個人偏好選用。每個範例目錄均附有說明如何執行該語言版本的 README。
+
+請選擇適合你系統的安裝方式：
+
+### 所有平台（npm）
 
 ```bash
-# If you have Node.js installed, this is a quick way to get the CLI
+# 若已安裝 Node.js，這是最快的安裝方式
 npm install -g @github/copilot
 ```
 
-### macOS/Linux (Homebrew)
+### macOS/Linux（Homebrew）
 
 ```bash
 brew install copilot-cli
 ```
 
-### Windows (WinGet)
+### Windows（WinGet）
 
 ```bash
 winget install GitHub.Copilot
 ```
 
-### macOS/Linux (Install Script)
+### macOS/Linux（安裝腳本）
 
 ```bash
 curl -fsSL https://gh.io/copilot-install | bash
@@ -84,51 +84,51 @@ curl -fsSL https://gh.io/copilot-install | bash
 
 ---
 
-## Authentication
+## 驗證身份
 
-Open a terminal window at the root of the `copilot-cli-for-beginners` repository, start the CLI and allow access to the folder.
+在 `copilot-cli-for-beginners` 儲存庫根目錄開啟終端機視窗，啟動 CLI 並允許存取該資料夾。
 
 ```bash
 copilot
 ```
 
-You'll be asked to trust the folder containing the repository (if you haven't already). You can trust it one time or across all future sessions.
+系統會詢問你是否信任包含此儲存庫的資料夾（若尚未信任）。你可以選擇單次信任，或對所有未來的工作階段永久信任。
 
 <img src="images/copilot-trust.png" alt="Trusting files in a folder with the Copilot CLI" width="800"/>
 
-After trusting the folder, you can sign in with your GitHub account.
+信任資料夾後，即可以 GitHub 帳號登入。
 
 ```
 > /login
 ```
 
-**What happens next:**
+**接下來會發生的事：**
 
-1. Copilot CLI displays a one-time code (like `ABCD-1234`)
-2. Your browser opens to GitHub's device authorization page. Sign in to GitHub if you haven't already.
-3. Enter the code when prompted
-4. Select "Authorize" to grant GitHub Copilot CLI access
-5. Return to your terminal - you're now signed in!
+1. Copilot CLI 顯示一組一次性代碼（例如 `ABCD-1234`）
+2. 瀏覽器自動開啟 GitHub 的裝置授權頁面。若尚未登入 GitHub，請先登入。
+3. 在提示處輸入代碼
+4. 選擇「Authorize」授權 GitHub Copilot CLI 存取
+5. 返回終端機——你已成功登入！
 
 <img src="images/auth-device-flow.png" alt="Device Authorization Flow - showing the 5-step process from terminal login to signed-in confirmation" width="800"/>
 
-*The device authorization flow: your terminal generates a code, you verify it in the browser, and Copilot CLI is authenticated.*
+*裝置授權流程：終端機產生代碼，你在瀏覽器中確認，Copilot CLI 即完成驗證。*
 
-**Tip**: The sign-in persists across sessions. You only need to do this once unless your token expires or you explicitly sign out.
+**提示**：登入狀態會跨工作階段保留，除非 token 過期或你主動登出，否則只需登入一次。
 
 ---
 
-## Verify It Works
+## 驗證是否正常運作
 
-### Step 1: Test Copilot CLI
+### 步驟一：測試 Copilot CLI
 
-Now that you're signed in, let's verify that Copilot CLI is working for you. In the terminal, start the CLI if you haven't already:
+登入後，讓我們確認 Copilot CLI 運作正常。在終端機中啟動 CLI（若尚未啟動）：
 
 ```bash
 > Say hello and tell me what you can help with
 ```
 
-After you receive a response, you can exit the CLI:
+收到回應後，即可離開 CLI：
 
 ```bash
 > /exit
@@ -137,46 +137,46 @@ After you receive a response, you can exit the CLI:
 ---
 
 <details>
-<summary>🎬 See it in action!</summary>
+<summary>🎬 看看實際效果！</summary>
 
 ![Hello Demo](images/hello-demo.gif)
 
-*Demo output varies. Your model, tools, and responses will differ from what's shown here.*
+*示範輸出僅供參考，你的模型、工具與回應內容可能與此不同。*
 
 </details>
 
 ---
 
-**Expected output**: A friendly response listing Copilot CLI's capabilities.
+**預期輸出**：一段友善的回應，列出 Copilot CLI 的能力。
 
-### Step 2: Run the Sample Book App
+### 步驟二：執行範例書籍應用程式
 
-The course provides a sample app that you'll explore and improve throughout the course using the CLI *(You can see the code for this in /samples/book-app-project)*. Check that the *Python book collection terminal app* works before you get started. Run `python` or `python3` depending on your system.
+本課程提供一個範例應用程式，你將在整個課程中使用 CLI 來探索並改善它 *（程式碼位於 /samples/book-app-project）*。在正式開始前，請先確認這個 *Python 書籍收藏終端機應用程式* 能正常運作。依你的系統環境，執行 `python` 或 `python3`。
 
-> **Note:** While the primary examples shown throughout the course use Python (`samples/book-app-project`), JavaScript (`samples/book-app-project-js`) and C# (`samples/book-app-project-cs`) versions are also available if you prefer to work with those languages. Each sample has a README with instructions for running the app in that language.
+> **備註：** 課程主要範例使用 Python（`samples/book-app-project`），但 JavaScript（`samples/book-app-project-js`）和 C#（`samples/book-app-project-cs`）版本也同樣提供，可依個人偏好選用。每個範例目錄均附有說明如何執行該語言版本的 README。
 
 ```bash
 cd samples/book-app-project
 python book_app.py list
 ```
 
-**Expected output**: A list of 5 books including "The Hobbit", "1984", and "Dune".
+**預期輸出**：包含「The Hobbit」、「1984」和「Dune」在內的 5 本書清單。
 
-### Step 3: Try Copilot CLI with the Book App
+### 步驟三：以 Copilot CLI 搭配書籍應用程式
 
-Navigate back to the repository root first (if you ran Step 2):
+若已執行步驟二，請先返回儲存庫根目錄：
 
 ```bash
-cd ../..   # Back to the repository root if needed
+cd ../..   # 回到儲存庫根目錄（若有需要）
 copilot 
 > What does @samples/book-app-project/book_app.py do?
 ```
 
-**Expected output**: A summary of the book app's main functions and commands.
+**預期輸出**：書籍應用程式主要功能與指令的摘要說明。
 
-If you see an error, check the [troubleshooting section](#troubleshooting) below.
+若看到錯誤訊息，請參閱下方的[疑難排解](#troubleshooting)章節。
 
-Once you're done you can exit the Copilot CLI:
+完成後即可離開 Copilot CLI：
 
 ```bash
 > /exit
@@ -184,77 +184,77 @@ Once you're done you can exit the Copilot CLI:
 
 ---
 
-## ✅ You're Ready!
+## ✅ 準備就緒！
 
-That's it for installation. The real fun starts in Chapter 01, where you'll:
+安裝部分到此完成。真正有趣的內容從第 01 章開始，你將：
 
-- Watch AI review the book app and find code quality issues instantly
-- Learn three different ways to use Copilot CLI
-- Generate working code from plain English
+- 看著 AI 審查書籍應用程式，即時找出程式碼品質問題
+- 學習使用 Copilot CLI 的三種不同方式
+- 用白話英文生成可執行的程式碼
 
-**[Continue to Chapter 01: First Steps →](../01-setup-and-first-steps/README.md)**
+**[繼續前往第 01 章：第一步 →](../01-setup-and-first-steps/README.md)**
 
 ---
 
-## Troubleshooting
+## 疑難排解 {#troubleshooting}
 
-### "copilot: command not found"
+### 「copilot: command not found」
 
-The CLI isn't installed. Try a different installation method:
+CLI 尚未安裝，請嘗試其他安裝方式：
 
 ```bash
-# If brew failed, try npm:
+# 若 brew 失敗，改用 npm：
 npm install -g @github/copilot
 
-# Or the install script:
+# 或使用安裝腳本：
 curl -fsSL https://gh.io/copilot-install | bash
 ```
 
-### "You don't have access to GitHub Copilot"
+### 「You don't have access to GitHub Copilot」
 
-1. Verify you have a Copilot subscription at [github.com/settings/copilot](https://github.com/settings/copilot)
-2. Check that your organization permits CLI access if using a work account
+1. 前往 [github.com/settings/copilot](https://github.com/settings/copilot) 確認是否具有 Copilot 訂閱
+2. 若使用工作帳號，請確認組織是否允許 CLI 存取
 
-### "Authentication failed"
+### 「Authentication failed」
 
-Re-authenticate:
-
-```bash
-copilot
-> /login
-```
-
-### Browser doesn't open automatically
-
-Manually visit [github.com/login/device](https://github.com/login/device) and enter the code shown in your terminal.
-
-### Token expired
-
-Simply run `/login` again:
+重新驗證身份：
 
 ```bash
 copilot
 > /login
 ```
 
-### Still stuck?
+### 瀏覽器未自動開啟
 
-- Check the [GitHub Copilot CLI documentation](https://docs.github.com/copilot/concepts/agents/about-copilot-cli)
-- Search [GitHub Issues](https://github.com/github/copilot-cli/issues)
+手動前往 [github.com/login/device](https://github.com/login/device)，輸入終端機上顯示的代碼。
+
+### Token 已過期
+
+重新執行 `/login`：
+
+```bash
+copilot
+> /login
+```
+
+### 仍然卡關？
+
+- 查看 [GitHub Copilot CLI 官方文件](https://docs.github.com/copilot/concepts/agents/about-copilot-cli)
+- 搜尋 [GitHub Issues](https://github.com/github/copilot-cli/issues)
 
 ---
 
-## 🔑 Key Takeaways
+## 🔑 重點整理
 
-1. **A GitHub Codespace is a quick way to get started** - Python, pytest, and GitHub Copilot CLI are all pre-installed so you can jump right into the demos
-2. **Multiple installation methods** - Choose what works for your system (Homebrew, WinGet, npm, or install script)
-3. **One-time authentication** - Login persists until token expires
-4. **The book app works** - You'll use `samples/book-app-project` throughout the entire course
+1. **GitHub Codespace 是快速上手的好方法** - Python、pytest 與 GitHub Copilot CLI 皆已預先安裝，可直接跳入示範
+2. **多種安裝方式** - 依系統選擇適合的方案（Homebrew、WinGet、npm 或安裝腳本）
+3. **一次性驗證** - 登入狀態保留至 token 過期為止
+4. **書籍應用程式可正常運行** - 整個課程都會使用 `samples/book-app-project`
 
-> 📚 **Official Documentation**: [Install Copilot CLI](https://docs.github.com/copilot/how-tos/copilot-cli/cli-getting-started) for installation options and requirements.
+> 📚 **官方文件**：[安裝 Copilot CLI](https://docs.github.com/copilot/how-tos/copilot-cli/cli-getting-started) — 查看安裝選項與需求說明。
 
-> 📋 **Quick Reference**: See the [GitHub Copilot CLI command reference](https://docs.github.com/en/copilot/reference/cli-command-reference) for a complete list of commands and shortcuts.
+> 📋 **快速參考**：查看 [GitHub Copilot CLI 指令參考](https://docs.github.com/en/copilot/reference/cli-command-reference) 以取得完整指令與快捷鍵列表。
 
 ---
 
-**[Continue to Chapter 01: First Steps →](../01-setup-and-first-steps/README.md)**
+**[繼續前往第 01 章：第一步 →](../01-setup-and-first-steps/README.md)**

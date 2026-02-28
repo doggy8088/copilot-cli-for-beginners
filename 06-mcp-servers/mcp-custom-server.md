@@ -1,19 +1,19 @@
-# Building a Custom MCP Server
+# 建立自訂 MCP 伺服器
 
-> ⚠️ **This content is completely optional.** You can be highly productive with Copilot CLI using only the pre-built MCP servers (GitHub, filesystem, Context7). This guide is for developers who want to connect Copilot to custom internal APIs. See the [MCP for Beginners course](https://github.com/microsoft/mcp-for-beginners) for more details.
+> ⚠️ **本內容完全屬於選讀。** 您只需使用預建的 MCP 伺服器（GitHub、filesystem、Context7），就能高效地使用 Copilot CLI。本指南適合希望將 Copilot 連接到自訂內部 API 的開發者。詳情請參閱 [MCP for Beginners 課程](https://github.com/microsoft/mcp-for-beginners)。
 >
-> **Prerequisites:**
-> - Comfortable with Python
-> - Understanding of `async`/`await` patterns
-> - `pip` available on your system (included in this dev container)
+> **先決條件：**
+> - 熟悉 Python
+> - 了解 `async`/`await` 模式
+> - 系統中已安裝 `pip`（本 dev container 中已包含）
 >
-> **[← Back to Chapter 06: MCP Servers](README.md)**
+> **[← 返回第 06 章：MCP 伺服器](README.md)**
 
 ---
 
-Want to connect Copilot to your own APIs? Here's how to build a simple MCP server in Python that looks up book information, tying back to the book app project you've been using throughout this course.
+想將 Copilot 連接到您自己的 API 嗎？以下是如何用 Python 建立一個簡單的 MCP 伺服器，以書籍資訊查詢為例，與本課程中一直使用的書籍應用程式相呼應。
 
-## Project Setup
+## 專案設定
 
 ```bash
 mkdir book-lookup-mcp-server
@@ -21,11 +21,11 @@ cd book-lookup-mcp-server
 pip install mcp
 ```
 
-> 💡 **What is the `mcp` package?** It's the official Python SDK for building MCP servers. It handles the protocol details so you can focus on your tools.
+> 💡 **什麼是 `mcp` 套件？** 這是用於建立 MCP 伺服器的官方 Python SDK，負責處理協定細節，讓您專注於工具的開發。
 
-## Server Implementation
+## 伺服器實作
 
-Create a file called `server.py`:
+建立一個名為 `server.py` 的檔案：
 
 ```python
 # server.py
@@ -96,20 +96,20 @@ if __name__ == "__main__":
     mcp.run()
 ```
 
-**What's happening here:**
+**各部分說明：**
 
-| Part | What It Does |
+| 部分 | 作用 |
 |------|-------------|
-| `FastMCP("book-lookup")` | Creates a server named "book-lookup" |
-| `@mcp.tool()` | Registers a function as a tool Copilot can call |
-| Type hints + docstrings | Tell Copilot what each tool does and what parameters it needs |
-| `mcp.run()` | Starts the server and listens for requests |
+| `FastMCP("book-lookup")` | 建立名為「book-lookup」的伺服器 |
+| `@mcp.tool()` | 將函式註冊為 Copilot 可呼叫的工具 |
+| 型別提示 + docstring | 告訴 Copilot 每個工具的功能及所需參數 |
+| `mcp.run()` | 啟動伺服器並監聽請求 |
 
-> 💡 **Why decorators?** The `@mcp.tool()` decorator is all you need. The MCP SDK automatically reads your function's name, type hints, and docstring to generate the tool schema. No manual JSON schema needed!
+> 💡 **為何使用裝飾器？** `@mcp.tool()` 裝飾器就是您所需的全部。MCP SDK 會自動讀取函式的名稱、型別提示和 docstring 來產生工具綱要，無需手動撰寫 JSON 綱要！
 
-## Configuration
+## 設定
 
-Add to your `~/.copilot/mcp-config.json`:
+將以下內容加入您的 `~/.copilot/mcp-config.json`：
 
 ```json
 {
@@ -124,7 +124,7 @@ Add to your `~/.copilot/mcp-config.json`:
 }
 ```
 
-## Usage
+## 使用方式
 
 ```bash
 copilot
@@ -155,22 +155,22 @@ copilot
 [Shows all books in the database with ISBNs]
 ```
 
-## Next Steps
+## 後續步驟
 
-Once you've built a basic server, you can:
+建立好基本伺服器後，您可以：
 
-1. **Add more tools** - Each `@mcp.tool()` function becomes a tool Copilot can call
-2. **Connect real APIs** - Replace the mock `BOOKS_DB` with actual API calls or database queries
-3. **Add authentication** - Handle API keys and tokens securely
-4. **Share your server** - Publish to PyPI so others can install it with `pip`
+1. **新增更多工具** - 每個 `@mcp.tool()` 函式都會成為 Copilot 可呼叫的工具
+2. **連接真實 API** - 將模擬的 `BOOKS_DB` 替換為實際的 API 呼叫或資料庫查詢
+3. **加入驗證** - 安全地處理 API 金鑰和 token
+4. **分享您的伺服器** - 發布到 PyPI，讓其他人可以透過 `pip` 安裝
 
-## Resources
+## 資源
 
 - [MCP Python SDK](https://github.com/modelcontextprotocol/python-sdk)
 - [MCP TypeScript SDK](https://github.com/modelcontextprotocol/typescript-sdk)
-- [Example MCP Servers](https://github.com/modelcontextprotocol/servers)
-- [MCP for Beginners Course](https://github.com/microsoft/mcp-for-beginners)
+- [MCP 伺服器範例](https://github.com/modelcontextprotocol/servers)
+- [MCP for Beginners 課程](https://github.com/microsoft/mcp-for-beginners)
 
 ---
 
-**[← Back to Chapter 06: MCP Servers](README.md)**
+**[← 返回第 06 章：MCP 伺服器](README.md)**

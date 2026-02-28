@@ -1,16 +1,16 @@
-# CI/CD Integration
+# CI/CD 整合
 
-> 📖 **Prerequisite**: Complete [Chapter 07: Putting It All Together](../07-putting-it-together/README.md) before reading this appendix.
+> 📖 **先備條件**：請先完成[第 07 章：融會貫通](../07-putting-it-together/README.md)後再閱讀本附錄。
 >
-> ⚠️ **This appendix is for teams with existing CI/CD pipelines.** If you're new to GitHub Actions or CI/CD concepts, start with the simpler pre-commit hook approach in Chapter 07's [Code Review Automation](../07-putting-it-together/README.md#workflow-3-code-review-automation-optional) section.
+> ⚠️ **本附錄適用於已有 CI/CD 流水線的團隊。** 若您剛接觸 GitHub Actions 或 CI/CD 概念，建議先從第 07 章[程式碼審查自動化](../07-putting-it-together/README.md#workflow-3-code-review-automation-optional)章節中較簡單的 pre-commit hook 方式入手。
 
-This appendix shows how to integrate GitHub Copilot CLI into your CI/CD pipelines for automated code review on pull requests.
+本附錄示範如何將 GitHub Copilot CLI 整合至 CI/CD 流水線，以便在 pull request 上自動進行程式碼審查。
 
 ---
 
-## GitHub Actions Workflow
+## GitHub Actions 工作流程
 
-This workflow automatically reviews changed files when a pull request is opened or updated:
+以下工作流程會在 pull request 開啟或更新時，自動審查已變更的檔案：
 
 ```yaml
 # .github/workflows/copilot-review.yml
@@ -78,11 +78,11 @@ jobs:
 
 ---
 
-## Configuration Options
+## 設定選項
 
-### Limiting Review Scope
+### 縮限審查範圍
 
-You can focus the review on specific types of issues:
+您可以將審查聚焦於特定類型的問題：
 
 ```yaml
 # Security-only review
@@ -92,9 +92,9 @@ copilot --allow-all -p "Security review of @$file. Check for: SQL injection, XSS
 copilot --allow-all -p "Performance review of @$file. Check for: N+1 queries, memory leaks, blocking operations." --silent
 ```
 
-### Handling Large PRs
+### 處理大型 PR
 
-For PRs with many files, consider batching or limiting:
+對於包含大量檔案的 PR，可考慮分批處理或加以限制：
 
 ```yaml
 # Limit to first 10 files
@@ -104,9 +104,9 @@ FILES=$(git diff --name-only origin/main...HEAD | grep -E '\.(js|ts)$' | head -1
 timeout 60 copilot --allow-all -p "Review @$file" --silent || echo "Review timed out"
 ```
 
-### Team Configuration
+### 團隊設定
 
-For consistent reviews across your team, create a shared configuration:
+若要在整個團隊中維持一致的審查標準，可建立共用設定檔：
 
 ```json
 // .copilot/config.json (committed to repo)
@@ -121,9 +121,9 @@ For consistent reviews across your team, create a shared configuration:
 
 ---
 
-## Alternative: PR Review Bot
+## 替代方案：PR 審查機器人
 
-For more sophisticated review workflows, consider using the Copilot coding agent:
+若需要更完善的審查工作流程，可考慮使用 Copilot 編程代理：
 
 ```yaml
 # .github/workflows/copilot-agent-review.yml
@@ -151,21 +151,21 @@ jobs:
 
 ---
 
-## Best Practices for CI/CD Integration
+## CI/CD 整合最佳實踐
 
-1. **Use `--silent` flag** - Suppresses progress output for cleaner logs
-2. **Set timeouts** - Prevent hung reviews from blocking your pipeline
-3. **Filter file types** - Only review relevant files (skip generated code, dependencies)
-4. **Rate limit awareness** - Space out reviews for large PRs
-5. **Fail gracefully** - Don't block merges on review failures; log and continue
+1. **使用 `--silent` 旗標** — 抑制進度輸出，讓日誌更整潔
+2. **設定逾時時間** — 避免卡住的審查任務阻塞流水線
+3. **篩選檔案類型** — 只審查相關檔案（跳過自動生成的程式碼與依賴套件）
+4. **注意 API 頻率限制** — 對大型 PR 的審查請求適當分散
+5. **優雅地處理失敗** — 不應因審查失敗而阻擋合併；記錄錯誤後繼續執行
 
 ---
 
-## Troubleshooting
+## 疑難排解
 
-### "Authentication failed" in CI
+### CI 環境中出現「Authentication failed（驗證失敗）」
 
-Ensure your workflow has the correct permissions:
+請確認工作流程具備正確的權限設定：
 
 ```yaml
 permissions:
@@ -174,17 +174,17 @@ permissions:
   issues: write
 ```
 
-### Reviews timing out
+### 審查任務逾時
 
-Increase timeout or reduce scope:
+增加逾時時間或縮減審查範圍：
 
 ```bash
 timeout 120 copilot --allow-all -p "Quick review of @$file - critical issues only" --silent
 ```
 
-### Token limits in large files
+### 大型檔案超出 token 限制
 
-Skip very large files:
+跳過過大的檔案：
 
 ```bash
 if [ $(wc -l < "$file") -lt 500 ]; then
@@ -196,4 +196,4 @@ fi
 
 ---
 
-**[← Back to Chapter 07](../07-putting-it-together/README.md)** | **[Return to Appendices](README.md)**
+**[← 返回第 07 章](../07-putting-it-together/README.md)** | **[返回附錄](README.md)**

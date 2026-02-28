@@ -1,12 +1,12 @@
-# Appendices
+# 附錄
 
-These appendices cover additional topics that extend the core course content. They're optional reading for when you need these specific capabilities.
+這些附錄涵蓋了延伸核心課程內容的補充主題，屬於選讀材料，供您在需要特定功能時參考。
 
-| Appendix | Description | Prerequisite |
-|----------|-------------|--------------|
-| [Additional Context Features](additional-context.md) | Working with images and multi-directory permissions | Chapter 02 |
-| [CI/CD Integration](ci-cd-integration.md) | GitHub Actions workflows for automated reviews | Chapter 07 |
+| 附錄 | 說明 | 先備條件 |
+|------|------|----------|
+| [額外情境功能](additional-context.md) | 使用圖片與多目錄權限管理 | 第 02 章 |
+| [CI/CD 整合](ci-cd-integration.md) | 自動化審查的 GitHub Actions 工作流程 | 第 07 章 |
 
 ---
 
-**[← Return to Course Home](../README.md)**
+**[← 返回課程首頁](../README.md)**

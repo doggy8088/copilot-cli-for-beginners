@@ -1,10 +1,10 @@
-# Sample Source Code (Legacy - Optional Reference)
+# 範例原始碼（舊版 — 選讀參考資料）
 
-> **Note**: The primary sample for this course is the **Python book collection app** in `../book-app-project/`. These JS/React files are from an earlier version of the course and are kept as optional extra reference material for learners who want JS examples.
+> **注意**：本課程的主要範例為 `../book-app-project/` 中的 **Python 書籍收藏應用程式**。這些 JS/React 檔案來自課程的早期版本，保留作為想參考 JS 範例的學員之選讀資料。
 
-This folder contains sample source files. These are only samples and not intended to be a full running application.
+此資料夾包含範例原始檔。這些僅為示範用途，並非完整可執行的應用程式。
 
-## Structure
+## 結構
 
 ```
 src/
@@ -28,9 +28,9 @@ src/
 └── refactor-me.js # Beginner refactoring practice (Chapter 03)
 ```
 
-## Usage
+## 使用方式
 
-These files are referenced in course examples using the `@` syntax:
+這些檔案在課程範例中以 `@` 語法引用：
 
 ```bash
 copilot
@@ -40,9 +40,9 @@ copilot
 > Compare @samples/src/auth/login.js and @samples/src/auth/register.js
 ```
 
-## Refactoring Practice
+## 重構練習
 
-The `refactor-me.js` file is specifically designed for Chapter 03's refactoring exercises:
+`refactor-me.js` 檔案專門為第 03 章的重構練習設計：
 
 ```bash
 copilot
@@ -52,8 +52,8 @@ copilot
 > @samples/src/refactor-me.js Remove any unused variables
 ```
 
-## Notes
+## 注意事項
 
-- Files contain intentional TODOs and minor issues for Copilot to find during reviews
-- This is demo code that's not designed to actually run. NOT production-ready
-- Used for learning the `@` file reference syntax
+- 檔案中刻意包含 TODOs 與小問題，供 Copilot 在審查時發現
+- 這是示範程式碼，並非設計為實際可執行的應用，**不適合用於正式環境**
+- 用於學習 `@` 檔案引用語法
