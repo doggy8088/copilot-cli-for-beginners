@@ -80,9 +80,9 @@ MCP Servers:
 <details>
 <summary>🎬 看看實際效果！</summary>
 
-![MCP Status Demo](images/mcp-status-demo.gif)
+<img src="images/mcp-status-demo.gif" alt="MCP Status Demo">
 
-*示範輸出因人而異。您的模型、工具和回應結果可能與這裡顯示的有所不同。*
+<em>示範輸出因人而異。您的模型、工具和回應結果可能與這裡顯示的有所不同。</em>
 
 </details>
 
@@ -555,9 +555,9 @@ Suggestions:
 <details>
 <summary>🎬 看看 MCP 工作流程的實際效果！</summary>
 
-![MCP Workflow Demo](images/mcp-workflow-demo.gif)
+<img src="images/mcp-workflow-demo.gif" alt="MCP Workflow Demo">
 
-*示範輸出因人而異。您的模型、工具和回應結果可能與這裡顯示的有所不同。*
+<em>示範輸出因人而異。您的模型、工具和回應結果可能與這裡顯示的有所不同。</em>
 
 </details>
 

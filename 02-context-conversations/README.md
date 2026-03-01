@@ -89,9 +89,9 @@ copilot
 <details>
 <summary>🎬 看看實際效果！</summary>
 
-![File Context Demo](images/file-context-demo.gif)
+<img src="images/file-context-demo.gif" alt="File Context Demo">
 
-*示範輸出僅供參考，你的模型、工具與回應內容可能與此不同。*
+<em>示範輸出僅供參考，你的模型、工具與回應內容可能與此不同。</em>
 
 </details>
 
@@ -142,9 +142,9 @@ copilot
 <details>
 <summary>🎬 看看實際效果！</summary>
 
-![Multi-File Demo](images/multi-file-demo.gif)
+<img src="images/multi-file-demo.gif" alt="Multi-File Demo">
 
-*示範輸出僅供參考，你的模型、工具與回應內容可能與此不同。*
+<em>示範輸出僅供參考，你的模型、工具與回應內容可能與此不同。</em>
 
 </details>
 
@@ -253,9 +253,9 @@ copilot
 <details>
 <summary>🎬 看看多輪對話的實際效果！</summary>
 
-![Multi-Turn Demo](images/multi-turn-demo.gif)
+<img src="images/multi-turn-demo.gif" alt="Multi-Turn Demo">
 
-*示範輸出僅供參考，你的模型、工具與回應內容可能與此不同。*
+<em>示範輸出僅供參考，你的模型、工具與回應內容可能與此不同。</em>
 
 </details>
 

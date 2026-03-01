@@ -211,9 +211,9 @@ copilot
 <details>
 <summary>🎬 看看實際效果！</summary>
 
-![Skill Trigger Demo](images/skill-trigger-demo.gif)
+<img src="images/skill-trigger-demo.gif" alt="Skill Trigger Demo">
 
-*示範輸出因人而異。您的模型、工具和回應結果可能與這裡顯示的有所不同。*
+<em>示範輸出因人而異。您的模型、工具和回應結果可能與這裡顯示的有所不同。</em>
 
 </details>
 
@@ -500,9 +500,9 @@ Description: Security-focused code review checking OWASP Top 10 vulnerabilities
 <details>
 <summary>看看實際效果！</summary>
 
-![List Skills Demo](images/list-skills-demo.gif)
+<img src="images/list-skills-demo.gif" alt="List Skills Demo">
 
-*示範輸出因人而異。您的模型、工具和回應結果可能與這裡顯示的有所不同。*
+<em>示範輸出因人而異。您的模型、工具和回應結果可能與這裡顯示的有所不同。</em>
 
 </details>
 

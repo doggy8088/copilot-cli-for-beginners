@@ -77,9 +77,9 @@ copilot
 <details>
 <summary>🎬 看看實際效果！</summary>
 
-![Code Review Demo](images/code-review-demo.gif)
+<img src="images/code-review-demo.gif" alt="Code Review Demo">
 
-*示範輸出僅供參考，你的模型、工具與回應內容可能與此不同。*
+<em>示範輸出僅供參考，你的模型、工具與回應內容可能與此不同。</em>
 
 </details>
 
@@ -210,9 +210,9 @@ copilot
 <details>
 <summary>🎬 看看實際效果！</summary>
 
-![Refactor Demo](images/refactor-demo.gif)
+<img src="images/refactor-demo.gif" alt="Refactor Demo">
 
-*示範輸出僅供參考，你的模型、工具與回應內容可能與此不同。*
+<em>示範輸出僅供參考，你的模型、工具與回應內容可能與此不同。</em>
 
 </details>
 
@@ -306,9 +306,9 @@ copilot
 <details>
 <summary>🎬 看看實際效果！</summary>
 
-![Fix Bug Demo](images/fix-bug-demo.gif)
+<img src="images/fix-bug-demo.gif" alt="Fix Bug Demo">
 
-*示範輸出僅供參考，你的模型、工具與回應內容可能與此不同。*
+<em>示範輸出僅供參考，你的模型、工具與回應內容可能與此不同。</em>
 
 </details>
 
@@ -450,9 +450,9 @@ copilot
 <details>
 <summary>🎬 看看實際效果！</summary>
 
-![Test Generation Demo](images/test-gen-demo.gif)
+<img src="images/test-gen-demo.gif" alt="Test Generation Demo">
 
-*示範輸出僅供參考，你的模型、工具與回應內容可能與此不同。*
+<em>示範輸出僅供參考，你的模型、工具與回應內容可能與此不同。</em>
 
 </details>
 
@@ -604,9 +604,9 @@ copilot -p "Generate a conventional commit message for: $(git diff --staged)"
 <details>
 <summary>🎬 看看實際效果！</summary>
 
-![Git Integration Demo](images/git-integration-demo.gif)
+<img src="images/git-integration-demo.gif" alt="Git Integration Demo">
 
-*示範輸出僅供參考，你的模型、工具與回應內容可能與此不同。*
+<em>示範輸出僅供參考，你的模型、工具與回應內容可能與此不同。</em>
 
 </details>
 
