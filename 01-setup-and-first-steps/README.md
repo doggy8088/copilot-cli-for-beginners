@@ -86,9 +86,9 @@ copilot
 <details>
 <summary>🎬 看看實際效果！</summary>
 
-![Code Review Demo](images/code-review-demo.gif)
+<img src="images/code-review-demo.gif" alt="Code Review Demo">
 
-*示範輸出僅供參考，你的模型、工具與回應內容可能與此不同。*
+<em>示範輸出僅供參考，你的模型、工具與回應內容可能與此不同。</em>
 
 </details>
 
@@ -111,9 +111,9 @@ copilot
 <details>
 <summary>🎬 看看實際效果！</summary>
 
-![Explain Code Demo](images/explain-code-demo.gif)
+<img src="images/explain-code-demo.gif" alt="Explain Code Demo">
 
-*示範輸出僅供參考，你的模型、工具與回應內容可能與此不同。*
+<em>示範輸出僅供參考，你的模型、工具與回應內容可能與此不同。</em>
 
 </details>
 
@@ -167,9 +167,9 @@ Common pattern: Read from JSON → Work with Python objects → Write back to JS
 <details>
 <summary>🎬 看看實際效果！</summary>
 
-![Generate Code Demo](images/generate-code-demo.gif)
+<img src="images/generate-code-demo.gif" alt="Generate Code Demo">
 
-*示範輸出僅供參考，你的模型、工具與回應內容可能與此不同。*
+<em>示範輸出僅供參考，你的模型、工具與回應內容可能與此不同。</em>
 
 </details>
 

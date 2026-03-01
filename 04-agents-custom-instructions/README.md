@@ -337,9 +337,9 @@ copilot
 <details>
 <summary>🎬 看看實際效果！</summary>
 
-![Python Reviewer Demo](images/python-reviewer-demo.gif)
+<img src="images/python-reviewer-demo.gif" alt="Python Reviewer Demo">
 
-*示範輸出因人而異——您的模型、工具和回應結果可能與這裡顯示的有所不同。*
+<em>示範輸出因人而異——您的模型、工具和回應結果可能與這裡顯示的有所不同。</em>
 
 </details>
 

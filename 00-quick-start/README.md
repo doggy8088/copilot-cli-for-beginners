@@ -139,9 +139,9 @@ copilot
 <details>
 <summary>🎬 看看實際效果！</summary>
 
-![Hello Demo](images/hello-demo.gif)
+<img src="images/hello-demo.gif" alt="Hello Demo">
 
-*示範輸出僅供參考，你的模型、工具與回應內容可能與此不同。*
+<em>示範輸出僅供參考，你的模型、工具與回應內容可能與此不同。</em>
 
 </details>
 

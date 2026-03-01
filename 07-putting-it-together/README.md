@@ -107,9 +107,9 @@ copilot
 <details>
 <summary>🎬 觀看實際演示！</summary>
 
-![Full Review Demo](images/full-review-demo.gif)
+<img src="images/full-review-demo.gif" alt="Full Review Demo">
 
-*示範輸出僅供參考。您的模型、工具和回應可能與此處顯示的有所不同。*
+<em>示範輸出僅供參考。您的模型、工具和回應可能與此處顯示的有所不同。</em>
 
 </details>
 
