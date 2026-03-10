@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-translate.py — 使用 GitHub Copilot Chat API 將 Markdown 文件翻譯成 zh-tw
+translate.py — 使用 Azure OpenAI v1 API 將 Markdown 文件翻譯成 zh-tw
 
 用法：
     python translate.py \
@@ -9,11 +9,12 @@ translate.py — 使用 GitHub Copilot Chat API 將 Markdown 文件翻譯成 zh-
         --glossary GLOSSARY.md
 
 環境變數：
-    COPILOT_TOKEN: GitHub Personal Access Token（需具備 Copilot 存取權）
+    AZURE_OPENAI_ENDPOINT: Azure OpenAI 資源端點或完整 `/openai/v1` 基底 URL
+    AZURE_OPENAI_API_KEY: Azure OpenAI API 金鑰
+    AZURE_OPENAI_MODEL: Azure OpenAI deployment name（請部署 GPT-4.1，常見值為 `gpt-4.1`）
 """
 
 import argparse
-import json
 import os
 import subprocess
 import sys
@@ -23,9 +24,6 @@ import requests
 
 # ── 設定 ──────────────────────────────────────────────────────────────────────
 
-COPILOT_API_URL = "https://api.githubcopilot.com/chat/completions"
-# 模型選擇：gpt-4o 效果最佳；若配額不足可改為 gpt-4o-mini
-MODEL = "gpt-4o"
 # 單次請求最大字元數（保守值，避免超出 context window）
 CHUNK_SIZE = 24_000
 # 每次 API 呼叫後的等待秒數（避免速率限制）
@@ -93,6 +91,24 @@ def load_glossary(glossary_path: str) -> str:
         return f.read()
 
 
+def build_azure_openai_chat_url(endpoint: str) -> str:
+    """將 Azure OpenAI endpoint 正規化為 v1 chat completions URL。"""
+    normalized = endpoint.strip().rstrip("/")
+    if not normalized:
+        raise ValueError("AZURE_OPENAI_ENDPOINT 不可為空。")
+
+    if normalized.endswith("/chat/completions"):
+        return normalized
+    if normalized.endswith("/openai/v1"):
+        return f"{normalized}/chat/completions"
+    if "/openai/v1/" in normalized:
+        raise ValueError(
+            "AZURE_OPENAI_ENDPOINT 格式不正確，請提供資源端點、`.../openai/v1`，"
+            "或完整的 `.../chat/completions` URL。"
+        )
+    return f"{normalized}/openai/v1/chat/completions"
+
+
 def chunk_markdown(content: str, max_chars: int = CHUNK_SIZE) -> list[str]:
     """
     將大型 Markdown 文件拆成多個區塊，盡量在空行處切割以保持語意完整。
@@ -123,20 +139,20 @@ def chunk_markdown(content: str, max_chars: int = CHUNK_SIZE) -> list[str]:
 
 def translate_chunk(
     chunk: str,
+    api_url: str,
+    model: str,
     system_prompt: str,
-    token: str,
+    api_key: str,
     retries: int = 3,
 ) -> str:
-    """呼叫 GitHub Copilot Chat API 翻譯單一區塊，失敗時自動重試。"""
+    """呼叫 Azure OpenAI v1 API 翻譯單一區塊，失敗時自動重試。"""
     headers = {
-        "Authorization": f"Bearer {token}",
+        "api-key": api_key,
         "Content-Type": "application/json",
         "Accept": "application/json",
-        # 標識此整合來源（參考官方 Copilot 插件慣例）
-        "Copilot-Integration-Id": "copilot-cli",
     }
     payload = {
-        "model": MODEL,
+        "model": model,
         "messages": [
             {"role": "system", "content": system_prompt},
             {
@@ -154,7 +170,7 @@ def translate_chunk(
     for attempt in range(1, retries + 1):
         try:
             response = requests.post(
-                COPILOT_API_URL,
+                api_url,
                 headers=headers,
                 json=payload,
                 timeout=120,
@@ -190,8 +206,10 @@ def translate_chunk(
 def translate_file(
     filepath: str,
     upstream_ref: str,
+    api_url: str,
+    model: str,
     system_prompt: str,
-    token: str,
+    api_key: str,
 ) -> bool:
     """
     翻譯單一 Markdown 檔案並寫入本地端。
@@ -210,7 +228,7 @@ def translate_file(
     translated_parts = []
     for i, chunk in enumerate(chunks, 1):
         print(f"  🔄 區塊 {i}/{len(chunks)}（{len(chunk)} 字元）...")
-        translated = translate_chunk(chunk, system_prompt, token)
+        translated = translate_chunk(chunk, api_url, model, system_prompt, api_key)
         translated_parts.append(translated)
         if i < len(chunks):
             time.sleep(REQUEST_DELAY)
@@ -237,7 +255,7 @@ def translate_file(
 
 def main():
     parser = argparse.ArgumentParser(
-        description="使用 GitHub Copilot API 將 Markdown 文件翻譯成 zh-tw"
+        description="使用 Azure OpenAI v1 API 將 Markdown 文件翻譯成 zh-tw"
     )
     parser.add_argument(
         "--changed-files",
@@ -256,14 +274,34 @@ def main():
     )
     args = parser.parse_args()
 
-    # 取得 Copilot Token
-    token = os.environ.get("COPILOT_TOKEN", "")
-    if not token:
-        print("❌ 錯誤：未設定 COPILOT_TOKEN 環境變數。", file=sys.stderr)
+    endpoint = os.environ.get("AZURE_OPENAI_ENDPOINT", "")
+    api_key = os.environ.get("AZURE_OPENAI_API_KEY", "")
+    model = os.environ.get("AZURE_OPENAI_MODEL", "")
+
+    missing = [
+        name
+        for name, value in (
+            ("AZURE_OPENAI_ENDPOINT", endpoint),
+            ("AZURE_OPENAI_API_KEY", api_key),
+            ("AZURE_OPENAI_MODEL", model),
+        )
+        if not value
+    ]
+    if missing:
         print(
-            "   請在 Repository Secrets 中新增 COPILOT_TOKEN（GitHub PAT with Copilot access）。",
+            f"❌ 錯誤：缺少必要環境變數：{', '.join(missing)}。",
             file=sys.stderr,
         )
+        print(
+            "   請在 Repository Secrets 中新增對應的 Azure OpenAI 參數。",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+
+    try:
+        api_url = build_azure_openai_chat_url(endpoint)
+    except ValueError as exc:
+        print(f"❌ 錯誤：{exc}", file=sys.stderr)
         sys.exit(1)
 
     # 讀取術語表
@@ -278,14 +316,21 @@ def main():
         print("ℹ️  沒有需要翻譯的 Markdown 檔案。")
         return
 
-    print(f"🌏 開始翻譯 {len(filepaths)} 個檔案（使用 {MODEL}）...\n")
+    print(f"🌏 開始翻譯 {len(filepaths)} 個檔案（使用 {model}）...\n")
 
     succeeded = []
     failed = []
 
     for filepath in filepaths:
         try:
-            ok = translate_file(filepath, args.upstream_ref, system_prompt, token)
+            ok = translate_file(
+                filepath,
+                args.upstream_ref,
+                api_url,
+                model,
+                system_prompt,
+                api_key,
+            )
             if ok:
                 succeeded.append(filepath)
             time.sleep(REQUEST_DELAY)

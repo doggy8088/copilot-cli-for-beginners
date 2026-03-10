@@ -5,10 +5,10 @@ name: 每日同步並翻譯 Upstream 更新
 #
 # 前置設定（一次性）：
 #   在此 Repository 的 Settings → Secrets and variables → Actions 中新增：
-#   - COPILOT_TOKEN: 一個具備 GitHub Copilot 訂閱存取權的 GitHub Personal Access Token
-#     (classic)，至少需要 `repo` 範圍。
-#     建立方式：GitHub → Settings → Developer settings
-#              → Personal access tokens → Generate new token (classic) → 勾選 `repo`
+#   - AZURE_OPENAI_ENDPOINT: Azure OpenAI 資源端點，例如 `https://YOUR-RESOURCE.openai.azure.com`
+#     也可直接填入 `https://YOUR-RESOURCE.openai.azure.com/openai/v1`
+#   - AZURE_OPENAI_API_KEY: Azure OpenAI API 金鑰
+#   - AZURE_OPENAI_MODEL: Azure OpenAI deployment name（請部署 GPT-4.1，常見值可設為 `gpt-4.1`）
 
 on:
   schedule:
@@ -98,12 +98,14 @@ jobs:
             fi
           done < /tmp/deleted_md_files.txt
 
-      - name: Translate changed files using GitHub Copilot
+      - name: Translate changed files using Azure OpenAI
         if: >
           steps.check-changes.outputs.has_changes == 'true' &&
           steps.get-files.outputs.file_count != '0'
         env:
-          COPILOT_TOKEN: ${{ secrets.COPILOT_TOKEN }}
+          AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+          AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+          AZURE_OPENAI_MODEL: ${{ secrets.AZURE_OPENAI_MODEL }}
         run: |
           python .github/scripts/translate.py \
             --changed-files /tmp/changed_md_files.txt \
@@ -141,7 +143,8 @@ jobs:
 
             ### 📋 翻譯說明
 
-            - 翻譯引擎：GitHub Copilot Chat API（使用者自己的 Copilot 訂閱）
+            - 翻譯引擎：Azure OpenAI v1 API
+            - 模型：`AZURE_OPENAI_MODEL`（請將 deployment 指向 GPT-4.1）
             - 術語一致性參考：`GLOSSARY.md`
             - 程式碼區塊、指令、URL、HTML 標籤均保持原文不變
 
