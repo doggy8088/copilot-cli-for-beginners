@@ -1,0 +1,154 @@
+name: 每日同步並翻譯 Upstream 更新
+
+# 此 Workflow 每天定時檢查 github/copilot-cli-for-beginners (upstream)
+# 是否有新的 commit，若有異動的 Markdown 文件，會自動翻譯成 zh-tw 並開 PR。
+#
+# 前置設定（一次性）：
+#   在此 Repository 的 Settings → Secrets and variables → Actions 中新增：
+#   - AZURE_OPENAI_ENDPOINT: Azure OpenAI 資源端點，例如 `https://YOUR-RESOURCE.openai.azure.com`
+#     也可直接填入 `https://YOUR-RESOURCE.openai.azure.com/openai/v1`
+#   - AZURE_OPENAI_API_KEY: Azure OpenAI API 金鑰
+#   - AZURE_OPENAI_MODEL: Azure OpenAI deployment name（請部署 GPT-4.1，常見值可設為 `gpt-4.1`）
+
+on:
+  schedule:
+    - cron: '0 2 * * *'   # 每天 UTC 02:00（台灣時間 10:00）執行
+  workflow_dispatch:       # 也可手動觸發
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync-and-translate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: pip install requests
+
+      - name: Read translation state
+        id: read-state
+        run: |
+          LAST_COMMIT=$(python3 -c "import json; d=json.load(open('.github/translation-state.json')); print(d['last_upstream_commit'])")
+          UPSTREAM_REPO=$(python3 -c "import json; d=json.load(open('.github/translation-state.json')); print(d['upstream_repo'])")
+          echo "last_commit=$LAST_COMMIT" >> $GITHUB_OUTPUT
+          echo "upstream_repo=$UPSTREAM_REPO" >> $GITHUB_OUTPUT
+
+      - name: Add upstream remote and fetch
+        run: |
+          git remote add upstream https://github.com/${{ steps.read-state.outputs.upstream_repo }}.git
+          git fetch upstream main --no-tags
+
+      - name: Check for upstream changes
+        id: check-changes
+        run: |
+          LAST_COMMIT="${{ steps.read-state.outputs.last_commit }}"
+          UPSTREAM_HEAD=$(git rev-parse upstream/main)
+          echo "upstream_head=$UPSTREAM_HEAD" >> $GITHUB_OUTPUT
+
+          if [ "$LAST_COMMIT" = "$UPSTREAM_HEAD" ]; then
+            echo "✅ upstream/main 與上次翻譯版本相同，無需更新。"
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "🆕 發現新的 upstream commits (${LAST_COMMIT:0:8}..${UPSTREAM_HEAD:0:8})"
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Get changed Markdown files
+        if: steps.check-changes.outputs.has_changes == 'true'
+        id: get-files
+        run: |
+          LAST_COMMIT="${{ steps.read-state.outputs.last_commit }}"
+          # 取出 .md 檔案的新增與修改（不含刪除）
+          git diff --name-only --diff-filter=ACM \
+            "$LAST_COMMIT" upstream/main -- '*.md' \
+            > /tmp/changed_md_files.txt
+          echo "=== 需要翻譯的 Markdown 檔案 ==="
+          cat /tmp/changed_md_files.txt
+          COUNT=$(grep -c . /tmp/changed_md_files.txt || true)
+          echo "file_count=$COUNT" >> $GITHUB_OUTPUT
+
+          # 取出在 upstream 被刪除的 .md 檔案
+          git diff --name-only --diff-filter=D \
+            "$LAST_COMMIT" upstream/main -- '*.md' \
+            > /tmp/deleted_md_files.txt
+          echo "=== 被刪除的 Markdown 檔案 ==="
+          cat /tmp/deleted_md_files.txt
+
+      - name: Apply upstream deletions
+        if: steps.check-changes.outputs.has_changes == 'true'
+        run: |
+          while IFS= read -r filepath; do
+            [ -z "$filepath" ] && continue
+            if [ -f "$filepath" ]; then
+              echo "🗑️  刪除: $filepath"
+              git rm "$filepath"
+            fi
+          done < /tmp/deleted_md_files.txt
+
+      - name: Translate changed files using Azure OpenAI
+        if: >
+          steps.check-changes.outputs.has_changes == 'true' &&
+          steps.get-files.outputs.file_count != '0'
+        env:
+          AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+          AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+          AZURE_OPENAI_MODEL: ${{ secrets.AZURE_OPENAI_MODEL }}
+        run: |
+          python .github/scripts/translate.py \
+            --changed-files /tmp/changed_md_files.txt \
+            --upstream-ref upstream/main \
+            --glossary GLOSSARY.md
+
+      - name: Update translation state
+        if: steps.check-changes.outputs.has_changes == 'true'
+        env:
+          UPSTREAM_HEAD: ${{ steps.check-changes.outputs.upstream_head }}
+        run: |
+          NOW=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          jq --arg commit "$UPSTREAM_HEAD" \
+             --arg date "$NOW" \
+             '.last_upstream_commit = $commit | .last_translated_at = $date' \
+             .github/translation-state.json > /tmp/state.json
+          mv /tmp/state.json .github/translation-state.json
+
+      - name: Create Pull Request
+        if: steps.check-changes.outputs.has_changes == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: auto-translate/upstream-${{ steps.check-changes.outputs.upstream_head }}
+          base: main
+          title: "chore(i18n): 自動翻譯 upstream 更新至 zh-tw"
+          body: |
+            ## 🌏 自動翻譯 Upstream 更新
+
+            此 PR 由 GitHub Actions 自動產生，包含以下 upstream 異動的翻譯：
+
+            - **Upstream**: `${{ steps.read-state.outputs.upstream_repo }}`
+            - **翻譯起點**: `${{ steps.read-state.outputs.last_commit }}`
+            - **翻譯終點**: `${{ steps.check-changes.outputs.upstream_head }}`
+
+            ### 📋 翻譯說明
+
+            - 翻譯引擎：Azure OpenAI v1 API
+            - 模型：`AZURE_OPENAI_MODEL`（請將 deployment 指向 GPT-4.1）
+            - 術語一致性參考：`GLOSSARY.md`
+            - 程式碼區塊、指令、URL、HTML 標籤均保持原文不變
+
+            > ⚠️ 請在合併前審查翻譯品質，確保技術術語正確。
+          commit-message: "chore(i18n): 自動翻譯 upstream 更新至 zh-tw"
+          labels: translation,automated
+          delete-branch: true
