@@ -334,7 +334,7 @@ copilot -p "How do I read a JSON file in Python?"
 
 **核心洞察**：程式化模式給你一個快速答案然後退出。沒有對話，只有輸入 → 輸出。
 
-<details>
+<details markdown="1">
 <summary>📚 <strong>進階應用：在腳本中使用程式化模式</strong>（點擊展開）</summary>
 
 熟悉後，你可以在 shell 腳本中使用 `-p`：
@@ -372,7 +372,7 @@ copilot --allow-all -p "Review @myfile.py for issues"
 
 > 📚 **官方文件**：[CLI 指令參考](https://docs.github.com/copilot/reference/cli-command-reference) — 取得完整指令與旗標列表。
 
-<details>
+<details markdown="1">
 <summary>📚 <strong>更多指令</strong>（點擊展開）</summary>
 
 > 💡 以上五個指令涵蓋了大部分的日常使用。這份參考資料在你準備好深入探索時隨時可用。
@@ -560,7 +560,7 @@ Get-ChildItem samples/book-app-project/*.py | ForEach-Object {
 
 **成功標準**：你應該得到一個改善後的 `utils.py`，包含輸入驗證、錯誤處理和 docstring，全部透過多輪對話完成。
 
-<details>
+<details markdown="1">
 <summary>💡 提示（點擊展開）</summary>
 
 **可嘗試的範例提示：**
@@ -590,7 +590,7 @@ Get-ChildItem samples/book-app-project/*.py | ForEach-Object {
 
 ---
 
-<details>
+<details markdown="1">
 <summary>🔧 <strong>常見錯誤與疑難排解</strong>（點擊展開）</summary>
 
 ### 常見錯誤

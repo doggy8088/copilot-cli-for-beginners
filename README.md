@@ -22,9 +22,7 @@ GitHub Copilot CLI 讓 AI 協助直接進入你的終端機。你無需切換到
 - **希望團隊標準化 AI 協助程式碼審查與開發流程的團隊**
 
 <a href="https://aka.ms/githubcopilotdevdays" target="_blank">
-  <picture>
-    <img src="./images/copilot-dev-days.png" alt="GitHub Copilot Dev Days - Find or host an event" width="100%" />
-  </picture>
+  <img src="./images/copilot-dev-days.png" alt="GitHub Copilot Dev Days - Find or host an event" width="100%" />
 </a>
 
 ## 🎯 你將學到什麼

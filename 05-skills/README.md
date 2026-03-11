@@ -707,7 +707,7 @@ EOF
 
 **成功標準**：您有一個可運作的 `book-summary` 技能，當您詢問書籍集合時，Copilot 會自動套用它。
 
-<details>
+<details markdown="1">
 <summary>💡 提示（點擊展開）</summary>
 
 **起始範本**：建立 `.github/skills/book-summary/SKILL.md`：
@@ -756,7 +756,7 @@ copilot
 
 ---
 
-<details>
+<details markdown="1">
 <summary>🔧 <strong>常見錯誤與疑難排解</strong>（點擊展開）</summary>
 
 ### 常見錯誤

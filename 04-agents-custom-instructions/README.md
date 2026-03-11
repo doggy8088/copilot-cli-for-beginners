@@ -142,7 +142,7 @@ When reviewing code, always check for:
 
 **本專案已在 [.github/agents/](../.github/agents/) 資料夾內附上範例 agent 檔案**。你可以自行撰寫，或修改現有檔案。
 
-<details>
+<details markdown="1">
 <summary>📂 查看本課程的範例 agent</summary>
 
 | 檔案 | 說明 |
@@ -208,7 +208,7 @@ copilot --agent python-reviewer
 ---
 
 <a id="specialist-vs-generic-see-the-difference"></a>
-<details>
+<details markdown="1">
 <summary><strong>專家 vs 通用：看見差異</strong>－為什麼 agent 產生的結果比一般提示詞更好</summary>
 
 ## 專家 vs 通用：看見差異
@@ -301,7 +301,7 @@ def search_by_year_range(
 ---
 
 <a id="working-with-multiple-agents"></a>
-<details>
+<details markdown="1">
 <summary><strong>多 agent 協作</strong>－結合專家、會話中切換、agent 當工具</summary>
 
 ## 多 agent 協作
@@ -352,7 +352,7 @@ copilot
 ---
 
 <a id="organizing--sharing-agents"></a>
-<details>
+<details markdown="1">
 <summary><strong>組織與分享 agent</strong>－命名、檔案放置、指令檔、團隊共用</summary>
 
 ## 組織與分享 agent
@@ -397,7 +397,7 @@ copilot
 ---
 
 <a id="configuring-your-project-for-copilot"></a>
-<details>
+<details markdown="1">
 <summary><strong>Copilot 專案設定</strong>－AGENTS.md、指令檔與 /init 設定</summary>
 
 ## Copilot 專案設定
@@ -461,7 +461,7 @@ copilot --no-custom-instructions
 ---
 
 <a id="agent-file-reference"></a>
-<details>
+<details markdown="1">
 <summary><strong>Agent 檔案參考</strong>－YAML 屬性、工具別名、完整範例</summary>
 
 ## Agent 檔案參考
@@ -624,7 +624,7 @@ copilot
 
 **成功標準**：你有 3 個可用 agent，能產生一致且高品質的結果，並能用 `/agent` 在它們之間切換。
 
-<details>
+<details markdown="1">
 <summary>💡 提示（點擊展開）</summary>
 
 **起手範本**：每個 agent 建立一個檔案於 `.github/agents/`：
@@ -703,7 +703,7 @@ copilot
 
 ---
 
-<details>
+<details markdown="1">
 <summary>🔧 <strong>常見錯誤與疑難排解</strong>（點擊展開）</summary>
 
 ### 常見錯誤

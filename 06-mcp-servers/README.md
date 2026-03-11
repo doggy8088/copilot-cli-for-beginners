@@ -142,7 +142,7 @@ MCP 伺服器設定於 `~/.copilot/mcp-config.json`（使用者層級，所有�
 
 *大多數 MCP 伺服器以 npm 套件形式發佈，透過 `npx` 執行。*
 
-<details>
+<details markdown="1">
 <summary>💡 <strong>不熟 JSON？</strong> 點此了解各欄位意義</summary>
 
 | 欄位 | 意義 |
@@ -173,7 +173,7 @@ GitHub MCP 伺服器是內建的，無需設定。以下是你可以額外加入
 | 取得最新函式庫文件 | [Context7 Server](#context7-server-documentation) |
 | 探索進階功能（自訂伺服器、web_fetch） | [Beyond the Basics](#beyond-the-basics) |
 
-<details>
+<details markdown="1">
 <summary><strong>Filesystem Server</strong> - 讓 Copilot 探索你的專案檔案</summary>
 <a id="filesystem-server"></a>
 
@@ -198,7 +198,7 @@ GitHub MCP 伺服器是內建的，無需設定。以下是你可以額外加入
 
 </details>
 
-<details>
+<details markdown="1">
 <summary><strong>Context7 Server</strong> - 取得最新函式庫文件</summary>
 <a id="context7-server-documentation"></a>
 
@@ -227,7 +227,7 @@ Context7 讓 Copilot 能存取熱門框架與函式庫的最新官方文件。�
 
 </details>
 
-<details>
+<details markdown="1">
 <summary><strong>進階應用</strong> - 自訂伺服器與網頁存取（選用）</summary>
 <a id="beyond-the-basics"></a>
 
@@ -366,7 +366,7 @@ GitHub MCP 伺服器是**內建**的。只要你已登入 Copilot（初次設定
 
 > 💡 **無法使用？** 執行 `/login` 重新驗證 GitHub。
 
-<details>
+<details markdown="1">
 <summary><strong>Dev Containers 認證說明</strong></summary>
 
 - **GitHub Codespaces**（推薦）：認證自動完成。`gh` CLI 會繼承你的 Codespace token，無需額外動作。
@@ -427,7 +427,7 @@ Found 1 file:
 
 </details>
 
-<details>
+<details markdown="1">
 <summary><strong>Filesystem Server</strong> - 瀏覽與分析專案檔案</summary>
 <a id="filesystem-server-usage"></a>
 
@@ -458,7 +458,7 @@ Found 2 functions without type hints:
 
 </details>
 
-<details>
+<details markdown="1">
 <summary><strong>Context7 Server</strong> - 查詢函式庫文件</summary>
 <a id="context7-server-usage"></a>
 
@@ -501,7 +501,7 @@ Best practices:
 
 </details>
 
-<details>
+<details markdown="1">
 <summary><strong>進階應用</strong> - 自訂伺服器與 web_fetch 用法</summary>
 <a id="beyond-the-basics-usage"></a>
 
@@ -609,7 +609,7 @@ Suggestions:
 
 </details>
 
-<details>
+<details markdown="1">
 <summary><strong>Issue-to-PR 工作流程</strong> - 從 GitHub 問題到拉取請求，全程不離開終端機</summary>
 <a id="issue-to-pr-workflow"></a>
 
@@ -645,7 +645,7 @@ All 8 tests passed ✓
 
 </details>
 
-<details>
+<details markdown="1">
 <summary><strong>健康儀表板</strong> - 多伺服器快速檢查專案健康狀態</summary>
 <a id="health-dashboard"></a>
 
@@ -790,7 +790,7 @@ copilot
 
 **成功標準**：你能在同一個 Copilot session 中無縫結合 filesystem 與 GitHub MCP 的資料，並能解釋每個 MCP server 在回應中扮演的角色。
 
-<details>
+<details markdown="1">
 <summary>💡 提示（點擊展開）</summary>
 
 **步驟 1：確認 MCP**
@@ -832,7 +832,7 @@ copilot
 
 ---
 
-<details>
+<details markdown="1">
 <summary>🔧 <strong>常見錯誤與疑難排解</strong>（點擊展開）</summary>
 
 ### 常見錯誤
@@ -882,7 +882,7 @@ copilot
 
 ---
 
-<details>
+<details markdown="1">
 <summary>📚 <strong>更多 <code>/mcp</code> 指令</strong>（點擊展開）</summary>
 <a id="-additional-mcp-commands"></a>
 

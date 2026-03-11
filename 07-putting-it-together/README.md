@@ -417,7 +417,7 @@ Include: Summary, Changes Made, Testing Done, Screenshots Needed"
 
 > 💡 **加分**：若你已完成第 04 章的代理設定，試著建立並使用自訂代理。例如，實作審查的 error-handler 代理、更新 README 的 doc-writer 代理。
 
-<details>
+<details markdown="1">
 <summary>💡 提示（點擊展開）</summary>
 
 **請參考本章最上方 ["一次 Session 從想法到合併 PR"](#idea-to-merged-pr-in-one-session) 的範例**。關鍵步驟如下：
@@ -441,7 +441,7 @@ Include: Summary, Changes Made, Testing Done, Screenshots Needed"
 
 ---
 
-<details>
+<details markdown="1">
 <summary>🔧 <strong>常見錯誤</strong>（點擊展開）</summary>
 
 | 錯誤 | 結果 | 修正方式 |
