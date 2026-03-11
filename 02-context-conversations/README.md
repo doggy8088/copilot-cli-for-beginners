@@ -420,7 +420,7 @@ Issue #1 (duplicate functions) was fixed on Monday.
 | 如何挑選要參照的檔案 | [選擇參照對象](#choosing-what-to-reference) |
 | 分析截圖與設計稿 | [圖片應用](#working-with-images) |
 
-<details>
+<details markdown="1">
 <summary><strong>進階 @ 模式與 Session 指令</strong></summary>
 <a id="additional-patterns"></a>
 
@@ -466,7 +466,7 @@ copilot
 
 </details>
 
-<details>
+<details markdown="1">
 <summary><strong>情境感知對話</strong></summary>
 <a id="context-aware-conversations"></a>
 
@@ -506,7 +506,7 @@ Copilot CLI: "Based on the class with types and error handling..."
 
 </details>
 
-<details>
+<details markdown="1">
 <summary><strong>理解 Context Window</strong></summary>
 <a id="understanding-context-windows"></a>
 
@@ -573,7 +573,7 @@ copilot
 
 </details>
 
-<details>
+<details markdown="1">
 <summary><strong>選擇參照對象</strong></summary>
 <a id="choosing-what-to-reference"></a>
 
@@ -656,7 +656,7 @@ copilot
 
 </details>
 
-<details>
+<details markdown="1">
 <summary><strong>圖片應用</strong></summary>
 <a id="working-with-images"></a>
 
@@ -762,7 +762,7 @@ copilot --continue
 
 **成功標準**：你能夠跨多個檔案追蹤資料流程、恢復具名的 session，並獲得跨檔案建議。
 
-<details>
+<details markdown="1">
 <summary>💡 提示（點擊展開）</summary>
 
 **開始操作：**
@@ -795,7 +795,7 @@ copilot
 
 ---
 
-<details>
+<details markdown="1">
 <summary>🔧 <strong>常見錯誤與疑難排解</strong>（點擊展開）</summary>
 
 ### 常見錯誤

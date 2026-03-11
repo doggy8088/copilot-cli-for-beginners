@@ -57,7 +57,7 @@
 ---
 
 <a id="workflow-1-code-review"></a>
-<details>
+<details markdown="1">
 <summary><strong>工作流程一：程式碼審查</strong> - 審查檔案、使用 /review agent、建立嚴重性檢查清單</summary>
 
 <img src="images/code-review-swimlane-single.png" alt="Code review workflow: review, identify issues, prioritize, generate checklist." width="800"/>
@@ -788,7 +788,7 @@ copilot -p "Generate commit message for: $(git diff --staged)"
 5. **提交**：生成慣例提交訊息：
    `copilot -p "Generate a conventional commit message for: $(git diff --staged)"`
 
-<details>
+<details markdown="1">
 <summary>💡 提示（點擊展開）</summary>
 
 **每個步驟的範例提示：**
@@ -830,7 +830,7 @@ copilot
 
 ---
 
-<details>
+<details markdown="1">
 <summary>🔧 <strong>常見錯誤與疑難排解</strong>（點擊展開）</summary>
 
 ### 常見錯誤
