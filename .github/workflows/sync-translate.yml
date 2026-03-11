@@ -87,9 +87,41 @@ jobs:
           echo "=== 被刪除的 Markdown 檔案 ==="
           cat /tmp/deleted_md_files.txt
 
+      - name: Get changed non-Markdown files
+        if: steps.check-changes.outputs.has_changes == 'true'
+        id: get-non-md-files
+        run: |
+          LAST_COMMIT="${{ steps.read-state.outputs.last_commit }}"
+          # 取出非 .md 檔案的新增與修改（不含刪除）
+          git diff --name-only --diff-filter=ACM \
+            "$LAST_COMMIT" upstream/main \
+            | grep -v '\.md$' \
+            > /tmp/changed_non_md_files.txt || true
+          echo "=== 需要同步的非 Markdown 檔案 ==="
+          cat /tmp/changed_non_md_files.txt
+
+          # 取出在 upstream 被刪除的非 .md 檔案
+          git diff --name-only --diff-filter=D \
+            "$LAST_COMMIT" upstream/main \
+            | grep -v '\.md$' \
+            > /tmp/deleted_non_md_files.txt || true
+          echo "=== 被刪除的非 Markdown 檔案 ==="
+          cat /tmp/deleted_non_md_files.txt
+
+      - name: Apply upstream non-Markdown file changes
+        if: steps.check-changes.outputs.has_changes == 'true'
+        run: |
+          # 從 upstream/main 複製新增或修改的非 .md 檔案
+          while IFS= read -r filepath; do
+            [ -z "$filepath" ] && continue
+            echo "📄 同步非文件檔案: $filepath"
+            git checkout upstream/main -- "$filepath"
+          done < /tmp/changed_non_md_files.txt
+
       - name: Apply upstream deletions
         if: steps.check-changes.outputs.has_changes == 'true'
         run: |
+          # 刪除在 upstream 已移除的 .md 檔案
           while IFS= read -r filepath; do
             [ -z "$filepath" ] && continue
             if [ -f "$filepath" ]; then
@@ -97,6 +129,15 @@ jobs:
               git rm "$filepath"
             fi
           done < /tmp/deleted_md_files.txt
+
+          # 刪除在 upstream 已移除的非 .md 檔案
+          while IFS= read -r filepath; do
+            [ -z "$filepath" ] && continue
+            if [ -f "$filepath" ]; then
+              echo "🗑️  刪除非文件檔案: $filepath"
+              git rm "$filepath"
+            fi
+          done < /tmp/deleted_non_md_files.txt
 
       - name: Translate changed files using Azure OpenAI
         if: >
