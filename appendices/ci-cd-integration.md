@@ -1,16 +1,16 @@
 # CI/CD 整合
 
-> 📖 **先備條件**：請先完成[第 07 章：融會貫通](../07-putting-it-together/README.md)後再閱讀本附錄。
+> 📖 **前置準備**：請先完成[第 07 章：整合實作](../07-putting-it-together/README.md)後再閱讀本附錄。
 >
-> ⚠️ **本附錄適用於已有 CI/CD 流水線的團隊。** 若您剛接觸 GitHub Actions 或 CI/CD 概念，建議先從第 07 章[程式碼審查自動化](../07-putting-it-together/README.md#workflow-3-code-review-automation-optional)章節中較簡單的 pre-commit hook 方式入手。
+> ⚠️ **本附錄適用於已有 CI/CD 流程的團隊。** 如果你是 GitHub Actions 或 CI/CD 新手，請先從第 07 章 [程式碼審查自動化](../07-putting-it-together/README.md#workflow-3-code-review-automation-optional)章節的 pre-commit hook 簡易方案開始。
 
-本附錄示範如何將 GitHub Copilot CLI 整合至 CI/CD 流水線，以便在 pull request 上自動進行程式碼審查。
+本附錄說明如何將 GitHub Copilot CLI 整合進你的 CI/CD 流程，讓 PR 自動進行程式碼審查。
 
 ---
 
 ## GitHub Actions 工作流程
 
-以下工作流程會在 pull request 開啟或更新時，自動審查已變更的檔案：
+此工作流程會在 PR 開啟或更新時，自動審查變更的檔案：
 
 ```yaml
 # .github/workflows/copilot-review.yml
@@ -80,33 +80,33 @@ jobs:
 
 ## 設定選項
 
-### 縮限審查範圍
+### 限縮審查範圍
 
-您可以將審查聚焦於特定類型的問題：
+你可以聚焦於特定類型的問題進行審查：
 
 ```yaml
-# Security-only review
+# 只做安全性審查
 copilot --allow-all -p "Security review of @$file. Check for: SQL injection, XSS, hardcoded secrets, authentication issues." --silent
 
-# Performance-only review
+# 只做效能審查
 copilot --allow-all -p "Performance review of @$file. Check for: N+1 queries, memory leaks, blocking operations." --silent
 ```
 
 ### 處理大型 PR
 
-對於包含大量檔案的 PR，可考慮分批處理或加以限制：
+若 PR 涉及許多檔案，可考慮分批或限制數量：
 
 ```yaml
-# Limit to first 10 files
+# 只審查前 10 個檔案
 FILES=$(git diff --name-only origin/main...HEAD | grep -E '\.(js|ts)$' | head -10)
 
-# Or set a timeout per file
+# 或對每個檔案設置逾時
 timeout 60 copilot --allow-all -p "Review @$file" --silent || echo "Review timed out"
 ```
 
 ### 團隊設定
 
-若要在整個團隊中維持一致的審查標準，可建立共用設定檔：
+為了讓團隊審查標準一致，可建立共用設定：
 
 ```json
 // .copilot/config.json (committed to repo)
@@ -121,9 +121,9 @@ timeout 60 copilot --allow-all -p "Review @$file" --silent || echo "Review timed
 
 ---
 
-## 替代方案：PR 審查機器人
+## 進階方案：PR 審查機器人
 
-若需要更完善的審查工作流程，可考慮使用 Copilot 編程代理：
+若需更進階的審查流程，可考慮使用 GitHub Copilot 雲端 Agent：
 
 ```yaml
 # .github/workflows/copilot-agent-review.yml
@@ -153,19 +153,19 @@ jobs:
 
 ## CI/CD 整合最佳實踐
 
-1. **使用 `--silent` 旗標** — 抑制進度輸出，讓日誌更整潔
-2. **設定逾時時間** — 避免卡住的審查任務阻塞流水線
-3. **篩選檔案類型** — 只審查相關檔案（跳過自動生成的程式碼與依賴套件）
-4. **注意 API 頻率限制** — 對大型 PR 的審查請求適當分散
-5. **優雅地處理失敗** — 不應因審查失敗而阻擋合併；記錄錯誤後繼續執行
+1. **使用 `--silent` 旗標** —— 隱藏進度輸出，讓日誌更乾淨
+2. **設置逾時** —— 避免審查卡住導致流程阻塞
+3. **檔案類型過濾** —— 只審查相關檔案（略過產生的程式碼、相依套件等）
+4. **注意速率限制** —— 大型 PR 請分散審查，避免觸發限制
+5. **優雅失敗** —— 審查失敗時不要阻擋合併，記錄錯誤並繼續流程
 
 ---
 
 ## 疑難排解
 
-### CI 環境中出現「Authentication failed（驗證失敗）」
+### CI 出現 "Authentication failed"
 
-請確認工作流程具備正確的權限設定：
+請確認 workflow 權限設定正確：
 
 ```yaml
 permissions:
@@ -174,17 +174,17 @@ permissions:
   issues: write
 ```
 
-### 審查任務逾時
+### 審查逾時
 
-增加逾時時間或縮減審查範圍：
+請增加逾時時間或縮小審查範圍：
 
 ```bash
 timeout 120 copilot --allow-all -p "Quick review of @$file - critical issues only" --silent
 ```
 
-### 大型檔案超出 token 限制
+### 大檔案觸發 Token 限制
 
-跳過過大的檔案：
+可略過超大的檔案：
 
 ```bash
 if [ $(wc -l < "$file") -lt 500 ]; then
@@ -196,4 +196,4 @@ fi
 
 ---
 
-**[← 返回第 07 章](../07-putting-it-together/README.md)** | **[返回附錄](README.md)**
+**[← 回到第 07 章](../07-putting-it-together/README.md)** | **[返回附錄目錄](README.md)**
