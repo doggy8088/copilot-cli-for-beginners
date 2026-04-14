@@ -1,71 +1,71 @@
 ![Chapter 01: First Steps](images/chapter-header.png)
 
-> **看著 AI 瞬間找出 bug、解釋令人困惑的程式碼、生成可執行的腳本，然後學習使用 GitHub Copilot CLI 的三種不同方式。**
+> **觀看 AI 即時找出程式錯誤、解釋難懂的程式碼，並產生可執行的腳本。然後學習三種使用 GitHub Copilot CLI 的方式。**
 
-魔法從這章開始！你將親身體驗為何開發者形容 GitHub Copilot CLI 是「隨時待命的資深工程師」。你將看著 AI 在幾秒內找出安全漏洞、用白話文解釋複雜程式碼、即時生成可執行腳本。接著你將掌握三種互動模式（互動模式、計畫模式和程式化模式），確切知道每種情境該用哪種模式。
+這一章就是魔法的起點！你將親身體驗為什麼開發者形容 GitHub Copilot CLI 就像隨時能聯絡的資深工程師。你會看到 AI 在幾秒內找出安全性漏洞、用簡單易懂的英文解釋複雜程式碼，並即時產生可執行的腳本。接著，你將學會三種互動模式（互動模式、計畫模式、程式化模式），讓你清楚知道每個任務該用哪一種。
 
-> ⚠️ **前置需求**：請先完成 **[第 00 章：快速開始](../00-quick-start/README.md)**。執行以下示範前，你需要已安裝並完成驗證的 GitHub Copilot CLI。
+> ⚠️ **先決條件**：請先完成 **[第 00 章：快速開始](../00-quick-start/README.md)**。你必須先安裝並驗證 GitHub Copilot CLI，才能執行以下示範。
 
 ## 🎯 學習目標
 
 完成本章後，你將能夠：
 
-- 透過實作示範，親身體驗 GitHub Copilot CLI 帶來的生產力提升
-- 針對任何任務選擇正確的模式（互動模式、計畫模式或程式化模式）
-- 使用斜線指令控制你的工作階段
+- 透過實作示範，體驗 GitHub Copilot CLI 帶來的生產力提升
+- 根據任務選擇合適的模式（互動、計畫或程式化）
+- 使用斜線指令控制你的對話
 
 > ⏱️ **預估時間**：約 45 分鐘（閱讀 15 分鐘 + 實作 30 分鐘）
 
 ---
 
-# 你的第一次 Copilot CLI 體驗
+# 你的第一個 Copilot CLI 體驗
 
 <img src="images/first-copilot-experience.png" alt="Developer sitting at a desk with code on the monitor and glowing particles representing AI assistance" width="800"/>
 
-直接上手，看看 Copilot CLI 能做什麼。
+直接開始，看看 Copilot CLI 能做什麼。
 
 ---
 
-## 暖身：你的第一批提示
+## 熟悉操作：你的第一個提示詞
 
-在進入精彩示範之前，先試試幾個可以立刻上手的簡單提示。**完全不需要程式碼儲存庫**！只需開啟終端機並啟動 Copilot CLI：
+在進入令人驚豔的示範之前，先從一些簡單的提示詞開始，現在就可以嘗試。**不需要任何程式碼庫**！只要開啟終端機並啟動 Copilot CLI：
 
 ```bash
 copilot
 ```
 
-試試這些適合初學者的提示：
+試試這些適合新手的提示詞：
 
 ```
-> Explain what a dataclass is in Python in simple terms
+> 用簡單的方式解釋 Python 中的 dataclass 是什麼
 
-> Write a function that sorts a list of dictionaries by a specific key
+> 寫一個函式，將字典列表依指定鍵排序
 
-> What's the difference between a list and a tuple in Python?
+> Python 中 list 和 tuple 有什麼差別？
 
-> Give me 5 best practices for writing clean Python code
+> 給我 5 個撰寫乾淨 Python 程式碼的最佳實踐
 ```
 
-不用 Python？沒關係！換成你熟悉的程式語言來提問。
+不用 Python？沒問題！直接詢問你熟悉的語言相關問題即可。
 
-感受一下這有多自然——就像和同事說話一樣提問即可。探索完畢後，輸入 `/exit` 離開工作階段。
+你會發現這種互動很自然。就像問同事一樣直接提問。探索完畢後，輸入 `/exit` 離開對話。
 
-**核心洞察**：GitHub Copilot CLI 是對話式的，不需要特殊語法就能上手，用白話文提問即可。
+**關鍵洞察**：GitHub Copilot CLI 是對話式的。你不需要特殊語法，只要用自然語言提問即可。
 
-## 看看實際效果
+## 實際運作展示
 
-現在讓我們看看為何開發者稱這是「隨時待命的資深工程師」。
+現在來看看為什麼開發者說這就像「隨時能聯絡的資深工程師」。
 
-> 📖 **閱讀範例說明**：以 `>` 開頭的行是你在互動式 Copilot CLI 工作階段內輸入的提示；不帶 `>` 前綴的行則是你在終端機執行的 shell 指令。
+> 📖 **閱讀範例說明**：以 `>` 開頭的行是你在 Copilot CLI 互動模式中輸入的提示詞。沒有 `>` 前綴的行則是你在終端機執行的 shell 指令。
 
-> 💡 **關於範例輸出**：本課程中展示的範例輸出僅供參考。由於 Copilot CLI 的每次回應都會有所不同，你的結果在措辭、格式和細節上都可能不同。請專注於回傳的*資訊類型*，而非精確的文字內容。
+> 💡 **關於範例輸出**：課程中的範例輸出僅供參考。因 Copilot CLI 回應每次都不同，你的結果在措辭、格式和細節上會有所差異。請專注於回傳資訊的「類型」，而非文字內容。
 
-### 示範一：幾秒內完成程式碼審查
+### 示範 1：秒級程式碼審查
 
-本課程包含含有刻意設計之程式碼品質問題的範例檔案，讓我們來審查其中一個：
+課程提供了包含刻意程式碼品質問題的範例檔案。如果你在本機操作且尚未複製課程專案，請執行下方 `git clone` 指令，進入 `copilot-cli-for-beginners` 資料夾，然後啟動 Copilot。
 
 ```bash
-# 若在本機工作且尚未複製，請先 clone 課程儲存庫
+# 如果你在本機操作且尚未複製課程專案，請執行
 git clone https://github.com/github/copilot-cli-for-beginners
 cd copilot-cli-for-beginners
 
@@ -73,117 +73,117 @@ cd copilot-cli-for-beginners
 copilot
 ```
 
-進入互動式工作階段後：
+進入 Copilot CLI 互動模式後，執行下列提示：
 
 ```
-> Review @samples/book-app-project/book_app.py for code quality issues and suggest improvements
+> 審查 @samples/book-app-project/book_app.py 的程式碼品質問題並提出改善建議
 ```
 
-> 💡 **`@` 是什麼？** `@` 符號告訴 Copilot CLI 讀取某個檔案。你將在第 02 章學到所有相關細節。現在只需照著指令複製貼上即可。
+> 💡 **`@` 符號是做什麼用的？** `@` 符號告訴 Copilot CLI 讀取檔案。你會在第 02 章學到詳細用法。現在只要照範例輸入即可。
 
 ---
 
 <details>
-<summary>🎬 看看實際效果！</summary>
+<summary>🎬 實際運作展示！</summary>
 
-<img src="images/code-review-demo.gif" alt="Code Review Demo">
+![Code Review Demo](images/code-review-demo.gif)
 
-<em>示範輸出僅供參考，你的模型、工具與回應內容可能與此不同。</em>
+*示範輸出會有所不同。你的模型、工具和回應內容可能與此不同。*
 
 </details>
 
 ---
 
-**重點整理**：幾秒鐘完成一次專業程式碼審查。手動審查要花……嗯，比這久多了！
+**重點**：專業的程式碼審查只需幾秒。人工審查則需要……嗯……遠比這久！
 
 ---
 
-### 示範二：解釋令人困惑的程式碼
+### 示範 2：解釋難懂的程式碼
 
-曾盯著程式碼卻不知道它在做什麼嗎？在你的 Copilot CLI 工作階段中試試：
-
-```
-> Explain what @samples/book-app-project/books.py does in simple terms
-```
-
----
-
-<details>
-<summary>🎬 看看實際效果！</summary>
-
-<img src="images/explain-code-demo.gif" alt="Explain Code Demo">
-
-<em>示範輸出僅供參考，你的模型、工具與回應內容可能與此不同。</em>
-
-</details>
-
----
-
-**實際發生的事**：（你的輸出會有所不同）Copilot CLI 讀取檔案、理解程式碼，並以白話文說明。
+是否曾經盯著程式碼發呆，不知道它在做什麼？在 Copilot CLI 對話中試試這個：
 
 ```
-This is a book collection management module using Python dataclasses.
-
-Think of it like a digital bookshelf:
-- Book is a dataclass - a simple way to store book information (title, author, year, read status)
-- BookCollection manages the entire collection and handles saving/loading
-
-Key components:
-
-1. @dataclass decorator (line 8)
-   - Automatically creates __init__, __repr__, etc.
-   - Clean way to define data structures in Python
-
-2. BookCollection class (line 16)
-   - Maintains a list of Book objects
-   - Handles persistence with JSON file I/O
-   - load_books() reads from data.json
-   - save_books() writes to data.json using asdict()
-
-3. Book operations:
-   - add_book() - creates and saves new books
-   - find_book_by_title() - searches collection
-   - mark_as_read() - updates read status
-   - find_by_author() - filters by author name
-
-Common pattern: Read from JSON → Work with Python objects → Write back to JSON
-```
-
-**重點整理**：複雜的程式碼被解釋得就像一位有耐心的導師在說明。
-
----
-
-### 示範三：生成可執行的程式碼
-
-需要一個否則要花 15 分鐘 Google 的函式？繼續在工作階段中操作：
-
-```
-> Write a Python function that takes a list of books and returns statistics: 
-  total count, number read, number unread, oldest and newest book
+> 用簡單方式解釋 @samples/book-app-project/books.py 的功能
 ```
 
 ---
 
 <details>
-<summary>🎬 看看實際效果！</summary>
+<summary>🎬 實際運作展示！</summary>
 
-<img src="images/generate-code-demo.gif" alt="Generate Code Demo">
+![Explain Code Demo](images/explain-code-demo.gif)
 
-<em>示範輸出僅供參考，你的模型、工具與回應內容可能與此不同。</em>
+*示範輸出會有所不同。你的模型、工具和回應內容可能與此不同。*
 
 </details>
 
 ---
 
-**實際發生的事**：幾秒鐘內生成完整可執行的函式，複製貼上即可使用。
+**會發生什麼事**：（你的輸出會不同）Copilot CLI 讀取檔案、理解程式碼，並用簡單易懂的英文解釋。
 
-探索完畢後，離開工作階段：
+```
+這是一個使用 Python dataclass 管理書籍收藏的模組。
+
+可以把它想成數位書櫃：
+- Book 是 dataclass —— 一種簡單儲存書籍資訊（標題、作者、年份、閱讀狀態）的方式
+- BookCollection 管理整個收藏並負責儲存／讀取
+
+主要組件：
+
+1. @dataclass 裝飾器（第 8 行）
+   - 自動產生 __init__、__repr__ 等方法
+   - 用於乾淨定義 Python 資料結構
+
+2. BookCollection 類別（第 16 行）
+   - 維護 Book 物件列表
+   - 用 JSON 檔案 I/O 處理持久化
+   - load_books() 從 data.json 讀取
+   - save_books() 用 asdict() 寫入 data.json
+
+3. 書籍操作：
+   - add_book() —— 新增並儲存書籍
+   - find_book_by_title() —— 搜尋收藏
+   - mark_as_read() —— 更新閱讀狀態
+   - find_by_author() —— 依作者名稱篩選
+
+常見流程：從 JSON 讀取 → 操作 Python 物件 → 寫回 JSON
+```
+
+**重點**：複雜程式碼也能像耐心導師一樣解釋得清楚易懂。
+
+---
+
+### 示範 3：產生可執行程式碼
+
+需要一個你可能要 Google 15 分鐘的函式？在同一個對話中：
+
+```
+> 寫一個 Python 函式，接受書籍列表並回傳統計資訊：
+  總數、已讀數量、未讀數量、最舊和最新書籍
+```
+
+---
+
+<details>
+<summary>🎬 實際運作展示！</summary>
+
+![Generate Code Demo](images/generate-code-demo.gif)
+
+*示範輸出會有所不同。你的模型、工具和回應內容可能與此不同。*
+
+</details>
+
+---
+
+**會發生什麼事**：幾秒內產生完整、可執行的函式，直接複製貼上即可運行。
+
+探索完畢後，離開對話：
 
 ```
 > /exit
 ```
 
-**重點整理**：即時獲得成果，而且整個過程都在同一個連續工作階段中完成。
+**重點**：即時滿足需求，而且全程都在同一個連續對話中。
 
 ---
 
@@ -191,262 +191,273 @@ Common pattern: Read from JSON → Work with Python objects → Write back to JS
 
 <img src="images/modes-and-commands.png" alt="Futuristic control panel with glowing screens, dials, and equalizers representing Copilot CLI modes and commands" width="800"/>
 
-你已經看到 Copilot CLI 能做什麼了。現在讓我們理解*如何*有效運用這些能力。關鍵在於知道三種互動模式各自適用於哪些情境。
+你已經看到 Copilot CLI 能做什麼。現在來了解如何有效運用這些能力。關鍵在於知道三種互動模式，並根據情境選擇。
 
-> 💡 **備註**：Copilot CLI 還有一種 **Autopilot** 模式，可以不等待你的輸入自行完成任務。它非常強大，但需要授予完整權限，且會自主消耗高級請求配額。本課程聚焦於以下三種模式。等你熟悉基礎後，我們會引導你了解 Autopilot。
+> 💡 **注意**：Copilot CLI 還有一種 **自動駕駛（Autopilot）模式**，可自動執行任務而不需等待你的輸入。這很強大，但需授權完整權限，並會自動使用高級請求。本課程聚焦於下方三種模式。等你熟悉基礎後，我們會再介紹自動駕駛模式。
 
 ---
 
-## 🧩 現實生活類比：外出用餐
+## 🧩 真實世界比喻：外出用餐
 
-把使用 GitHub Copilot CLI 想像成外出用餐。從規劃行程到點餐，不同情境需要不同的方式：
+使用 GitHub Copilot CLI 就像外出用餐。從規劃行程到點餐，不同情境需要不同方式：
 
-| 模式 | 用餐類比 | 適用時機 |
-|------|---------|---------|
-| **計畫模式** | 前往餐廳的 GPS 導航 | 複雜任務——規劃路線、確認停靠點、同意計畫，然後出發 |
-| **互動模式** | 與服務員交談 | 探索與迭代——提問、客製化、即時獲得回饋 |
-| **程式化模式** | 得來速點餐 | 快速、明確的任務——留在自己的環境中，快速取得結果 |
+| 模式 | 用餐比喻 | 適用時機 |
+|------|----------|----------|
+| **計畫模式** | 用 GPS 規劃路線到餐廳 | 複雜任務——規劃路線、檢查停靠點、同意計畫再出發 |
+| **互動模式** | 與服務生對話 | 探索與反覆調整——提問、客製化、即時回饋 |
+| **程式化模式** | 得來速點餐 | 快速、明確任務——留在原本環境，快速取得結果 |
 
-就像外出用餐一樣，你會自然地學會各種方式的適用時機。
+就像用餐一樣，你會自然學會何時該用哪種方式。
 
 <img src="images/ordering-food-analogy.png" alt="Three Ways to Use GitHub Copilot CLI - Plan Mode (GPS route to restaurant), Interactive Mode (talking to waiter), Programmatic Mode (drive-through)" width="800"/>
 
-*依任務選擇模式：計畫模式用於先規劃再行動，互動模式用於來回協作，程式化模式用於快速一次性取得結果*
+*根據任務選擇模式：計畫模式適合先規劃，互動模式適合來回協作，程式化模式適合快速單次結果*
 
-### 我該從哪個模式開始？
+### 我應該從哪個模式開始？
 
-**從互動模式開始。**
-- 你可以實驗並追問後續問題
-- 透過對話自然累積上下文
-- 用 `/clear` 輕鬆修正錯誤
+**建議先從互動模式開始。**
+- 可以自由嘗試並追問
+- 情境會隨對話自然累積
+- 出錯時用 `/clear` 很容易重來
 
-熟悉後，再嘗試：
-- **程式化模式**（`copilot -p "<你的提示>"`）用於快速一次性問題
-- **計畫模式**（`/plan`）用於在寫程式前需要更詳細規劃的情境
+熟悉後可嘗試：
+- **程式化模式**（`copilot -p "<你的提示>"`）適合快速單次問題
+- **計畫模式**（`/plan`）適合需要詳細規劃再進行的任務
 
 ---
 
-## 三種模式
+## 三種模式介紹
 
-### 模式一：互動模式（從這裡開始）
+### 模式 1：互動模式（建議起點）
 
 <img src="images/interactive-mode.png" alt="Interactive Mode - Like talking to a waiter who can answer questions and adjust the order" width="250"/>
 
-**最適合**：探索、迭代、多輪對話。就像與服務員交談——他能回答問題、接受意見、隨時調整訂單。
+**最適合**：探索、反覆調整、多輪對話。就像與服務生對話，可以即時回饋並調整點餐。
 
-啟動互動式工作階段：
+啟動互動模式：
 
 ```bash
 copilot
 ```
 
-如你目前所見，會出現一個提示符讓你自然輸入。若想查看可用指令，只需輸入：
+如同前面示範，你會看到提示符號，可以自然輸入。若需指令說明，輸入：
 
 ```
 > /help
 ```
 
-**核心洞察**：互動模式會保持上下文，每條訊息都建立在前一條之上，就像真實的對話。
+**關鍵洞察**：互動模式會保留情境。每則訊息都會延續前面的內容，就像真實對話。
 
 #### 互動模式範例
 
 ```bash
 copilot
 
-> Review @samples/book-app-project/utils.py and suggest improvements
+> 審查 @samples/book-app-project/utils.py 並提出改善建議
 
-> Add type hints to all functions
+> 為所有函式加上型別提示
 
-> Make the error handling more robust
+> 強化錯誤處理機制
 
 > /exit
 ```
 
-注意每個提示如何建立在前一個答案上。你在進行對話，而不是每次都重新開始。
+注意每個提示都建立在前一個答案之上。你是在對話，不是每次都從頭開始。
 
 ---
 
-### 模式二：計畫模式
+### 模式 2：計畫模式
 
 <img src="images/plan-mode.png" alt="Plan Mode - Like planning a route before a trip using GPS" width="250"/>
 
-**最適合**：你想在執行前先審視方法的複雜任務。類似於旅行前用 GPS 規劃路線。
+**最適合**：複雜任務，需要先審查方案再執行。就像出發前用 GPS 規劃路線。
 
-計畫模式幫助你在撰寫任何程式碼前建立逐步計畫。使用 `/plan` 指令或按 **Shift+Tab** 切換至計畫模式：
-
-> 💡 **提示**：**Shift+Tab** 循環切換模式：互動模式 → 計畫模式 → Autopilot。在互動式工作階段中隨時按下，即可無需輸入指令直接切換模式。
+計畫模式協助你在撰寫程式碼前先建立步驟計畫。使用 `/plan` 指令，按 **Shift+Tab** 可切換到計畫模式：
 
 ```bash
 copilot
 
-> /plan Add a "mark as read" command to the book app
+> /plan 為書籍應用程式新增「標記為已讀」指令
 ```
 
-**計畫模式輸出：**（你的輸出可能不同）
+> 💡 **提示**：**Shift+Tab** 可在模式間切換：互動 → 計畫 → 自動駕駛。任何時候都能在互動模式下按此鍵切換，不需輸入指令。
 
-```
-📋 Implementation Plan
+你也可以用 `--plan` 旗標直接啟動計畫模式：
 
-Step 1: Update the command handler in book_app.py
-  - Add new elif branch for "mark" command
-  - Create handle_mark_as_read() function
-
-Step 2: Implement the handler function
-  - Prompt user for book title
-  - Call collection.mark_as_read(title)
-  - Display success/failure message
-
-Step 3: Update help text
-  - Add "mark" to available commands list
-  - Document the command usage
-
-Step 4: Test the flow
-  - Add a book
-  - Mark it as read
-  - Verify status changes in list output
-
-Proceed with implementation? [Y/n]
+```bash
+copilot --plan
 ```
 
-**核心洞察**：計畫模式讓你在寫任何程式碼之前先審視並修改方法。計畫完成後，你甚至可以告訴 Copilot CLI 將其儲存為檔案以供後續參考。例如，「Save this plan to `mark_as_read_plan.md`」會建立一個包含計畫詳情的 Markdown 檔案。
+**計畫模式輸出範例**：（你的輸出可能不同）
 
-> 💡 **想試試更複雜的？** 試試：`/plan Add search and filter capabilities to the book app`。計畫模式從簡單功能到完整應用程式都能勝任。
+```
+📋 實作計畫
 
-> 📚 **Autopilot 模式**：你可能注意到 Shift+Tab 會循環到第三種叫做 **Autopilot** 的模式。在 Autopilot 模式中，Copilot 會執行整個計畫，每個步驟完成後無需等待你的輸入——就像把任務交給同事並說「完成後告訴我」。典型工作流程是計畫 → 接受 → Autopilot，這意味著你需要先擅長撰寫計畫。先熟悉互動模式和計畫模式，準備好後再查看[官方文件](https://docs.github.com/copilot/concepts/agents/copilot-cli/autopilot)。
+步驟 1：更新 book_app.py 的指令處理器
+  - 新增 "mark" 指令的 elif 分支
+  - 建立 handle_mark_as_read() 函式
+
+步驟 2：實作處理函式
+  - 提示使用者輸入書名
+  - 呼叫 collection.mark_as_read(title)
+  - 顯示成功／失敗訊息
+
+步驟 3：更新說明文字
+  - 將 "mark" 加入可用指令列表
+  - 文件化指令用法
+
+步驟 4：測試流程
+  - 新增一本書
+  - 標記為已讀
+  - 確認列表輸出狀態變化
+
+是否要開始實作？ [Y/n]
+```
+
+**關鍵洞察**：計畫模式讓你在寫程式前先審查並修改方案。計畫完成後，還能請 Copilot CLI 將計畫存檔，例如「將此計畫存到 `mark_as_read_plan.md`」會建立包含細節的 markdown 檔案。
+
+> 💡 **想要更複雜的範例？** 試試：`/plan 為書籍應用程式新增搜尋與篩選功能`。計畫模式可從簡單功能擴展到完整應用。
+
+> 📚 **自動駕駛模式**：你可能注意到 Shift+Tab 會切換到第三種模式——自動駕駛。自動駕駛模式下，Copilot 會自動依計畫執行所有步驟，不需每步都等你確認——就像把任務交給同事說「完成後再通知我」。典型流程是計畫 → 同意 → 自動駕駛，因此你要先熟悉撰寫計畫。也可用 `copilot --autopilot` 直接啟動。建議先熟悉互動與計畫模式，再參考 [官方文件](https://docs.github.com/copilot/concepts/agents/copilot-cli/autopilot)。
 
 ---
 
-### 模式三：程式化模式
+### 模式 3：程式化模式
 
 <img src="images/programmatic-mode.png" alt="Programmatic Mode - Like using a drive-through for a quick order" width="250"/>
 
-**最適合**：自動化、腳本、CI/CD、一次性指令。就像使用得來速快速點餐，無需與服務員交談。
+**最適合**：自動化、腳本、CI/CD、單次指令。就像得來速點餐，不需與服務生對話。
 
-使用 `-p` 旗標執行不需要互動的一次性指令：
+用 `-p` 旗標執行一次性指令，不需互動：
 
 ```bash
-# 生成程式碼
-copilot -p "Write a function that checks if a number is even or odd"
+# 產生程式碼
+copilot -p "寫一個判斷數字是偶數或奇數的函式"
 
-# 快速取得說明
-copilot -p "How do I read a JSON file in Python?"
+# 快速查詢
+copilot -p "Python 如何讀取 JSON 檔案？"
 ```
 
-**核心洞察**：程式化模式給你一個快速答案然後退出。沒有對話，只有輸入 → 輸出。
+**關鍵洞察**：程式化模式給你快速答案後即結束。沒有對話，只有輸入 → 輸出。
 
-<details markdown="1">
-<summary>📚 <strong>進階應用：在腳本中使用程式化模式</strong>（點擊展開）</summary>
+<details>
+<summary>📚 <strong>進階：在腳本中使用程式化模式</strong>（點擊展開）</summary>
 
-熟悉後，你可以在 shell 腳本中使用 `-p`：
+熟悉後可在 shell 腳本中使用 `-p`：
 
 ```bash
 #!/bin/bash
 
-# 自動生成提交訊息
-COMMIT_MSG=$(copilot -p "Generate a commit message for: $(git diff --staged)")
+# 自動產生提交訊息
+COMMIT_MSG=$(copilot -p "為以下內容產生提交訊息：$(git diff --staged)")
 git commit -m "$COMMIT_MSG"
 
 # 審查檔案
-copilot --allow-all -p "Review @myfile.py for issues"
+copilot --allow-all -p "審查 @myfile.py 的問題"
 ```
-> ⚠️ **關於 `--allow-all`**：此旗標會跳過所有權限提示，讓 Copilot CLI 無需確認即可讀取檔案、執行指令和存取 URL。這在程式化模式（`-p`）中是必要的，因為沒有互動式工作階段可供核准操作。只在你自己撰寫的提示且在你信任的目錄中使用 `--allow-all`，切勿在不受信任的輸入或敏感目錄中使用。
+> ⚠️ **關於 `--allow-all`**：此旗標會跳過所有權限提示，讓 Copilot CLI 讀取檔案、執行指令、存取網址而不需確認。程式化模式（`-p`）無互動對話，因此必須用此旗標。僅在你自己撰寫提示、且目錄可信時使用。切勿用於不可信輸入或敏感目錄。
 
 </details>
 
 ---
 
-## 基本斜線指令
+## 必備斜線指令
 
-這些指令在互動模式中使用。**先從以下四個開始**——它們涵蓋了 90% 的日常需求：
+這些指令適用於互動模式。**先學這六個就夠了**——涵蓋 90% 日常需求：
 
-| 指令 | 功能 | 適用時機 |
-|------|------|---------|
-| `/help` | 顯示所有可用指令 | 忘記某個指令時 |
-| `/clear` | 清除對話並重新開始 | 切換話題時 |
-| `/plan` | 在寫程式前先規劃工作 | 處理較複雜的功能時 |
-| `/research` | 使用 GitHub 和網路來源深度調查 | 需要在寫程式前先研究某個主題時 |
-| `/model` | 顯示或切換 AI 模型 | 想更換 AI 模型時 |
-| `/exit` | 結束工作階段 | 完成工作時 |
+| 指令 | 功能說明 | 適用時機 |
+|------|----------|----------|
+| `/clear` | 清除對話並重新開始 | 換主題時 |
+| `/help` | 顯示所有可用指令 | 忘記指令時 |
+| `/model` | 顯示或切換 AI 模型 | 想換模型時 |
+| `/plan` | 撰寫程式前先規劃 | 複雜功能時 |
+| `/research` | 用 GitHub 與網路來源深入研究 | 撰寫程式前需調查主題時 |
+| `/exit` | 結束對話 | 完成時 |
 
-入門部分到此為止！隨著你越來越熟練，可以繼續探索更多指令。
+這就是入門必備！熟悉後可探索更多指令。
 
-> 📚 **官方文件**：[CLI 指令參考](https://docs.github.com/copilot/reference/cli-command-reference) — 取得完整指令與旗標列表。
+> 📚 **官方文件**：[CLI 指令參考](https://docs.github.com/copilot/reference/cli-command-reference)，完整指令與旗標列表。
 
-<details markdown="1">
-<summary>📚 <strong>更多指令</strong>（點擊展開）</summary>
+<details>
+<summary>📚 <strong>進階指令</strong>（點擊展開）</summary>
 
-> 💡 以上五個指令涵蓋了大部分的日常使用。這份參考資料在你準備好深入探索時隨時可用。
+> 💡 上述必備指令已涵蓋大部分日常需求。這份參考適合你準備探索更多時使用。
 
 ### Agent 環境
 
-| 指令 | 功能 |
-|------|------|
-| `/init` | 為你的儲存庫初始化 Copilot 指示 |
-| `/agent` | 瀏覽並選擇可用的 agent |
-| `/skills` | 管理用於強化能力的 skill |
-| `/mcp` | 管理 MCP server 設定 |
+| 指令 | 功能說明 |
+|------|----------|
+| `/agent` | 瀏覽並選擇可用 Agent |
+| `/init` | 初始化 Copilot 指令至你的專案 |
+| `/mcp` | 管理 MCP 伺服器設定 |
+| `/skills` | 管理技能以增強能力 |
 
-> 💡 Skill 在[第 05 章](../05-skills/README.md)詳細介紹。MCP server 在[第 06 章](../06-mcp-servers/README.md)介紹。
+> 💡 Agent 詳解見 [第 04 章](../04-agents-custom-instructions/README.md)，技能見 [第 05 章](../05-skills/README.md)，MCP 伺服器見 [第 06 章](../06-mcp-servers/README.md)。
 
 ### 模型與子 Agent
 
-| 指令 | 功能 |
-|------|------|
+| 指令 | 功能說明 |
+|------|----------|
+| `/delegate` | 交由 GitHub Copilot 雲端 Agent 處理任務 |
+| `/fleet` | 將複雜任務拆分為多個平行子任務加速完成 |
 | `/model` | 顯示或切換 AI 模型 |
-| `/delegate` | 將任務移交給 GitHub 上的 Copilot 編程 agent（雲端 agent） |
-| `/fleet` | 將複雜任務拆分為平行子任務以加快完成速度 |
-| `/tasks` | 檢視背景子 agent 和已分離的 shell 工作階段 |
+| `/tasks` | 查看背景子 Agent 與分離 shell 對話 |
 
 ### 程式碼
 
-| 指令 | 功能 |
-|------|------|
-| `/diff` | 審查目前目錄中的變更 |
-| `/review` | 執行程式碼審查 agent 分析變更 |
-| `/research` | 使用 GitHub 和網路來源執行深度調查 |
-| `/terminal-setup` | 啟用多行輸入支援（shift+enter 和 ctrl+enter） |
+| 指令 | 功能說明 |
+|------|----------|
+| `/diff` | 審查目前目錄的程式碼變更 |
+| `/pr` | 操作目前分支的 pull request |
+| `/research` | 用 GitHub 與網路來源進行深入研究 |
+| `/review` | 執行程式碼審查 Agent 分析變更 |
+| `/terminal-setup` | 啟用多行輸入（shift+enter 與 ctrl+enter） |
 
 ### 權限
 
-| 指令 | 功能 |
-|------|------|
-| `/allow-all` | 本工作階段自動核准所有權限提示 |
-| `/add-dir <directory>` | 將目錄加入允許清單 |
-| `/list-dirs` | 顯示所有允許的目錄 |
-| `/cwd`、`/cd [directory]` | 檢視或變更工作目錄 |
+| 指令 | 功能說明 |
+|------|----------|
+| `/add-dir <目錄>` | 將目錄加入允許清單 |
+| `/allow-all [on|off|show]` | 自動批准所有權限提示；用 `on` 啟用、`off` 關閉、`show` 檢查狀態 |
+| `/yolo` | `/allow-all on` 的快速別名——自動批准所有權限提示 |
+| `/cwd`, `/cd [目錄]` | 查看或切換工作目錄 |
+| `/list-dirs` | 顯示所有允許目錄 |
 
-> ⚠️ **謹慎使用**：`/allow-all` 會跳過確認提示。對於可信任的專案很方便，但面對不信任的程式碼時請小心。
+> ⚠️ **請謹慎使用**：`/allow-all` 與 `/yolo` 會跳過確認提示。適合可信專案，但不可信程式碼要小心。
 
-### 工作階段
+### 對話
 
-| 指令 | 功能 |
-|------|------|
-| `/resume` | 切換到其他工作階段（可選擇指定工作階段 ID） |
-| `/rename` | 重新命名目前的工作階段 |
-| `/context` | 顯示上下文視窗的 token 使用量與視覺化 |
-| `/usage` | 顯示工作階段使用量指標與統計 |
-| `/session` | 顯示工作階段資訊與工作區摘要 |
-| `/compact` | 摘要對話以減少上下文使用量 |
-| `/share` | 將工作階段匯出為 Markdown 檔案或 GitHub gist |
+| 指令 | 功能說明 |
+|------|----------|
+| `/clear` | 放棄目前對話（不儲存歷史），重新開始 |
+| `/compact` | 對話摘要，減少情境用量 |
+| `/context` | 顯示情境窗口 token 用量與視覺化 |
+| `/new` | 結束目前對話（儲存到歷史以便搜尋／繼續），重新開始 |
+| `/resume` | 切換到其他對話（可指定對話 ID） |
+| `/rename` | 重新命名目前對話（省略名稱則自動產生） |
+| `/rewind` | 開啟時間軸選擇器，回溯到任意早期對話 |
+| `/usage` | 顯示對話用量與統計 |
+| `/session` | 顯示對話資訊與工作區摘要 |
+| `/share` | 將對話匯出為 markdown、GitHub gist 或自包含 HTML 檔案 |
 
 ### 說明與回饋
 
-| 指令 | 功能 |
-|------|------|
+| 指令 | 功能說明 |
+|------|----------|
+| `/changelog` | 顯示 CLI 版本更新紀錄 |
+| `/feedback` | 提交回饋給 GitHub |
 | `/help` | 顯示所有可用指令 |
-| `/changelog` | 顯示 CLI 各版本的更新日誌 |
-| `/feedback` | 向 GitHub 提交回饋 |
-| `/theme` | 檢視或設定終端機主題 |
+| `/theme` | 查看或設定終端機主題 |
 
-### 快速 Shell 指令
+### 快速 shell 指令
 
-在提示前加上 `!` 可直接執行 shell 指令，跳過 AI：
+在提示詞前加 `!` 可直接執行 shell 指令，不經 AI 處理：
 
 ```bash
 copilot
 
 > !git status
-# 直接執行 git status，不經過 AI
+# 直接執行 git status，不經 AI 處理
 
 > !python -m pytest tests/
 # 直接執行 pytest
@@ -454,67 +465,67 @@ copilot
 
 ### 切換模型
 
-Copilot CLI 支援來自 OpenAI、Anthropic、Google 等多家廠商的 AI 模型。可用模型依你的訂閱等級和地區而異。使用 `/model` 查看選項並在模型間切換：
+Copilot CLI 支援多種 AI 模型（OpenAI、Anthropic、Google 等）。可用模型取決於你的訂閱方案與地區。用 `/model` 查看選項並切換：
 
 ```bash
 copilot
 > /model
 
-# 顯示可用模型並讓你選擇。選擇 Sonnet 4.5。
+# 顯示可用模型並讓你選擇。例如選擇 Sonnet 4.5。
 ```
 
-> 💡 **提示**：部分模型消耗的「高級請求」比其他模型多。標示 **1x** 的模型（如 Claude Sonnet 4.5）是絕佳的預設選擇——能力強且效率高。倍數較高的模型會更快消耗你的高級請求配額，請留待真正需要時再使用。
+> 💡 **提示**：有些模型會消耗更多「高級請求」。標記 **1x**（如 Claude Sonnet 4.5）的模型是很好的預設選擇，既強大又高效。倍率較高的模型會更快用完高級配額，建議留給特殊需求時使用。
 
 </details>
 
 ---
 
-# 實作練習
+# 練習
 
 <img src="../images/practice.png" alt="Warm desk setup with monitor showing code, lamp, coffee cup, and headphones ready for hands-on practice" width="800"/>
 
-是時候將所學付諸實踐了。
+是時候將學到的內容實際操作了。
 
 ---
 
-## ▶️ 自行嘗試
+## ▶️ 自己動手試試
 
-### 互動式探索
+### 互動探索
 
-啟動 Copilot 並使用後續提示逐步改善書籍應用程式：
+啟動 Copilot，利用追問提示反覆改善書籍應用程式：
 
 ```bash
 copilot
 
-> Review @samples/book-app-project/book_app.py - what could be improved?
+> 審查 @samples/book-app-project/book_app.py - 哪些地方可以改善？
 
-> Refactor the if/elif chain into a more maintainable structure
+> 將 if/elif 鏈重構為更易維護的結構
 
-> Add type hints to all the handler functions
+> 為所有處理函式加上型別提示
 
 > /exit
 ```
 
-### 規劃一個功能
+### 規劃功能
 
-使用 `/plan` 讓 Copilot CLI 在撰寫任何程式碼前先規劃實作方案：
+用 `/plan` 讓 Copilot CLI 在寫程式前先規劃實作方案：
 
 ```bash
 copilot
 
-> /plan Add a search feature to the book app that can find books by title or author
+> /plan 為書籍應用程式新增搜尋功能，可依書名或作者查找
 
 # 審查計畫
-# 核准或修改
-# 看著它一步步實作
+# 同意或修改
+# 觀察逐步實作
 ```
 
-### 使用程式化模式自動化
+### 用程式化模式自動化
 
-`-p` 旗標讓你直接從終端機執行 Copilot CLI，無需進入互動模式。從儲存庫根目錄將以下腳本複製貼上到終端機（不是在 Copilot 內部），以審查書籍應用程式中所有 Python 檔案。
+`-p` 旗標讓你直接在終端機執行 Copilot CLI，不需進入互動模式。將下列腳本貼到終端機（非 Copilot 對話）並在專案根目錄執行，可批次審查書籍應用程式所有 Python 檔案。
 
 ```bash
-# 審查書籍應用程式中所有 Python 檔案
+# 審查書籍應用程式所有 Python 檔案
 for file in samples/book-app-project/*.py; do
   echo "Reviewing $file..."
   copilot --allow-all -p "Quick code quality review of @$file - critical issues only"
@@ -524,7 +535,7 @@ done
 **PowerShell（Windows）：**
 
 ```powershell
-# 審查書籍應用程式中所有 Python 檔案
+# 審查書籍應用程式所有 Python 檔案
 Get-ChildItem samples/book-app-project/*.py | ForEach-Object {
   $relativePath = "samples/book-app-project/$($_.Name)";
   Write-Host "Reviewing $relativePath...";
@@ -536,78 +547,96 @@ Get-ChildItem samples/book-app-project/*.py | ForEach-Object {
 
 完成示範後，試試這些變化：
 
-1. **互動挑戰**：啟動 `copilot` 並探索書籍應用程式。詢問 `@samples/book-app-project/books.py` 並連續請求改善 3 次。
+1. **互動挑戰**：啟動 `copilot`，探索書籍應用程式。詢問 `@samples/book-app-project/books.py`，並連續請求三次改善建議。
+2. **計畫模式挑戰**：執行 `/plan 為書籍應用程式新增評分與評論功能`。仔細閱讀計畫，是否合理？
+3. **程式化挑戰**：執行 `copilot --allow-all -p "列出 @samples/book-app-project/book_app.py 所有函式並描述各自功能"`。第一次就成功了嗎？
 
-2. **計畫模式挑戰**：執行 `/plan Add rating and review features to the book app`。仔細閱讀計畫，它合理嗎？
+---
 
-3. **程式化挑戰**：執行 `copilot --allow-all -p "List all functions in @samples/book-app-project/book_app.py and describe what each does"`。第一次就成功了嗎？
+## 💡 提示：用網頁或手機遠端控制 CLI 對話
+
+GitHub Copilot CLI 支援 **遠端對話**，讓你能在網頁瀏覽器（桌機或手機）或 GitHub Mobile app 上監控並互動，不需在終端機前。
+
+用 `--remote` 旗標啟動遠端對話：
+
+```bash
+copilot --remote
+```
+
+Copilot CLI 會顯示連結並提供 QR code。用手機或桌機瀏覽器開啟連結，即可即時觀看對話、追問、審查計畫並遠端操控 Agent。每個對話都是使用者專屬，你只能存取自己的 Copilot CLI 對話。
+
+也可在進行中的對話隨時啟用遠端存取：
+
+```
+> /remote
+```
+
+更多遠端對話細節請參考 [Copilot CLI 文件](https://docs.github.com/copilot/how-tos/copilot-cli/steer-remotely)。
 
 ---
 
 ## 📝 作業
 
-### 主要挑戰：改善書籍應用程式工具函式
+### 主挑戰：改善書籍應用程式的工具函式
 
-實作範例專注於審查和重構 `book_app.py`。現在對另一個檔案 `utils.py` 練習相同的技能：
+前面示範聚焦於審查與重構 `book_app.py`。現在請你練習同樣技巧於另一個檔案 `utils.py`：
 
-1. 啟動互動式工作階段：`copilot`
-2. 請 Copilot CLI 摘要這個檔案：`@samples/book-app-project/utils.py What does each function in this file do?`
-3. 請它加入輸入驗證：「Add validation to `get_user_choice()` so it handles empty input and non-numeric entries」
-4. 請它改善錯誤處理：「What happens if `get_book_details()` receives an empty string for the title? Add guards for that.」
-5. 請它加入 docstring：「Add a comprehensive docstring to `get_book_details()` with parameter descriptions and return values」
-6. 觀察上下文如何在提示之間延續。每次改善都建立在上一次的基礎上
-7. 以 `/exit` 離開
+1. 啟動互動對話：`copilot`
+2. 請 Copilot CLI 摘要檔案內容：`@samples/book-app-project/utils.py 此檔案每個函式分別做什麼？`
+3. 請它加上輸入驗證：「為 `get_user_choice()` 增加驗證，能處理空輸入與非數字輸入」
+4. 請它改善錯誤處理：「若 `get_book_details()` 收到空字串書名會怎麼樣？加上防護」
+5. 請它加上 docstring：「為 `get_book_details()` 增加完整 docstring，包含參數說明與回傳值」
+6. 觀察情境如何在提示間延續。每次改善都建立在前一次基礎上
+7. 用 `/exit` 結束
 
-**成功標準**：你應該得到一個改善後的 `utils.py`，包含輸入驗證、錯誤處理和 docstring，全部透過多輪對話完成。
+**成功標準**：你應該得到一份改善後的 `utils.py`，包含輸入驗證、錯誤處理與 docstring，全部透過多輪對話完成。
 
-<details markdown="1">
+<details>
 <summary>💡 提示（點擊展開）</summary>
 
 **可嘗試的範例提示：**
 ```bash
-> @samples/book-app-project/utils.py What does each function in this file do?
-> Add validation to get_user_choice() so it handles empty input and non-numeric entries
-> What happens if get_book_details() receives an empty string for the title? Add guards for that.
-> Add a comprehensive docstring to get_book_details() with parameter descriptions and return values
+> @samples/book-app-project/utils.py 此檔案每個函式分別做什麼？
+> 為 get_user_choice() 增加驗證，能處理空輸入與非數字輸入
+> 若 get_book_details() 收到空字串書名會怎麼樣？加上防護
+> 為 get_book_details() 增加完整 docstring，包含參數說明與回傳值
 ```
 
 **常見問題：**
-- 若 Copilot CLI 提出澄清問題，直接自然地回答即可
-- 上下文會延續，所以每個提示都建立在上一個的基礎上
-- 若想重新開始，使用 `/clear`
+- 若 Copilot CLI 提問澄清問題，只需自然回答即可
+- 情境會延續，每個提示都建立在前一個基礎上
+- 若想重來可用 `/clear`
 
 </details>
 
 ### 加分挑戰：比較三種模式
 
-範例中用 `/plan` 處理搜尋功能，用 `-p` 批次審查。現在對一個全新任務嘗試全部三種模式：為 `BookCollection` 類別新增 `list_by_year()` 方法：
-
-1. **互動模式**：`copilot` → 請它一步步設計並建立該方法
-2. **計畫模式**：`/plan Add a list_by_year(start, end) method to BookCollection that filters books by publication year range`
+範例已用 `/plan` 規劃搜尋功能、用 `-p` 批次審查。現在請你針對新增 `list_by_year()` 方法到 `BookCollection` 類別這個新任務，分別用三種模式嘗試：1. **互動模式**：`copilot` → 請它一步步設計並建立方法  
+2. **規劃模式**：`/plan Add a list_by_year(start, end) method to BookCollection that filters books by publication year range`  
 3. **程式化模式**：`copilot --allow-all -p "@samples/book-app-project/books.py Add a list_by_year(start, end) method that returns books published between start and end year inclusive"`
 
-**省思**：哪種模式感覺最自然？你會在什麼時候選用各種模式？
+**反思**：哪一種模式最自然？你會在什麼情境下使用每一種？
 
 ---
 
-<details markdown="1">
+<details>
 <summary>🔧 <strong>常見錯誤與疑難排解</strong>（點擊展開）</summary>
 
 ### 常見錯誤
 
-| 錯誤 | 發生的事 | 解決方式 |
-|------|---------|---------|
-| 輸入 `exit` 而非 `/exit` | Copilot CLI 將「exit」視為提示，而非指令 | 斜線指令必須以 `/` 開頭 |
-| 用 `-p` 進行多輪對話 | 每次 `-p` 呼叫都是獨立的，沒有先前呼叫的記憶 | 需要建立上下文的對話請使用互動模式（`copilot`） |
-| 提示中含有 `$` 或 `!` 時忘記加引號 | Shell 在 Copilot CLI 看到之前就解譯了特殊字元 | 將提示用引號包圍：`copilot -p "What does $HOME mean?"` |
+| 錯誤 | 結果 | 修正方式 |
+|------|------|----------|
+| 輸入 `exit` 而不是 `/exit` | Copilot CLI 會把 "exit" 當成提示詞，而不是指令 | 斜線指令一律以 `/` 開頭 |
+| 在多輪對話中使用 `-p` | 每次 `-p` 執行都是獨立的，不會記住先前的內容 | 需要累積情境的對話請用互動模式（`copilot`） |
+| 忘記用引號包住含 `$` 或 `!` 的提示詞 | Shell 會在 Copilot CLI 處理前先解讀特殊字元 | 用引號包住提示詞：`copilot -p "What does $HOME mean?"` |
 
 ### 疑難排解
 
-**「Model not available」** - 你的訂閱可能未包含所有模型。使用 `/model` 查看可用項目。
+**"Model not available"** - 你的訂閱方案可能不包含所有模型。請用 `/model` 查看可用模型。
 
-**「Context too long」** - 你的對話已使用完整的上下文視窗。使用 `/clear` 重置，或開始新工作階段。
+**"Context too long"** - 你的對話已用滿情境窗口。請用 `/clear` 重設，或開始新會話。
 
-**「Rate limit exceeded」** - 等幾分鐘後再試。考慮在批次操作中使用程式化模式並加入延遲。
+**"Rate limit exceeded"** - 請稍候幾分鐘再試。大量自動化作業可考慮用程式化模式並加上延遲。
 
 </details>
 
@@ -617,24 +646,24 @@ Get-ChildItem samples/book-app-project/*.py | ForEach-Object {
 
 ## 🔑 重點整理
 
-1. **互動模式**適合探索和迭代——上下文持續延續，就像與記住你說過的話的人對話。
-2. **計畫模式**通常用於較複雜的任務，實作前先審查。
-3. **程式化模式**用於自動化，無需互動。
-4. **四個基本指令**（`/help`、`/clear`、`/plan`、`/exit`）涵蓋大部分的日常使用。
+1. **互動模式** 適合探索與反覆嘗試——情境會持續累積。就像和一個會記得你說過什麼的人對話。
+2. **規劃模式** 通常用於較複雜的任務。實作前可先檢查規劃內容。
+3. **程式化模式** 用於自動化。不需互動。
+4. **主要指令**（`/help`、`/clear`、`/plan`、`/research`、`/model`、`/exit`）涵蓋大部分日常需求。
 
-> 📋 **快速參考**：查看 [GitHub Copilot CLI 指令參考](https://docs.github.com/en/copilot/reference/cli-command-reference) 以取得完整指令與快捷鍵列表。
+> 📋 **快速參考**：完整指令與快捷鍵請見 [GitHub Copilot CLI 指令參考](https://docs.github.com/en/copilot/reference/cli-command-reference)。
 
 ---
 
 ## ➡️ 接下來
 
-現在你已了解三種模式，讓我們學習如何為 Copilot CLI 提供程式碼的上下文。
+現在你已了解三種模式，接下來我們要學習如何讓 Copilot CLI 取得你的程式碼情境。
 
-在**[第 02 章：上下文與對話](../02-context-conversations/README.md)**中，你將學習：
+在 **[第 02 章：情境與對話](../02-context-conversations/README.md)**，你將學到：
 
-- 用於參照檔案和目錄的 `@` 語法
-- 以 `--resume` 和 `--continue` 管理工作階段
-- 上下文管理如何讓 Copilot CLI 真正發揮威力
+- 使用 `@` 語法參照檔案與目錄
+- 用 `--resume` 和 `--continue` 管理會話
+- 為什麼情境管理讓 Copilot CLI 如虎添翼
 
 ---
 
