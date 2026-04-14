@@ -1,7 +1,7 @@
 name: 每日同步並翻譯 Upstream 更新
 
 # 此 Workflow 每天定時檢查 github/copilot-cli-for-beginners (upstream)
-# 是否有新的 commit，若有異動的 Markdown 文件（排除 .github/），會自動翻譯成 zh-tw 並開 PR。
+# 是否有新的 commit，若有異動的 Markdown 文件（排除 .github/），會自動翻譯成 zh-tw 並直接推送。
 #
 # 前置設定（一次性）：
 #   在此 Repository 的 Settings → Secrets and variables → Actions 中新增：
@@ -17,7 +17,6 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
 
 jobs:
   sync-and-translate:
@@ -142,33 +141,13 @@ jobs:
              .github/translation-state.json > /tmp/state.json
           mv /tmp/state.json .github/translation-state.json
 
-      - name: Create Pull Request
+      - name: Commit and push to zh-tw
         if: >
           steps.check-changes.outputs.has_changes == 'true' &&
           steps.get-files.outputs.has_translatable_changes == 'true'
-        uses: peter-evans/create-pull-request@v7
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: auto-translate/upstream-${{ steps.check-changes.outputs.upstream_head }}
-          base: zh-tw
-          title: "chore(i18n): 自動翻譯 upstream 更新至 zh-tw"
-          body: |
-            ## 🌏 自動翻譯 Upstream 更新
-
-            此 PR 由 GitHub Actions 自動產生，包含以下 upstream 異動的翻譯：
-
-            - **Upstream**: `${{ steps.read-state.outputs.upstream_repo }}`
-            - **翻譯起點**: `${{ steps.read-state.outputs.last_commit }}`
-            - **翻譯終點**: `${{ steps.check-changes.outputs.upstream_head }}`
-
-            ### 📋 翻譯說明
-
-            - 翻譯引擎：Azure OpenAI v1 API
-            - 模型：`AZURE_OPENAI_MODEL`（請將 deployment 指向 GPT-4.1）
-            - 術語一致性參考：`GLOSSARY.md`
-            - 程式碼區塊、指令、URL、HTML 標籤均保持原文不變
-
-            > ⚠️ 請在合併前審查翻譯品質，確保技術術語正確。
-          commit-message: "chore(i18n): 自動翻譯 upstream 更新至 zh-tw"
-          labels: translation,automated
-          delete-branch: true
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "chore(i18n): 自動翻譯 upstream 更新至 zh-tw"
+          git push origin zh-tw
