@@ -1,7 +1,7 @@
 name: 每日同步並翻譯 Upstream 更新
 
 # 此 Workflow 每天定時檢查 github/copilot-cli-for-beginners (upstream)
-# 是否有新的 commit，若有異動的 Markdown 文件，會自動翻譯成 zh-tw 並開 PR。
+# 是否有新的 commit，若有異動的 Markdown 文件（排除 .github/），會自動翻譯成 zh-tw 並開 PR。
 #
 # 前置設定（一次性）：
 #   在此 Repository 的 Settings → Secrets and variables → Actions 中新增：
@@ -66,64 +66,44 @@ jobs:
             echo "has_changes=true" >> $GITHUB_OUTPUT
           fi
 
-      - name: Get changed Markdown files
+      - name: Get changed translatable Markdown files
         if: steps.check-changes.outputs.has_changes == 'true'
         id: get-files
         run: |
           LAST_COMMIT="${{ steps.read-state.outputs.last_commit }}"
-          # 取出 .md 檔案的新增與修改（不含刪除）
+          # 只處理 .md 檔案，並排除 .github/ 下的 Markdown 資源
           git diff --name-only --diff-filter=ACM \
-            "$LAST_COMMIT" upstream/main -- '*.md' \
+            "$LAST_COMMIT" upstream/main -- \
+            '*.md' \
+            ':(exclude).github/**' \
             > /tmp/changed_md_files.txt
           echo "=== 需要翻譯的 Markdown 檔案 ==="
           cat /tmp/changed_md_files.txt
           COUNT=$(grep -c . /tmp/changed_md_files.txt || true)
           echo "file_count=$COUNT" >> $GITHUB_OUTPUT
 
-          # 取出在 upstream 被刪除的 .md 檔案
+          # 取出在 upstream 被刪除的 .md 檔案（同樣排除 .github/）
           git diff --name-only --diff-filter=D \
-            "$LAST_COMMIT" upstream/main -- '*.md' \
+            "$LAST_COMMIT" upstream/main -- \
+            '*.md' \
+            ':(exclude).github/**' \
             > /tmp/deleted_md_files.txt
           echo "=== 被刪除的 Markdown 檔案 ==="
           cat /tmp/deleted_md_files.txt
+          DELETED_COUNT=$(grep -c . /tmp/deleted_md_files.txt || true)
+          echo "deleted_file_count=$DELETED_COUNT" >> $GITHUB_OUTPUT
 
-      - name: Get changed non-Markdown files
-        if: steps.check-changes.outputs.has_changes == 'true'
-        id: get-non-md-files
-        run: |
-          LAST_COMMIT="${{ steps.read-state.outputs.last_commit }}"
-          # 取出非 .md 檔案的新增與修改（不含刪除）
-          # 跳過 .github/workflows/，避免 create-pull-request 使用 GITHUB_TOKEN
-          # 推送 workflow 檔案時因缺少 workflows scope 而失敗。
-          git diff --name-only --diff-filter=ACM \
-            "$LAST_COMMIT" upstream/main \
-            | grep -v '\.md$' \
-            | grep -v '^\.github/workflows/' \
-            > /tmp/changed_non_md_files.txt || true
-          echo "=== 需要同步的非 Markdown 檔案 ==="
-          cat /tmp/changed_non_md_files.txt
-
-          # 取出在 upstream 被刪除的非 .md 檔案
-          git diff --name-only --diff-filter=D \
-            "$LAST_COMMIT" upstream/main \
-            | grep -v '\.md$' \
-            | grep -v '^\.github/workflows/' \
-            > /tmp/deleted_non_md_files.txt || true
-          echo "=== 被刪除的非 Markdown 檔案 ==="
-          cat /tmp/deleted_non_md_files.txt
-
-      - name: Apply upstream non-Markdown file changes
-        if: steps.check-changes.outputs.has_changes == 'true'
-        run: |
-          # 從 upstream/main 複製新增或修改的非 .md 檔案
-          while IFS= read -r filepath; do
-            [ -z "$filepath" ] && continue
-            echo "📄 同步非文件檔案: $filepath"
-            git checkout upstream/main -- "$filepath"
-          done < /tmp/changed_non_md_files.txt
+          if [ $((COUNT + DELETED_COUNT)) -gt 0 ]; then
+            echo "has_translatable_changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_translatable_changes=false" >> $GITHUB_OUTPUT
+            echo "ℹ️ 沒有需要翻譯或刪除的 Markdown 檔案（已排除 .github/）。"
+          fi
 
       - name: Apply upstream deletions
-        if: steps.check-changes.outputs.has_changes == 'true'
+        if: >
+          steps.check-changes.outputs.has_changes == 'true' &&
+          steps.get-files.outputs.deleted_file_count != '0'
         run: |
           # 刪除在 upstream 已移除的 .md 檔案
           while IFS= read -r filepath; do
@@ -133,15 +113,6 @@ jobs:
               git rm "$filepath"
             fi
           done < /tmp/deleted_md_files.txt
-
-          # 刪除在 upstream 已移除的非 .md 檔案
-          while IFS= read -r filepath; do
-            [ -z "$filepath" ] && continue
-            if [ -f "$filepath" ]; then
-              echo "🗑️  刪除非文件檔案: $filepath"
-              git rm "$filepath"
-            fi
-          done < /tmp/deleted_non_md_files.txt
 
       - name: Translate changed files using Azure OpenAI
         if: >
@@ -158,7 +129,9 @@ jobs:
             --glossary GLOSSARY.md
 
       - name: Update translation state
-        if: steps.check-changes.outputs.has_changes == 'true'
+        if: >
+          steps.check-changes.outputs.has_changes == 'true' &&
+          steps.get-files.outputs.has_translatable_changes == 'true'
         env:
           UPSTREAM_HEAD: ${{ steps.check-changes.outputs.upstream_head }}
         run: |
@@ -170,7 +143,9 @@ jobs:
           mv /tmp/state.json .github/translation-state.json
 
       - name: Create Pull Request
-        if: steps.check-changes.outputs.has_changes == 'true'
+        if: >
+          steps.check-changes.outputs.has_changes == 'true' &&
+          steps.get-files.outputs.has_translatable_changes == 'true'
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
