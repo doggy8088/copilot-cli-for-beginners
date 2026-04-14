@@ -93,9 +93,12 @@ jobs:
         run: |
           LAST_COMMIT="${{ steps.read-state.outputs.last_commit }}"
           # 取出非 .md 檔案的新增與修改（不含刪除）
+          # 跳過 .github/workflows/，避免 create-pull-request 使用 GITHUB_TOKEN
+          # 推送 workflow 檔案時因缺少 workflows scope 而失敗。
           git diff --name-only --diff-filter=ACM \
             "$LAST_COMMIT" upstream/main \
             | grep -v '\.md$' \
+            | grep -v '^\.github/workflows/' \
             > /tmp/changed_non_md_files.txt || true
           echo "=== 需要同步的非 Markdown 檔案 ==="
           cat /tmp/changed_non_md_files.txt
@@ -104,6 +107,7 @@ jobs:
           git diff --name-only --diff-filter=D \
             "$LAST_COMMIT" upstream/main \
             | grep -v '\.md$' \
+            | grep -v '^\.github/workflows/' \
             > /tmp/deleted_non_md_files.txt || true
           echo "=== 被刪除的非 Markdown 檔案 ==="
           cat /tmp/deleted_non_md_files.txt
