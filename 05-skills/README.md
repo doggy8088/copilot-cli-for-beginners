@@ -1,28 +1,28 @@
 ![Chapter 05: Skills System](images/chapter-header.png)
 
-> **如果 Copilot 能自動套用你們團隊的最佳實踐，而你不必每次都解釋，會怎麼樣？**
+> **如果 Copilot 能自動套用你們團隊的最佳實踐，而不需要你每次都重新解釋，會怎麼樣？**
 
-在本章中，你將學習 Agent 技能：Copilot 會在與你的任務相關時自動載入的指令資料夾。Agent 會改變 Copilot「思考的方式」，而技能則教 Copilot「完成任務的具體方法」。你將建立一個安全稽核技能，讓 Copilot 在你詢問安全性時自動套用，打造團隊標準的審查規範，確保程式碼品質一致，並學習技能如何在 Copilot CLI、VS Code 及 GitHub Copilot 雲端代理人中運作。
+在本章中，你將學習關於 Agent 技能（Skills）：Copilot 會在與你的任務相關時自動載入的指令資料夾。Agent 會改變 Copilot *思考的方式*，而技能則教 Copilot *完成任務的具體方法*。你將建立一個安全稽核技能，讓 Copilot 在你詢問安全性時自動套用，打造團隊標準的審查規範，確保程式碼品質一致，並學會技能如何在 Copilot CLI、VS Code 及 GitHub Copilot 雲端代理人中運作。
 
 ## 🎯 學習目標
 
 完成本章後，你將能夠：
 
-- 了解 Agent 技能的運作方式及使用時機
-- 以 SKILL.md 檔案建立自訂技能
-- 使用來自社群的技能（共用儲存庫）
+- 了解 Agent 技能的運作方式及適用時機
+- 使用 SKILL.md 檔案建立自訂技能
+- 使用來自共用儲存庫的社群技能
 - 知道何時該用技能、Agent 或 MCP
 
-> ⏱️ **預估時間**：~55 分鐘（20 分鐘閱讀 + 35 分鐘實作）
+> ⏱️ **預估時間**：約 55 分鐘（閱讀 20 分鐘 + 實作 35 分鐘）
 
 ---
 
-## 🧩 真實世界比喻：電動工具
+## 🧩 真實世界類比：電動工具
 
-一般的電鑽很實用，但專用配件讓它更強大。
+一般用途的電鑽很有用，但專用的配件讓它更強大。
 <img src="images/power-tools-analogy.png" alt="Power Tools - Skills Extend Copilot's Capabilities" width="800"/>
 
-技能的運作方式也一樣。就像根據不同工作更換鑽頭，你可以為 Copilot 加入不同任務的技能：
+技能的運作方式也是如此。就像根據不同工作更換電鑽頭一樣，你可以為 Copilot 加入不同任務的技能：
 
 | 技能配件 | 目的 |
 |------------|---------|
@@ -31,7 +31,7 @@
 | `generate-tests` | 建立完整的 pytest 測試 |
 | `code-checklist` | 套用團隊程式碼品質標準 |
 
-*技能是專用配件，能擴充 Copilot 的能力*
+*技能是讓 Copilot 能力擴充的專用配件*
 
 ---
 
@@ -45,20 +45,20 @@
 
 ## *第一次接觸技能？* 從這裡開始！
 
-1. **查看目前有哪些技能可用：**
+1. **查看現有技能：**
    ```bash
    copilot
    > /skills list
    ```
-   這會顯示 Copilot 能找到的所有技能，包括 CLI 內建的**內建技能**，以及來自你專案和個人資料夾的技能。
+   這會顯示 Copilot 能找到的所有技能，包括 CLI 內建的**內建技能**，以及來自你的專案和個人資料夾的技能。
 
-   > 💡 **內建技能**：Copilot CLI 預設就有內建技能。例如，`customizing-copilot-cloud-agents-environment` 技能提供自訂 Copilot 雲端代理人環境的指南。你不需要建立或安裝就能使用。執行 `/skills list` 查看有哪些技能可用。
+   > 💡 **內建技能**：Copilot CLI 預設就有一些技能。例如，`customizing-copilot-cloud-agents-environment` 技能提供自訂 Copilot 雲端代理人環境的指南。你不需要額外建立或安裝，直接執行 `/skills list` 就能看到有哪些技能可用。
 
-2. **看看實際的技能檔案：** 參考我們提供的 [code-checklist SKILL.md](../.github/skills/code-checklist/SKILL.md) 來了解範例格式。它就是 YAML frontmatter 加上 markdown 指令。
+2. **看看實際的技能檔案：** 參考我們提供的 [code-checklist SKILL.md](../.github/skills/code-checklist/SKILL.md) 來了解格式。它其實就是 YAML frontmatter 加上 markdown 指令。
 
-3. **理解核心概念：** 技能是針對任務的指令，只要你的提示詞符合技能描述，Copilot 就會*自動*載入。你不需要手動啟用，只要自然提問即可。
+3. **理解核心概念：** 技能是 Copilot 會在你的提示詞符合技能描述時*自動*載入的任務專用指令。你不需要手動啟用，只要自然地提問即可。
 
-## 認識技能
+## 理解技能
 
 Agent 技能是一個資料夾，內含指令、腳本和資源，Copilot 會在**與你的任務相關時自動載入**。Copilot 會讀取你的提示詞，檢查是否有技能符合，並自動套用相關指令。
 
@@ -67,7 +67,7 @@ copilot
 
 > Check books.py against our quality checklist
 # Copilot 偵測到這符合你的 "code-checklist" 技能
-# 並自動套用 Python 品質檢查表
+# 並自動套用 Python 品質檢查清單
 
 > Generate tests for the BookCollection class
 # Copilot 載入你的 "pytest-gen" 技能
@@ -75,12 +75,12 @@ copilot
 
 > What are the code quality issues in this file?
 # Copilot 載入你的 "code-checklist" 技能
-# 並依團隊標準檢查
+# 並依照團隊標準檢查
 ```
 
-> 💡 **關鍵洞見**：技能會根據你的提示詞是否符合技能描述**自動觸發**。只要自然提問，Copilot 就會在背後自動套用相關技能。你也可以直接呼叫技能，接下來會介紹。
+> 💡 **關鍵洞見**：技能會根據你的提示詞是否符合技能描述**自動觸發**。只要自然提問，Copilot 就會在背後自動套用相關技能。你也可以直接呼叫技能，下一節會介紹。
 
-> 🧰 **現成範本**：參考 [.github/skills](../.github/skills/) 資料夾，有許多可直接複製貼上的技能範例。
+> 🧰 **現成範本**：參考 [.github/skills](../.github/skills/) 資料夾，裡面有可直接複製貼上的簡單技能。
 
 ### 直接斜線指令呼叫
 
@@ -94,15 +94,29 @@ copilot
 > /security-audit Check the API endpoints for vulnerabilities
 ```
 
-這讓你在需要時能明確指定要用哪個技能。
+這讓你在需要時可以明確指定要用哪個技能。
 
-> 📝 **技能 vs Agent 呼叫**：不要混淆技能呼叫和 Agent 呼叫：
+#### 一則訊息呼叫多個技能
+
+你可以在**同一則訊息中呼叫多個技能**，而且技能斜線指令可以出現在提示詞的任何地方——不一定要在開頭。這很適合一次做兩種檢查：
+
+```bash
+> Check @samples/book-app-project/book_app.py with /code-checklist and also run /generate-tests for it
+
+> Review the auth module /security-audit then /code-checklist the result
+```
+
+Copilot 會在同一回應中套用每個指定的技能，省去你多次發送訊息的麻煩。
+
+> 💡 **提示**：把技能斜線指令放在你覺得最自然的位置。可以在訊息的開頭、中間或結尾。
+
+> 📝 **技能 vs Agent 呼叫**：不要把技能呼叫和 Agent 呼叫搞混：
 > - **技能**：`/skill-name <prompt>`，例如 `/code-checklist Check this file`
 > - **Agent**：`/agent`（從清單選擇）或 `copilot --agent <name>`（命令列）
 >
 > 如果你同時有同名的技能和 Agent（例如 "code-reviewer"），輸入 `/code-reviewer` 會呼叫**技能**，而不是 Agent。
 
-### 如何知道 Copilot 用了哪些技能？
+### 如何知道技能有被使用？
 
 你可以直接問 Copilot：
 
@@ -114,29 +128,29 @@ copilot
 
 ### 技能 vs Agent vs MCP
 
-技能只是 GitHub Copilot 擴充模型的一部分。以下是它們與 Agent 和 MCP 伺服器的比較。
+技能只是 GitHub Copilot 擴充模型的一部分。以下是它們與 Agent、MCP 伺服器的比較。
 
-> *不用現在擔心 MCP。我們會在[第六章](../06-mcp-servers/)介紹。這裡先讓你了解技能在整體架構中的定位。*
+> *暫時不用擔心 MCP。我們會在[第六章](../06-mcp-servers/)介紹。這裡先讓你了解技能在整體架構中的定位。*
 
 <img src="images/skills-agents-mcp-comparison.png" alt="Comparison diagram showing the differences between Agents, Skills, and MCP Servers and how they combine into your workflow" width="800"/>
 
-| 功能 | 作用 | 使用時機 |
+| 功能 | 作用 | 適用時機 |
 |---------|--------------|-------------|
 | **Agent** | 改變 AI 的思考方式 | 需要跨多任務的專業知識 |
-| **技能** | 提供任務專屬指令 | 具體、可重複的細部任務 |
-| **MCP** | 連接外部服務 | 需要即時 API 資料 |
+| **技能** | 提供任務專用指令 | 具體、可重複、有明確步驟的任務 |
+| **MCP** | 連接外部服務 | 需要從 API 取得即時資料 |
 
-廣泛專業用 Agent，具體任務指令用技能，外部資料用 MCP。Agent 在對話中可以用一個或多個技能。例如，當你請 Agent 檢查程式碼時，它可能會自動套用 `security-audit` 技能和 `code-checklist` 技能。
+Agent 適合廣泛專業知識，技能適合具體任務指令，MCP 則用於外部資料。Agent 在對話中可以同時使用一個或多個技能。例如，當你請 Agent 檢查程式碼時，它可能會自動套用 `security-audit` 和 `code-checklist` 技能。
 
-> 📚 **深入了解**：參考官方 [About Agent Skills](https://docs.github.com/copilot/concepts/agents/about-agent-skills) 文件，完整說明技能格式與最佳實踐。
+> 📚 **深入了解**：完整技能格式與最佳實踐請參考官方文件 [About Agent Skills](https://docs.github.com/copilot/concepts/agents/about-agent-skills)。
 
 ---
 
 ## 從手動提示到自動專業
 
-在學習如何建立技能之前，先看看*為什麼*值得學。當你看到一致性的提升，學「怎麼做」會更有感。
+在學習如何建立技能之前，先來看看*為什麼*值得學。當你看到一致性的提升後，"怎麼做" 就會更有意義。
 
-### 沒有技能時：審查品質不一
+### 有技能之前：審查不一致
 
 每次程式碼審查，你可能都會漏掉某些項目：
 
@@ -144,10 +158,10 @@ copilot
 copilot
 
 > Review this code for issues
-# 一般審查——可能漏掉你們團隊特有的重點
+# 一般性審查——可能漏掉你們團隊特有的重點
 ```
 
-或是每次都要寫很長的提示：
+或者你每次都要寫一長串提示：
 
 ```bash
 > Review this code checking for bare except clauses, missing type hints,
@@ -155,9 +169,9 @@ copilot
 > functions over 50 lines, print statements in production code...
 ```
 
-花費時間：**30+ 秒**。一致性：**靠記憶，品質不一**。
+耗時：**30 秒以上**。一致性：**取決於記憶力**。
 
-### 有技能後：自動套用最佳實踐
+### 有技能之後：自動最佳實踐
 
 安裝 `code-checklist` 技能後，只要自然提問：
 
@@ -167,11 +181,11 @@ copilot
 > Check the book collection code for quality issues
 ```
 
-**背後發生的事**：
-1. Copilot 偵測你的提示詞有「code quality」、「issues」
+**幕後發生的事**：
+1. Copilot 在你的提示詞中看到 "code quality" 和 "issues"
 2. 檢查技能描述，發現 `code-checklist` 技能符合
-3. 自動載入團隊品質檢查表
-4. 全部檢查自動執行，你不用一條條列出
+3. 自動載入你們團隊的品質檢查清單
+4. 不用你逐條列出，全部自動檢查
 
 <img src="images/skill-auto-discovery-flow.png" alt="How Skills Auto-Trigger - 4-step flow showing how Copilot automatically matches your prompt to the right skill" width="800"/>
 
@@ -201,16 +215,16 @@ copilot
 3 items need attention before merge
 ```
 
-**差異**：團隊標準每次都自動套用，不用每次手動輸入。
+**差異**：你們團隊的標準每次都會自動套用，不用再手動輸入。
 
 ---
 
 <details>
-<summary>🎬 實際操作影片</summary>
+<summary>🎬 實際操作影片！</summary>
 
 ![Skill Trigger Demo](images/skill-trigger-demo.gif)
 
-*Demo 輸出會有差異。你的模型、工具和回應可能與此不同。*
+*Demo 輸出會有所不同。你的模型、工具和回應可能與此不同。*
 
 </details>
 
@@ -218,7 +232,7 @@ copilot
 
 ## 一致性擴展：團隊 PR 審查技能
 
-假設你們團隊有 10 點 PR 檢查表。沒有技能時，每個開發者都得記住全部 10 點，總有人會漏掉。有了 `pr-review` 技能，全團隊都能一致審查：
+假設你們團隊有 10 點 PR 檢查清單。沒有技能時，每個開發者都要記住這 10 點，總有人會漏掉。有了 `pr-review` 技能，整個團隊都能得到一致的審查：
 
 ```bash
 copilot
@@ -226,7 +240,7 @@ copilot
 > Can you review this PR?
 ```
 
-Copilot 會自動載入團隊的 `pr-review` 技能，檢查全部 10 點：
+Copilot 會自動載入你們團隊的 `pr-review` 技能並檢查所有 10 點：
 
 ```
 PR Review: feature/user-auth
@@ -250,7 +264,7 @@ PR Review: feature/user-auth
 - [FAIL] API changes need OpenAPI spec update
 ```
 
-**威力**：每位團隊成員都自動套用相同標準。新進人員不用背檢查表，技能會自動處理。
+**威力**：每位團隊成員都能自動套用相同標準。新進人員也不用背清單，技能會自動處理。
 
 ---
 
@@ -258,26 +272,26 @@ PR Review: feature/user-auth
 
 <img src="images/creating-managing-skills.png" alt="Human and robotic hands building a wall of glowing LEGO-like blocks representing skill creation and management" width="800"/>
 
-從 SKILL.md 檔案打造自己的技能。
+從 SKILL.md 檔案開始打造你的專屬技能。
 
 ---
 
 ## 技能存放位置
 
-技能儲存在 `.github/skills/`（專案專屬）或 `~/.copilot/skills/`（使用者層級）。
+技能儲存在 `.github/skills/`（專案專用）或 `~/.copilot/skills/`（使用者層級）。
 
-### Copilot 如何尋找技能
+### Copilot 如何找到技能
 
 Copilot 會自動掃描這些位置尋找技能：
 
 | 位置 | 範圍 |
 |----------|-------|
-| `.github/skills/` | 專案專屬（透過 git 與團隊共用） |
-| `~/.copilot/skills/` | 使用者專屬（你的個人技能） |
+| `.github/skills/` | 專案專用（透過 git 與團隊共用） |
+| `~/.copilot/skills/` | 使用者專用（你的個人技能） |
 
 ### 技能結構
 
-每個技能放在自己的資料夾，內有一個 `SKILL.md` 檔案。你也可以選擇加入腳本、範例或其他資源：
+每個技能都有自己的資料夾和 `SKILL.md` 檔案。你也可以選擇加入腳本、範例或其他資源：
 
 ```
 .github/skills/
@@ -289,11 +303,11 @@ Copilot 會自動掃描這些位置尋找技能：
         └── validate.sh
 ```
 
-> 💡 **提示**：資料夾名稱應與 SKILL.md frontmatter 的 `name` 欄位一致（小寫並用連字號）。
+> 💡 **提示**：資料夾名稱應與 SKILL.md frontmatter 的 `name` 欄位一致（小寫、用連字號）。
 
 ### SKILL.md 格式
 
-技能使用簡單的 markdown 格式，搭配 YAML frontmatter：
+技能採用簡單的 markdown 格式，搭配 YAML frontmatter：
 
 ```markdown
 ---
@@ -332,19 +346,19 @@ Provide issues as a numbered list with severity:
 - [LOW] - Nice to have
 ```
 
-**YAML 屬性：**
+**YAML 屬性說明：**
 
 | 屬性 | 必要 | 說明 |
 |----------|----------|-------------|
 | `name` | **是** | 唯一識別名稱（小寫、空格用連字號） |
-| `description` | **是** | 技能作用及 Copilot 何時應該載入 |
+| `description` | **是** | 技能用途及 Copilot 何時應該使用 |
 | `license` | 否 | 技能適用的授權條款 |
 
 > 📖 **官方文件**：[About Agent Skills](https://docs.github.com/copilot/concepts/agents/about-agent-skills)
 
 ### 建立你的第一個技能
 
-讓我們建立一個檢查 OWASP Top 10 漏洞的安全稽核技能：
+來打造一個檢查 OWASP Top 10 漏洞的安全稽核技能：
 
 ```bash
 # 建立技能資料夾
@@ -397,7 +411,7 @@ copilot
 
 > @samples/book-app-project/ Check this code for security vulnerabilities
 # Copilot 偵測到 "security vulnerabilities" 符合你的技能
-# 並自動套用 OWASP 檢查表
+# 並自動套用 OWASP 檢查清單
 ```
 
 **預期輸出**（實際結果會有所不同）：
@@ -419,9 +433,9 @@ Security Audit: book-app-project
 
 ---
 
-## 撰寫好的技能描述
+## 撰寫良好的技能描述
 
-你的 SKILL.md 中 `description` 欄位很重要！Copilot 會根據這欄決定是否載入你的技能：
+SKILL.md 的 `description` 欄位非常重要！Copilot 就是靠這個判斷是否要載入你的技能：
 
 ```markdown
 ---
@@ -432,26 +446,26 @@ description: Use for security reviews, vulnerability scanning,
 ---
 ```
 
-> 💡 **提示**：請包含你平常提問時會用到的關鍵字。如果你會說「security review」，就把「security review」寫進 description。
+> 💡 **提示**：請包含你平常提問時會用到的關鍵字。如果你會說「security review」，就把「security review」寫進描述裡。
 
 ### 技能與 Agent 結合
 
-技能和 Agent 可以搭配運作。Agent 提供專業知識，技能提供具體指令：
+技能和 Agent 可以搭配運作。Agent 提供專業知識，技能則給予具體指令：
 
 ```bash
-# 啟動 code-reviewer agent
+# 以 code-reviewer agent 開始
 copilot --agent code-reviewer
 
 > Check the book app for quality issues
 # code-reviewer agent 的專業知識
-# 結合 code-checklist 技能的檢查表
+# 結合 code-checklist 技能的檢查清單
 ```
 
 ---
 
 # 管理與分享技能
 
-發現已安裝的技能、尋找社群技能、並分享你自己的技能。
+發掘已安裝技能、尋找社群技能、分享你自己的技能。
 
 <img src="images/managing-sharing-skills.png" alt="Managing and Sharing Skills - showing the discover, use, create, and share cycle for CLI skills" width="800" />
 
@@ -461,15 +475,15 @@ copilot --agent code-reviewer
 
 使用 `/skills` 指令管理你已安裝的技能：
 
-| 指令 | 作用 |
+| 指令 | 功能說明 |
 |---------|--------------|
 | `/skills list` | 顯示所有已安裝技能 |
-| `/skills info <name>` | 取得特定技能詳細資訊 |
-| `/skills add <name>` | 啟用技能（從儲存庫或市集） |
+| `/skills info <name>` | 查看特定技能詳細資訊 |
+| `/skills add <name>` | 啟用技能（從儲存庫或市集安裝） |
 | `/skills remove <name>` | 停用或解除安裝技能 |
 | `/skills reload` | 編輯 SKILL.md 後重新載入技能 |
 
-> 💡 **記得**：你不需要每次提示都「啟用」技能。安裝後，只要提示詞符合描述，技能就會**自動觸發**。這些指令是用來管理可用技能，不是用來執行技能。
+> 💡 **請記住**：你不需要每次提示都「啟用」技能。只要安裝好，當你的提示詞符合描述時，技能就會**自動觸發**。這些指令是用來管理技能可用性，不是用來直接使用技能。
 
 ### 範例：查看你的技能
 
@@ -495,44 +509,44 @@ Description: Security-focused code review checking OWASP Top 10 vulnerabilities
 ---
 
 <details>
-<summary>實際操作影片</summary>
+<summary>實際操作影片！</summary>
 
 ![List Skills Demo](images/list-skills-demo.gif)
 
-*Demo 輸出會有差異。你的模型、工具和回應可能與此不同。*
+*Demo 輸出會有所不同。你的模型、工具和回應可能與此不同。*
 
 </details>
 
 ---
 
-### 什麼時候要用 `/skills reload`
+### 何時使用 `/skills reload`
 
-建立或編輯技能的 SKILL.md 後，執行 `/skills reload` 就能載入變更，無需重啟 Copilot：
+建立或編輯技能的 SKILL.md 檔案後，執行 `/skills reload` 即可在不重啟 Copilot 的情況下套用變更：
 
 ```bash
-# 編輯技能檔案
-# 然後在 Copilot 輸入：
+# 編輯你的技能檔案
+# 然後在 Copilot 中：
 > /skills reload
 Skills reloaded successfully.
 ```
 
-> 💡 **補充**：即使你用 `/compact` 摘要對話紀錄，技能依然有效。不需 compact 後再 reload。
+> 💡 **小知識**：即使你用 `/compact` 指令壓縮對話記錄，技能依然有效。壓縮後不需重新載入技能。
 
 ---
 
 ## 尋找與使用社群技能
 
-### 用外掛安裝技能
+### 使用外掛安裝技能
 
 > 💡 **什麼是外掛？** 外掛是可安裝的套件，可以同時包含技能、Agent 和 MCP 伺服器設定。就像 Copilot CLI 的「應用程式商店」擴充功能。
 
-用 `/plugin` 指令瀏覽並安裝這些套件：
+使用 `/plugin` 指令可以瀏覽和安裝這些套件：
 
 ```bash
 copilot
 
 > /plugin list
-# 顯示已安裝外掛
+# 顯示已安裝的外掛
 
 > /plugin marketplace
 # 瀏覽可用外掛
@@ -541,36 +555,36 @@ copilot
 # 從市集安裝外掛
 ```
 
-要讓本地外掛清單保持最新，請執行：
+要保持本地外掛目錄最新，請執行：
 
 ```bash
 copilot plugin marketplace update
 ```
 
-外掛可以同時包含多種功能。一個外掛可能同時有相關技能、Agent 和 MCP 伺服器設定。
+外掛可以同時包含多種功能。一個外掛可能包含相關的技能、Agent 和 MCP 伺服器設定，彼此協同運作。
 
 ### 社群技能儲存庫
 
-也可從社群儲存庫取得現成技能：
+也有許多現成技能可從社群儲存庫取得：
 
-- **[Awesome Copilot](https://github.com/github/awesome-copilot)** - 官方 GitHub Copilot 資源，包含技能文件與範例
+- **[Awesome Copilot](https://github.com/github/awesome-copilot)** - 官方 GitHub Copilot 資源，包括技能文件與範例
 
-### 用 GitHub CLI 安裝社群技能
+### 使用 GitHub CLI 安裝社群技能
 
-從 GitHub 儲存庫安裝技能最簡單的方式是用 `gh skill install` 指令（需 [GitHub CLI v2.90.0+](https://github.blog/changelog/2026-04-16-manage-agent-skills-with-github-cli/)）：
+從 GitHub 儲存庫安裝技能最簡單的方法是使用 `gh skill install` 指令（需 [GitHub CLI v2.90.0+](https://github.blog/changelog/2026-04-16-manage-agent-skills-with-github-cli/)）：
 
 ```bash
-# 互動式瀏覽並選擇 awesome-copilot 技能
+# 瀏覽並互動式選擇 awesome-copilot 的技能
 gh skill install github/awesome-copilot
 
 # 或直接安裝特定技能
 gh skill install github/awesome-copilot code-checklist
 
-# 安裝到所有專案（使用者範圍）
+# 安裝到個人層級，所有專案都可用
 gh skill install github/awesome-copilot code-checklist --scope user
 ```
 
-> ⚠️ **安裝前請審查**：安裝前務必閱讀技能的 `SKILL.md`。技能會控制 Copilot 的行為，惡意技能可能指示 Copilot 執行有害指令或異常修改程式碼。
+> ⚠️ **安裝前請審查**：安裝技能前，務必閱讀該技能的 `SKILL.md`。技能會控制 Copilot 的行為，惡意技能可能會指示 Copilot 執行有害命令或意外修改程式碼。
 
 ---
 
@@ -578,7 +592,7 @@ gh skill install github/awesome-copilot code-checklist --scope user
 
 <img src="../images/practice.png" alt="Warm desk setup with monitor showing code, lamp, coffee cup, and headphones ready for hands-on practice" width="800"/>
 
-動手打造並測試自己的技能，應用所學。
+動手建立並測試你自己的技能，應用所學。
 
 ---
 
@@ -586,11 +600,11 @@ gh skill install github/awesome-copilot code-checklist --scope user
 
 ### 建立更多技能
 
-這裡有兩個不同模式的技能範例。請依「建立你的第一個技能」的 `mkdir` + `cat` 流程操作，或直接複製貼上到正確位置。更多範例見 [.github/skills](../.github/skills)。
+這裡有兩個不同模式的技能範例。請依照「建立你的第一個技能」中的 `mkdir` + `cat` 流程操作，或直接複製貼上到正確位置。更多範例請見 [.github/skills](../.github/skills)。
 
 ### pytest 測試產生技能
 
-一個確保全專案 pytest 結構一致的技能：
+這個技能可確保你的程式碼庫 pytest 結構一致：
 
 ```bash
 mkdir -p .github/skills/pytest-gen
@@ -629,7 +643,7 @@ EOF
 
 ### 團隊 PR 審查技能
 
-一個強制團隊 PR 審查標準一致的技能：
+這個技能可強制團隊 PR 審查標準一致：
 
 ```bash
 mkdir -p .github/skills/pr-review
@@ -680,35 +694,33 @@ EOF
 1. **技能創作挑戰**：建立一個 `quick-review` 技能，檢查三點：
    - bare except 子句
    - 缺少型別註記
-   - 變數命名不清楚
+   - 不明確的變數名稱
 
-   測試方式：「Do a quick review of books.py」
+   測試時請提問：「Do a quick review of books.py」
 
-2. **技能比較**：計時你手動寫一個詳細安全審查提示要多久。然後只輸入「Check for security issues in this file」，讓 security-audit 技能自動載入。技能幫你省下多少時間？
+2. **技能比較**：計時你手動輸入詳細安全審查提示詞所需時間。然後只問「Check for security issues in this file」，讓 security-audit 技能自動載入。技能幫你省下多少時間？
 
-3. **團隊技能挑戰**：想想你們團隊的程式碼審查清單。能否把它寫成一個技能？列出技能應該永遠檢查的三件事。
+3. **團隊技能挑戰**：思考你們團隊的程式碼審查清單。能否將它寫成技能？寫下技能應該永遠檢查的三件事。
 
-**自我檢查**：你能解釋 `description` 欄位為什麼重要（Copilot 會根據它決定是否載入技能），就代表你真的懂技能了。
+**自我檢查**：你能解釋 `description` 欄位為何重要（Copilot 就是靠它判斷是否載入技能），就代表你已經理解技能了。
 
 ---
 
 ## 📝 作業
 
-### 主要挑戰：建立書籍摘要技能
+### 主要挑戰：建立一本書摘要技能
 
-上面範例建立了 `pytest-gen` 和 `pr-review` 技能。現在請練習建立完全不同類型的技能：產生資料格式化輸出的技能。
-
-1. 列出你目前的技能：執行 Copilot 並輸入 `/skills list`。你也可以用 `ls .github/skills/` 查看專案技能，或 `ls ~/.copilot/skills/` 查看個人技能。
-2. 在 `.github/skills/book-summary/SKILL.md` 建立一個 `book-summary` 技能，能針對書籍收藏產生格式化的 markdown 摘要
-3. 技能內容需包含：
-   - 清楚的名稱與描述（描述對比對很關鍵！）
-   - 明確的格式規則（例如：用 markdown 表格顯示書名、作者、年份、閱讀狀態）
-   - 輸出規範（例如：閱讀狀態用 ✅/❌，依年份排序）
+上面的範例建立了 `pytest-gen` 和 `pr-review` 技能。現在請練習建立一個完全不同類型的技能：用來從資料產生格式化輸出的技能。1. 列出你目前的技能：執行 Copilot 並傳入 `/skills list`。你也可以使用 `ls .github/skills/` 來查看專案技能，或 `ls ~/.copilot/skills/` 查看個人技能。
+2. 在 `.github/skills/book-summary/SKILL.md` 建立一個 `book-summary` 技能，能夠產生書籍收藏的格式化 markdown 摘要
+3. 你的技能應包含：
+   - 清楚的名稱與描述（描述對於自動比對至關重要！）
+   - 明確的格式規則（例如：使用 markdown 表格，欄位有 title、author、year、read status）
+   - 輸出慣例（例如：已讀狀態用 ✅/❌，依年份排序）
 4. 測試技能：`@samples/book-app-project/data.json Summarize the books in this collection`
-5. 用 `/skills list` 確認技能有自動觸發
-6. 試著用 `/book-summary Summarize the books in this collection` 直接呼叫
+5. 透過檢查 `/skills list` 驗證技能是否自動觸發
+6. 嘗試用 `/book-summary Summarize the books in this collection` 直接呼叫
 
-**成功標準**：你有一個運作中的 `book-summary` 技能，Copilot 會在你詢問書籍收藏時自動套用。
+**成功標準**：你有一個可用的 `book-summary` 技能，當你詢問書籍收藏時 Copilot 能自動套用。
 
 <details>
 <summary>💡 提示（點擊展開）</summary>
@@ -718,26 +730,26 @@ EOF
 ```markdown
 ---
 name: book-summary
-description: 產生格式化的書籍收藏 Markdown 摘要
+description: Generate a formatted markdown summary of a book collection
 ---
 
-# 書籍摘要產生器
+# Book Summary Generator
 
-請依照以下規則產生書籍收藏的摘要：
+Generate a summary of the book collection following these rules:
 
-1. 輸出一個包含下列欄位的 Markdown 表格：Title、Author、Year、Status
-2. 已讀書籍使用 ✅，未讀書籍使用 ❌
-3. 依年份排序（由舊到新）
-4. 在底部加入總數統計
-5. 標註任何資料問題（如作者缺漏、年份無效）
+1. Output a markdown table with columns: Title, Author, Year, Status
+2. Use ✅ for read books and ❌ for unread books
+3. Sort by year (oldest first)
+4. Include a total count at the bottom
+5. Flag any data issues (missing authors, invalid years)
 
-範例：
+Example:
 | Title | Author | Year | Status |
 |-------|--------|------|--------|
 | 1984 | George Orwell | 1949 | ✅ |
 | Dune | Frank Herbert | 1965 | ❌ |
 
-**總計：2 本書（1 本已讀，1 本未讀）**
+**Total: 2 books (1 read, 1 unread)**
 ```
 
 **測試方式：**
@@ -747,14 +759,14 @@ copilot
 # 技能應該會根據描述自動觸發
 ```
 
-**若未自動觸發：** 請嘗試 `/skills reload` 後再詢問一次。
+**如果沒有觸發：** 請嘗試 `/skills reload`，然後再問一次。
 
 </details>
 
-### 額外挑戰：Commit Message 技能
+### 加分挑戰：Commit Message 技能
 
 1. 建立一個 `commit-message` 技能，能以一致格式產生 conventional commit 訊息
-2. 透過暫存變更並詢問：「Generate a commit message for my staged changes」來測試
+2. 透過暫存變更後詢問：「Generate a commit message for my staged changes」來測試
 3. 撰寫技能文件並在 GitHub 上以 `copilot-skill` 標籤分享
 
 ---
@@ -764,18 +776,18 @@ copilot
 
 ### 常見錯誤
 
-| 錯誤 | 會發生什麼 | 修正方式 |
-|------|------------|----------|
-| 檔案名稱不是 `SKILL.md` | 技能無法被辨識 | 檔案名稱必須完全為 `SKILL.md` |
-| `description` 欄位過於模糊 | 技能永遠不會自動載入 | description 是主要的自動發現機制，請使用明確的觸發關鍵字 |
-| frontmatter 缺少 `name` 或 `description` | 技能載入失敗 | 在 YAML frontmatter 中加入這兩個欄位 |
-| 資料夾位置錯誤 | 找不到技能 | 請使用 `.github/skills/skill-name/`（專案）或 `~/.copilot/skills/skill-name/`（個人） |
+| 錯誤 | 會發生什麼事 | 修正方式 |
+|------|--------------|----------|
+| 檔名不是 `SKILL.md` | 技能不會被辨識 | 檔案名稱必須完全是 `SKILL.md` |
+| `description` 欄位太模糊 | 技能永遠不會自動載入 | 描述是主要的發現機制，請使用明確的觸發關鍵字 |
+| frontmatter 缺少 `name` 或 `description` | 技能載入失敗 | 在 YAML frontmatter 裡加上這兩個欄位 |
+| 資料夾位置錯誤 | 找不到技能 | 使用 `.github/skills/skill-name/`（專案）或 `~/.copilot/skills/skill-name/`（個人） |
 
 ### 疑難排解
 
-**技能未被使用**－如果 Copilot 沒有在預期時使用你的技能：
+**技能未被使用**－如果 Copilot 沒有如預期使用你的技能：
 
-1. **檢查 description**：描述是否與你的提問方式相符？
+1. **檢查描述**：是否與你的提問方式相符？
    ```markdown
    # 不佳：太模糊
    description: Reviews code
@@ -801,29 +813,29 @@ copilot
    description: What the skill does and when to use it
    ---
 
-   # 指令內容寫在這裡
+   # Instructions here
    ```
 
 **技能未顯示**－請確認資料夾結構：
 ```
 .github/skills/
 └── my-skill/           # 資料夾名稱
-    └── SKILL.md        # 必須完全為 SKILL.md（區分大小寫）
+    └── SKILL.md        # 必須完全是 SKILL.md（區分大小寫）
 ```
 
-建立或編輯技能後，請執行 `/skills reload` 以確保變更被載入。
+建立或編輯技能後，請執行 `/skills reload` 以確保變更生效。
 
-**測試技能是否載入**－可直接詢問 Copilot：
+**測試技能是否載入**－直接詢問 Copilot：
 ```bash
 > What skills do you have available for checking code quality?
 # Copilot 會描述它找到的相關技能
 ```
 
-**如何確認技能真的有作用？**
+**如何知道我的技能真的有作用？**
 
-1. **檢查輸出格式**：如果你的技能有指定輸出格式（如 `[CRITICAL]` 標籤），請在回應中尋找這些標記
-2. **直接詢問**：取得回應後，問「Did you use any skills for that?」
-3. **比較有無技能差異**：用 `--no-custom-instructions` 試試同一提示，觀察差異：
+1. **檢查輸出格式**：如果你的技能有指定輸出格式（如 `[CRITICAL]` 標籤），請在回應中尋找
+2. **直接詢問**：收到回應後問「Did you use any skills for that?」
+3. **有無技能比較**：用 `--no-custom-instructions` 比較同一提示的結果：
    ```bash
    # 有技能
    copilot --allow-all -p "Review @file.py for security issues"
@@ -831,7 +843,7 @@ copilot
    # 無技能（基準比較）
    copilot --allow-all -p "Review @file.py for security issues" --no-custom-instructions
    ```
-4. **檢查特定檢查項目**：如果你的技能包含特定檢查（如「函式超過 50 行」），請確認這些內容是否出現在輸出中
+4. **檢查特定檢查項目**：如果你的技能有特定檢查（如「函式超過 50 行」），看看輸出中是否有出現
 
 </details>
 
@@ -839,21 +851,21 @@ copilot
 
 # 摘要
 
-## 🔑 重點整理
+## 🔑 重要重點
 
-1. **技能會自動載入**：當你的提示詞符合技能描述時，Copilot 會自動載入技能
-2. **可直接呼叫**：也可用 `/skill-name` 斜線指令直接呼叫技能
-3. **SKILL.md 格式**：YAML frontmatter（name、description、可選 license）加上 Markdown 指令內容
+1. **技能是自動的**：當你的提示詞符合技能描述時，Copilot 會自動載入
+2. **可直接呼叫**：你也可以用 `/skill-name` 斜線指令直接呼叫技能
+3. **SKILL.md 格式**：YAML frontmatter（name、description、可選 license）加上 markdown 指令說明
 4. **位置很重要**：專案／團隊共用放 `.github/skills/`，個人使用放 `~/.copilot/skills/`
-5. **描述是關鍵**：請用自然提問方式撰寫 description
+5. **描述是關鍵**：撰寫能貼近你自然提問方式的描述
 
-> 📋 **快速參考**：完整指令與捷徑請見 [GitHub Copilot CLI 指令參考](https://docs.github.com/en/copilot/reference/cli-command-reference)。
+> 📋 **快速參考**：完整指令與快捷鍵請見 [GitHub Copilot CLI command reference](https://docs.github.com/en/copilot/reference/cli-command-reference)。
 
 ---
 
-## ➡️ 下一步
+## ➡️ 接下來
 
-技能讓 Copilot 能自動載入指令擴充功能。但如果要連接外部服務呢？這就需要 MCP。
+技能讓 Copilot 能自動載入指令擴充能力。但如果要連接外部服務呢？這就是 MCP 的用武之地。
 
 在 **[第 06 章：MCP 伺服器](../06-mcp-servers/README.md)**，你將學到：
 
@@ -865,4 +877,3 @@ copilot
 ---
 
 **[← 回到第 04 章](../04-agents-custom-instructions/README.md)** | **[繼續前往第 06 章 →](../06-mcp-servers/README.md)**
-```
