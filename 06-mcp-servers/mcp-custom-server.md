@@ -1,17 +1,17 @@
 # 建立自訂 MCP 伺服器
 
-> ⚠️ **本內容完全屬於選讀。** 您只需使用預建的 MCP 伺服器（GitHub、filesystem、Context7），就能高效地使用 Copilot CLI。本指南適合希望將 Copilot 連接到自訂內部 API 的開發者。詳情請參閱 [MCP for Beginners 課程](https://github.com/microsoft/mcp-for-beginners)。
+> ⚠️ **本內容完全為選修。** 你只需使用預先建置的 MCP 伺服器（GitHub、filesystem、Context7），就能高效使用 Copilot CLI。本指南適合想要將 Copilot 連接到自訂內部 API 的開發者。更多細節請參考 [MCP for Beginners 課程](https://github.com/microsoft/mcp-for-beginners)。
 >
-> **先決條件：**
+> **先備知識：**
 > - 熟悉 Python
-> - 了解 `async`/`await` 模式
-> - 系統中已安裝 `pip`（本 dev container 中已包含）
+> - 理解 `async`/`await` 模式
+> - 系統已安裝 `pip`（本開發容器已內建）
 >
-> **[← 返回第 06 章：MCP 伺服器](README.md)**
+> **[← 回到第 06 章：MCP 伺服器](README.md)**
 
 ---
 
-想將 Copilot 連接到您自己的 API 嗎？以下是如何用 Python 建立一個簡單的 MCP 伺服器，以書籍資訊查詢為例，與本課程中一直使用的書籍應用程式相呼應。
+想要將 Copilot 連接到你自己的 API 嗎？以下將示範如何用 Python 建立一個簡單的 MCP 伺服器，查詢書籍資訊，並與本課程一直使用的書籍應用程式專案相結合。
 
 ## 專案設定
 
@@ -21,7 +21,7 @@ cd book-lookup-mcp-server
 pip install mcp
 ```
 
-> 💡 **什麼是 `mcp` 套件？** 這是用於建立 MCP 伺服器的官方 Python SDK，負責處理協定細節，讓您專注於工具的開發。
+> 💡 **什麼是 `mcp` 套件？** 它是官方的 Python SDK，用於建立 MCP 伺服器。它會處理協定細節，讓你專注於開發自己的工具。
 
 ## 伺服器實作
 
@@ -96,20 +96,20 @@ if __name__ == "__main__":
     mcp.run()
 ```
 
-**各部分說明：**
+**這裡發生了什麼事：**
 
-| 部分 | 作用 |
+| 部分 | 功能說明 |
 |------|-------------|
-| `FastMCP("book-lookup")` | 建立名為「book-lookup」的伺服器 |
-| `@mcp.tool()` | 將函式註冊為 Copilot 可呼叫的工具 |
-| 型別提示 + docstring | 告訴 Copilot 每個工具的功能及所需參數 |
+| `FastMCP("book-lookup")` | 建立一個名為 "book-lookup" 的伺服器 |
+| `@mcp.tool()` | 註冊一個 Copilot 可呼叫的工具函式 |
+| 型別提示 + 文件字串 | 告訴 Copilot 每個工具的用途及所需參數 |
 | `mcp.run()` | 啟動伺服器並監聽請求 |
 
-> 💡 **為何使用裝飾器？** `@mcp.tool()` 裝飾器就是您所需的全部。MCP SDK 會自動讀取函式的名稱、型別提示和 docstring 來產生工具綱要，無需手動撰寫 JSON 綱要！
+> 💡 **為什麼要用裝飾器？** 只需 `@mcp.tool()` 這個裝飾器即可。MCP SDK 會自動讀取你的函式名稱、型別提示和文件字串來產生工具結構描述。無需手動撰寫 JSON schema！
 
 ## 設定
 
-將以下內容加入您的 `~/.copilot/mcp-config.json`：
+在你的 `~/.copilot/mcp-config.json` 中加入：
 
 ```json
 {
@@ -129,7 +129,7 @@ if __name__ == "__main__":
 ```bash
 copilot
 
-> Look up the book with ISBN 978-0-547-92822-7
+> 查詢 ISBN 為 978-0-547-92822-7 的書籍
 
 {
   "title": "The Hobbit",
@@ -138,7 +138,7 @@ copilot
   "genre": "Fantasy"
 }
 
-> Search for books by Orwell
+> 搜尋作者為 Orwell 的書籍
 
 [
   {
@@ -150,21 +150,21 @@ copilot
   }
 ]
 
-> List all available books
+> 列出所有可用書籍
 
-[Shows all books in the database with ISBNs]
+[顯示資料庫中所有書籍及其 ISBN]
 ```
 
-## 後續步驟
+## 下一步
 
-建立好基本伺服器後，您可以：
+當你完成基本伺服器後，可以：
 
 1. **新增更多工具** - 每個 `@mcp.tool()` 函式都會成為 Copilot 可呼叫的工具
-2. **連接真實 API** - 將模擬的 `BOOKS_DB` 替換為實際的 API 呼叫或資料庫查詢
-3. **加入驗證** - 安全地處理 API 金鑰和 token
-4. **分享您的伺服器** - 發布到 PyPI，讓其他人可以透過 `pip` 安裝
+2. **串接真實 API** - 將模擬的 `BOOKS_DB` 換成實際的 API 呼叫或資料庫查詢
+3. **加入驗證機制** - 安全地處理 API 金鑰與權杖
+4. **分享你的伺服器** - 發布到 PyPI，讓其他人可以用 `pip` 安裝
 
-## 資源
+## 相關資源
 
 - [MCP Python SDK](https://github.com/modelcontextprotocol/python-sdk)
 - [MCP TypeScript SDK](https://github.com/modelcontextprotocol/typescript-sdk)
@@ -173,4 +173,4 @@ copilot
 
 ---
 
-**[← 返回第 06 章：MCP 伺服器](README.md)**
+**[← 回到第 06 章：MCP 伺服器](README.md)**

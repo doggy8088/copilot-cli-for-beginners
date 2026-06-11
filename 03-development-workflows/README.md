@@ -1,8 +1,8 @@
-![Chapter 03: Development Workflows](images/chapter-header.png)
+![第 03 章：開發工作流程](assets/chapter-header.png)
 
-> **如果 AI 能找出你根本沒想到要問的錯誤怎麼辦？**
+> **如果 AI 能夠找出你根本沒想到要問的錯誤，會怎樣？**
 
-在本章中，GitHub Copilot CLI 將成為你的日常主力工具。你將在日常依賴的工作流程中使用它：測試、重構、除錯，以及 Git。
+在本章中，GitHub Copilot CLI 將成為你日常開發的主力工具。你會在日常依賴的工作流程中使用它：測試、重構、除錯，以及 Git 操作。
 
 ## 🎯 學習目標
 
@@ -14,33 +14,33 @@
 - 自動產生測試
 - 將 Copilot CLI 整合進你的 git 工作流程
 
-> ⏱️ **預估時間**：約 60 分鐘（閱讀 15 分 + 實作 45 分）
+> ⏱️ **預估時間**：約 60 分鐘（閱讀 15 分鐘 + 實作 45 分鐘）
 
 ---
 
-## 🧩 真實世界類比：木工的工作流程
+## 🧩 真實世界類比：木工師傅的工作流程
 
-一位木工不僅懂得如何使用工具，他們還會針對不同工作有*工作流程*：
+木工師傅不僅會使用工具，他們還有針對不同工作任務的*工作流程*：
 
-<img src="images/carpenter-workflow-steps.png" alt="工匠工作坊，展示三條工作流程：製作家具（測量、切割、組裝、上漆）、修復損壞（評估、拆除、修補、配色）、品質檢查（檢查、測試接縫、校正對齊）" width="800"/>
+<img src="assets/carpenter-workflow-steps.png" alt="工匠工作坊展示三條工作流程：製作家具（測量、切割、組裝、上漆）、修復損壞（評估、拆除、修補、比對）、品質檢查（檢查、測試接合、校正對齊）" width="800"/>
 
-同樣地，開發者也會針對不同任務有各自的工作流程。GitHub Copilot CLI 能強化這些流程，讓你在日常寫程式時更有效率、更有成效。
+同樣地，開發者也有針對不同任務的工作流程。GitHub Copilot CLI 能強化這些流程，讓你在日常編碼中更有效率、更有成效。
 
 ---
 
 # 五大工作流程
 
-<img src="images/five-workflows.png" alt="五個發光霓虹圖示，分別代表程式碼審查、測試、除錯、重構，以及 git 整合工作流程" width="800"/>
+<img src="assets/five-workflows.png" alt="五個發光霓虹圖示，分別代表程式碼審查、測試、除錯、重構與 git 整合工作流程" width="800"/>
 
 以下每個工作流程都是獨立的。你可以挑選符合當前需求的流程，也可以全部練習一遍。
 
 ---
 
-## 自選冒險
+## 選擇你的冒險
 
-本章涵蓋開發者常用的五種工作流程。**不需要一次讀完全部！** 每個流程都收納在下方可收合區塊中，依照你的需求和目前專案狀況挑選適合的練習。你隨時可以回來探索其他流程。
+本章涵蓋開發者常用的五種工作流程。**不過，你不需要一次讀完全部！**每個流程都收納在下方可收合區塊中。請選擇最符合你需求、最適合你目前專案的流程。你隨時可以回來探索其他流程。
 
-<img src="images/five-workflows-swimlane.png" alt="五大開發工作流程：程式碼審查、重構、除錯、測試產生、Git 整合，以橫向泳道圖呈現" width="800"/>
+<img src="assets/five-workflows-swimlane.png" alt="五大開發工作流程：程式碼審查、重構、除錯、測試產生、Git 整合，以橫向泳道圖表示" width="800"/>
 
 | 我想要... | 跳到 |
 |---|---|
@@ -49,7 +49,7 @@
 | 追蹤並修正錯誤 | [工作流程 3：除錯](#workflow-3-debugging) |
 | 為我的程式碼產生測試 | [工作流程 4：測試產生](#workflow-4-test-generation) |
 | 撰寫更好的提交與 PR | [工作流程 5：Git 整合](#workflow-5-git-integration) |
-| 寫程式前先做研究 | [快速技巧：規劃或寫程式前先研究](#quick-tip-research-before-you-plan-or-code) |
+| 編碼前先做研究 | [快速技巧：規劃或編碼前先研究](#quick-tip-research-before-you-plan-or-code) |
 | 看完整的錯誤修正流程 | [整合應用：完整錯誤修正流程](#putting-it-all-together-bug-fix-workflow) |
 
 **請在下方選擇一個工作流程展開**，看看 GitHub Copilot CLI 如何強化你在該領域的開發流程。
@@ -60,11 +60,11 @@
 <details>
 <summary><strong>工作流程 1：程式碼審查</strong> - 審查檔案、使用 /review agent、建立嚴重性檢查清單</summary>
 
-<img src="images/code-review-swimlane-single.png" alt="程式碼審查流程：審查、找出問題、排序優先順序、產生檢查清單。" width="800"/>
+<img src="assets/code-review-swimlane-single.png" alt="程式碼審查流程：審查、發現問題、優先排序、產生檢查清單。" width="800"/>
 
 ### 基本審查
 
-這個範例使用 `@` 符號參照檔案，讓 Copilot CLI 能直接存取其內容進行審查。
+這個範例使用 `@` 符號參照檔案，讓 Copilot CLI 直接存取其內容進行審查。
 
 ```bash
 copilot
@@ -75,11 +75,11 @@ copilot
 ---
 
 <details>
-<summary>🎬 實際操作影片</summary>
+<summary>🎬 實際操作示範！</summary>
 
-![Code Review Demo](images/code-review-demo.gif)
+![Code Review Demo](assets/code-review-demo.gif)
 
-*實際輸出會有所不同。你的模型、工具和回應可能與此處展示內容不同。*
+*示範輸出會有所不同。你的模型、工具和回應可能與這裡顯示的不同。*
 
 </details>
 
@@ -87,7 +87,7 @@ copilot
 
 ### 輸入驗證審查
 
-請 Copilot CLI 專注於特定面向（例如輸入驗證），只要在提示中列出你關心的類別即可。
+請 Copilot CLI 專注於特定議題（例如輸入驗證），只要在提示中列出你關心的類別即可。
 
 ```text
 copilot
@@ -107,7 +107,7 @@ copilot
 
 ### 互動式程式碼審查
 
-用多輪對話深入探討。先做廣泛審查，再追問細節，無需重啟對話。
+利用多輪對話深入探討。先進行廣泛審查，再提出後續問題，無需重新開始。
 
 ```bash
 copilot
@@ -121,16 +121,16 @@ copilot
 
 > The user input handling - are there any edge cases I'm missing?
 
-# Copilot CLI 顯示空字串、特殊字元等潛在問題
+# Copilot CLI 顯示可能的問題，例如空字串、特殊字元
 
 > Create a checklist of all issues found, prioritized by severity
 
-# Copilot CLI 產生依嚴重性排序的行動項目清單
+# Copilot CLI 產生依嚴重性排序的行動項目
 ```
 
 ### 審查檢查清單範本
 
-請 Copilot CLI 以特定格式輸出（例如依嚴重性分類的 markdown 檢查清單，可直接貼到 issue）。
+請 Copilot CLI 以特定格式（例如依嚴重性分類的 markdown 檢查清單）結構化輸出，方便你貼到 issue。
 
 ```bash
 copilot
@@ -142,13 +142,13 @@ copilot
 > - Low (style, minor improvements)
 ```
 
-### 了解 Git 變更（/review 前必讀）
+### 了解 Git 變更（/review 很重要）
 
 在使用 `/review` 指令前，你需要了解 git 變更的兩種類型：
 
-| 變更類型 | 意義 | 查看方式 |
+| 變更類型 | 意義 | 如何查看 |
 |-------------|---------------|------------|
-| **已暫存變更** | 你用 `git add` 標記準備下次提交的檔案 | `git diff --staged` |
+| **已暫存變更** | 你用 `git add` 標記準備提交的檔案 | `git diff --staged` |
 | **未暫存變更** | 你已修改但尚未加入的檔案 | `git diff` |
 
 ```bash
@@ -161,20 +161,20 @@ git diff --staged    # 顯示已暫存變更
 
 ### 使用 /review 指令
 
-`/review` 指令會啟動內建的**程式碼審查 agent**，專為分析已暫存與未暫存變更設計，能提供高訊噪比的回饋。用斜線指令觸發專門的內建 agent，而非自由格式提示。
+`/review` 指令會呼叫內建的**程式碼審查 agent**，專為分析已暫存與未暫存變更設計，能提供高訊噪比的回饋。用 slash 指令觸發專門的內建 agent，而非自由格式提示。
 
 ```bash
 copilot
 
 > /review
-# 針對已暫存／未暫存變更啟動程式碼審查 agent
-# 提供聚焦且可執行的回饋
+# 針對已暫存/未暫存變更啟動程式碼審查 agent
+# 提供聚焦且可行的回饋
 
 > /review Check for security issues in authentication
 # 針對特定重點執行審查
 ```
 
-> 💡 **小技巧**：程式碼審查 agent 在有待處理變更時效果最佳。用 `git add` 暫存檔案，可獲得更聚焦的審查。
+> 💡 **提示**：程式碼審查 agent 在你有待處理變更時效果最佳。請用 `git add` 將檔案加入暫存區，以獲得更聚焦的審查。
 
 </details>
 
@@ -184,13 +184,13 @@ copilot
 <details>
 <summary><strong>工作流程 2：重構</strong> - 重組程式碼、分離關注點、改善錯誤處理</summary>
 
-<img src="images/refactoring-swimlane-single.png" alt="重構流程：評估程式碼、規劃變更、實作、驗證行為。" width="800"/>
+<img src="assets/refactoring-swimlane-single.png" alt="重構流程：評估程式碼、規劃變更、實作、驗證行為。" width="800"/>
 
 ### 簡單重構
 
 > **先試試這個：** `@samples/book-app-project/book_app.py The command handling uses if/elif chains. Refactor it to use a dictionary dispatch pattern.`
 
-從簡單的改善開始。試試這些書籍應用程式的範例。每個提示都用 `@` 檔案參照搭配明確的重構指示，讓 Copilot CLI 精確知道要改什麼。
+從簡單的改善開始。請在書籍應用程式上試試這些範例。每個提示都用 `@` 參照檔案，並搭配明確的重構指示，讓 Copilot CLI 知道要改什麼。
 
 ```bash
 copilot
@@ -202,16 +202,16 @@ copilot
 > @samples/book-app-project/book_app.py Extract the book display logic into utils.py for better separation of concerns
 ```
 
-> 💡 **重構新手？** 先從加 type hints 或改善變數命名這類簡單請求開始，再挑戰複雜轉換。
+> 💡 **重構新手？** 先從加上型別註記或改善變數名稱等簡單請求開始，再挑戰複雜的轉換。
 
 ---
 
 <details>
-<summary>🎬 實際操作影片</summary>
+<summary>🎬 實際操作示範！</summary>
 
-![Refactor Demo](images/refactor-demo.gif)
+![Refactor Demo](assets/refactor-demo.gif)
 
-*實際輸出會有所不同。你的模型、工具和回應可能與此處展示內容不同。*
+*示範輸出會有所不同。你的模型、工具和回應可能與這裡顯示的不同。*
 
 </details>
 
@@ -230,7 +230,7 @@ copilot
 
 ### 改善錯誤處理
 
-提供兩個相關檔案並描述橫跨多檔的問題，讓 Copilot CLI 能建議一致的修正方式。
+提供兩個相關檔案並描述橫跨檔案的議題，讓 Copilot CLI 能建議一致的修正方式。
 
 ```bash
 copilot
@@ -241,7 +241,7 @@ copilot
 
 ### 增加文件註解
 
-用詳細的條列清單明確指定每個 docstring 應包含哪些內容。
+用詳細的條列清單指定每個 docstring 應包含哪些內容。
 
 ```bash
 copilot
@@ -255,7 +255,7 @@ copilot
 
 ### 搭配測試安全重構
 
-用多輪對話串接兩個相關請求。先產生測試，再進行重構，讓測試成為安全網。
+在多輪對話中串接兩個相關請求。先產生測試，再進行重構，讓測試成為安全網。
 
 ```bash
 copilot
@@ -266,7 +266,7 @@ copilot
 
 > Now refactor the BookCollection class to use a context manager for file operations
 
-# 有信心地重構——測試可驗證行為是否一致
+# 有信心地重構——測試可驗證行為未變
 ```
 
 </details>
@@ -277,18 +277,18 @@ copilot
 <details>
 <summary><strong>工作流程 3：除錯</strong> - 追蹤錯誤、安全稽核、跨檔案追蹤問題</summary>
 
-<img src="images/debugging-swimlane-single.png" alt="除錯流程：理解錯誤、找出根本原因、修正、測試。" width="800"/>
+<img src="assets/debugging-swimlane-single.png" alt="除錯流程：理解錯誤、定位根本原因、修正、測試。" width="800"/>
 
 ### 簡單除錯
 
 > **先試試這個：** `@samples/book-app-buggy/books_buggy.py Users report that searching for "The Hobbit" returns no results even though it's in the data. Debug why.`
 
-先描述發生了什麼問題。這裡有幾個常見除錯模式，可用於有 bug 的書籍應用程式。每個提示都用 `@` 檔案參照搭配明確的症狀描述，讓 Copilot CLI 能定位並診斷錯誤。
+先描述問題所在。這裡是你可以在有錯誤的書籍應用程式上嘗試的常見除錯模式。每個提示都用 `@` 參照檔案，並搭配明確的症狀描述，讓 Copilot CLI 能定位並診斷錯誤。
 
 ```bash
 copilot
 
-# 模式：「預期 X，實際得到 Y」
+# 模式：「預期 X，實際卻是 Y」
 > @samples/book-app-buggy/books_buggy.py Users report that searching for "The Hobbit" returns no results even though it's in the data. Debug why.
 
 # 模式：「非預期行為」
@@ -298,16 +298,16 @@ copilot
 > @samples/book-app-buggy/books_buggy.py When I mark one book as read, ALL books get marked. What's the bug?
 ```
 
-> 💡 **除錯小技巧**：描述*症狀*（你看到什麼）和*預期*（應該發生什麼）。Copilot CLI 會推理剩下的部分。
+> 💡 **除錯小技巧**：描述*症狀*（你看到什麼）和*預期*（應該發生什麼）。Copilot CLI 會幫你找出原因。
 
 ---
 
 <details>
-<summary>🎬 實際操作影片</summary>
+<summary>🎬 實際操作示範！</summary>
 
-![Fix Bug Demo](images/fix-bug-demo.gif)
+![Fix Bug Demo](assets/fix-bug-demo.gif)
 
-*實際輸出會有所不同。你的模型、工具和回應可能與此處展示內容不同。*
+*示範輸出會有所不同。你的模型、工具和回應可能與這裡顯示的不同。*
 
 </details>
 
@@ -315,7 +315,7 @@ copilot
 
 ### 「錯誤偵探」——AI 找出*相關*錯誤
 
-這正是情境感知除錯的強大之處。試試這個有 bug 的書籍應用程式範例。用 `@` 提供整個檔案，只描述使用者回報的症狀。Copilot CLI 會追蹤根本原因，還可能發現附近的其他錯誤。
+這正是情境感知除錯大顯身手的時候。請在有錯誤的書籍應用程式上試試這個情境。用 `@` 提供整個檔案，只描述使用者回報的症狀。Copilot CLI 會追蹤根本原因，還可能發現附近的其他錯誤。
 
 ```bash
 copilot
@@ -326,25 +326,26 @@ copilot
 > Debug why this happens
 ```
 
-**Copilot CLI 會這樣做**：
+**Copilot CLI 會這麼做**：
 ```
-根本原因：第 80 行使用了完全比對（==）而非部分比對（in）。
+Root Cause: Line 80 uses exact match (==) instead of partial match (in).
 
-第 80 行：return [b for b in self.books if b.author == author]
+Line 80: return [b for b in self.books if b.author == author]
 
-find_by_author 函式需要完全比對。搜尋 "Tolkien" 找不到 "J.R.R. Tolkien" 的書。
+The find_by_author function requires an exact match. Searching for "Tolkien"
+won't find books by "J.R.R. Tolkien".
 
-修正：改為不分大小寫的部分比對：
+Fix: Change to case-insensitive partial match:
 return [b for b in self.books if author.lower() in b.author.lower()]
 ```
 
-**為什麼這很重要**：Copilot CLI 讀完整個檔案，理解你的錯誤回報情境，給你明確修正與清楚解釋。
+**為什麼這很重要**：Copilot CLI 讀取整個檔案，理解你的錯誤回報情境，並給你明確的修正建議與說明。
 
-> 💡 **加分**：因為 Copilot CLI 會分析整個檔案，常常能發現你沒問到的*其他*問題。例如修正作者搜尋時，還可能發現 `find_book_by_title` 的大小寫問題！
+> 💡 **加分**：因為 Copilot CLI 會分析整個檔案，經常能發現你沒問到的*其他*問題。例如在修正作者搜尋時，可能也會注意到 `find_book_by_title` 的大小寫問題！
 
 ### 真實世界安全性補充
 
-除錯自己的程式很重要，理解生產應用的安全漏洞更關鍵。試試這個範例：指向一個陌生檔案，請 Copilot CLI 稽核安全問題。
+除錯自己的程式碼很重要，理解生產環境應用程式的安全漏洞更是關鍵。試試這個範例：將 Copilot CLI 指向一個陌生檔案，請它稽核安全性問題。
 
 ```bash
 copilot
@@ -354,17 +355,17 @@ copilot
 
 這個檔案展示了你在生產應用中會遇到的真實安全模式。
 
-> 💡 **常見安全術語說明：**
-> - **SQL Injection（SQL 注入）**：將使用者輸入直接放進資料庫查詢，讓攻擊者能執行惡意指令
-> - **Parameterized queries（參數化查詢）**：安全做法——用佔位符（`?`）將使用者資料與 SQL 指令分離
-> - **Race condition（競爭條件）**：兩個操作同時發生而互相干擾
+> 💡 **你會遇到的常見安全術語：**
+> - **SQL Injection**：當使用者輸入直接進入資料庫查詢，攻擊者可執行惡意指令
+> - **Parameterized queries**：安全做法——用佔位符（`?`）將使用者資料與 SQL 指令分離
+> - **Race condition**：兩個操作同時發生而互相干擾
 > - **XSS（跨站腳本攻擊）**：攻擊者將惡意腳本注入網頁
 
 ---
 
 ### 了解錯誤
 
-直接將堆疊追蹤貼進提示，搭配 `@` 檔案參照，讓 Copilot CLI 能對應錯誤來源。
+將堆疊追蹤直接貼到提示中，並加上 `@` 檔案參照，讓 Copilot CLI 能將錯誤對應到原始碼。
 
 ```bash
 copilot
@@ -378,7 +379,7 @@ copilot
 
 ### 用測試案例除錯
 
-描述精確的輸入與觀察到的輸出，讓 Copilot CLI 有具體可重現的測試案例可推理。
+描述精確的輸入與觀察到的輸出，讓 Copilot CLI 能根據具體、可重現的測試案例推理。
 
 ```bash
 copilot
@@ -401,7 +402,7 @@ copilot
 
 ### 了解資料問題
 
-同時提供資料檔與讀取它的程式碼，讓 Copilot CLI 能全面理解，提出錯誤處理改進建議。
+同時提供資料檔與讀取該資料的程式碼，讓 Copilot CLI 在建議錯誤處理改善時能掌握全貌。
 
 ```bash
 copilot
@@ -418,13 +419,13 @@ copilot
 <details>
 <summary><strong>工作流程 4：測試產生</strong> - 自動產生全面測試與邊界案例</summary>
 
-<img src="images/test-gen-swimlane-single.png" alt="測試產生流程：分析函式、產生測試、涵蓋邊界案例、執行。" width="800"/>
+<img src="assets/test-gen-swimlane-single.png" alt="測試產生流程：分析函式、產生測試、涵蓋邊界案例、執行。" width="800"/>
 
 > **先試試這個：** `@samples/book-app-project/books.py Generate pytest tests for all functions including edge cases`
 
 ### 「測試爆炸」——2 個測試 vs 15+ 個測試
 
-手動寫測試時，開發者通常只寫 2-3 個基本測試：
+開發者手動寫測試時，通常只會寫 2-3 個基本測試：
 - 測試有效輸入
 - 測試無效輸入
 - 測試邊界案例
@@ -446,17 +447,17 @@ copilot
 ---
 
 <details>
-<summary>🎬 實際操作影片</summary>
+<summary>🎬 實際操作示範！</summary>
 
-![Test Generation Demo](images/test-gen-demo.gif)
+![Test Generation Demo](assets/test-gen-demo.gif)
 
-*實際輸出會有所不同。你的模型、工具和回應可能與此處展示內容不同。*
+*示範輸出會有所不同。你的模型、工具和回應可能與這裡顯示的不同。*
 
 </details>
 
 ---
 
-**你會得到**：15+ 個涵蓋各種情境的測試，包括：
+**你會得到**：15+ 個全面測試，包括：
 
 ```python
 class TestBookCollection:
@@ -499,13 +500,13 @@ class TestBookCollection:
         ...
 ```
 
-**成果**：30 秒內就有涵蓋邊界案例的測試，這些測試手寫可能要花一小時才能想完並寫出來。
+**結果**：30 秒內就能獲得本來要花一小時思考與撰寫的邊界案例測試。
 
 ---
 
 ### 單元測試
 
-針對單一函式，列出你想測試的輸入類型，讓 Copilot CLI 產生聚焦且完整的單元測試。
+針對單一函式，列出你想測試的輸入類別，讓 Copilot CLI 產生聚焦且完整的單元測試。
 
 ```bash
 copilot
@@ -520,7 +521,7 @@ copilot
 
 ### 執行測試
 
-用白話問題詢問 Copilot CLI 工具鏈怎麼用。它會幫你產生正確的 shell 指令。
+用白話問題詢問 Copilot CLI 工具鏈的用法。它會幫你產生正確的 shell 指令。
 
 ```bash
 copilot
@@ -529,13 +530,13 @@ copilot
 
 # Copilot CLI 回應：
 # cd samples/book-app-project && python -m pytest tests/
-# 或顯示詳細輸出：python -m pytest tests/ -v
+# 或要詳細輸出：python -m pytest tests/ -v
 # 要看 print 輸出：python -m pytest tests/ -s
 ```
 
 ### 特定情境測試
 
-列出進階或棘手情境，讓 Copilot CLI 超越快樂路徑，產生更完整的測試。
+列出進階或棘手情境，讓 Copilot CLI 超越單純的 happy path。
 
 ```bash
 copilot
@@ -569,17 +570,17 @@ copilot
 
 <a id="workflow-5-git-integration"></a>
 <details>
-<summary><strong>工作流程 5：Git 整合</strong> - 提交訊息、PR 描述、/pr、/delegate、/diff</summary>
+<summary><strong>工作流程 5：Git 整合</strong> - 提交訊息、PR 描述、/pr、/delegate 與 /diff</summary>
 
-<img src="images/git-integration-swimlane-single.png" alt="Git 整合流程：暫存變更、產生訊息、提交、建立 PR。" width="800"/>
+<img src="assets/git-integration-swimlane-single.png" alt="Git 整合流程：暫存變更、產生訊息、提交、建立 PR。" width="800"/>
 
-> 💡 **本流程假設你已熟悉 git 基本操作**（暫存、提交、分支）。如果你對 git 不熟，建議先練習前四個流程。
+> 💡 **本流程假設你已熟悉 git 基本操作**（暫存、提交、分支）。如果你對 git 還不熟，建議先練習前四個流程。
 
 ### 產生提交訊息
 
-> **先試試這個：** `copilot -p "Generate a conventional commit message for: $(git diff --staged)"` — 先暫存一些變更，再執行這行，看看 Copilot CLI 幫你寫提交訊息。
+> **先試試這個：** `copilot -p "Generate a conventional commit message for: $(git diff --staged)"` — 先將變更加入暫存區，再執行這行，看看 Copilot CLI 幫你寫出什麼提交訊息。
 
-這個範例用 `-p` 行內提示旗標搭配 shell 指令替換，將 `git diff` 輸出直接傳給 Copilot CLI，產生一次性的提交訊息。`$(...)` 語法會執行括號內指令，並將輸出插入外部指令。
+這個範例用 `-p` 行內提示旗標，搭配 shell 指令替換，將 `git diff` 輸出直接傳給 Copilot CLI，讓它一次性產生提交訊息。`$(...)` 語法會執行括號內的指令，並將其輸出插入外部指令。
 
 ```bash
 
@@ -600,19 +601,19 @@ copilot -p "Generate a conventional commit message for: $(git diff --staged)"
 ---
 
 <details>
-<summary>🎬 實際操作影片</summary>
+<summary>🎬 實際操作示範！</summary>
 
-![Git Integration Demo](images/git-integration-demo.gif)
+![Git Integration Demo](assets/git-integration-demo.gif)
 
-*實際輸出會有所不同。你的模型、工具和回應可能與此處展示內容不同。*
+*示範輸出會有所不同。你的模型、工具和回應可能與這裡顯示的不同。*
 
 </details>
 
 ---
 
-### 解釋變更
+### 說明變更內容
 
-將 `git show` 輸出傳給 `-p` 提示，取得上一個提交的白話摘要。
+將 `git show` 輸出導入 `-p` 提示，取得上一個提交的白話摘要。
 
 ```bash
 # 這次提交改了什麼？
@@ -621,10 +622,10 @@ copilot -p "Explain what this commit does: $(git show HEAD --stat)"
 
 ### PR 描述
 
-結合 `git log` 輸出與結構化提示範本，自動產生完整的 pull request 描述。
+結合 `git log` 輸出與結構化提示範本，自動產生完整的拉取請求（pull request）描述。
 
 ```bash
-# 依分支變更產生 PR 描述
+# 根據分支變更產生 PR 描述
 copilot -p "Generate a pull request description for these changes:
 $(git log main..HEAD --oneline)
 
@@ -635,9 +636,9 @@ Include:
 - Breaking changes? (yes/no)"
 ```
 
-### 在互動模式用 /pr 操作當前分支
+### 在互動模式下用 /pr 操作當前分支
 
-如果你在 Copilot CLI 互動模式下使用分支，可以用 `/pr` 指令操作 pull request。用 `/pr` 檢視 PR、建立新 PR、修正現有 PR，或讓 Copilot CLI 根據分支狀態自動決定。
+如果你在 Copilot CLI 的互動模式下操作分支，可以用 `/pr` 指令管理拉取請求。用 `/pr` 來檢視 PR、建立新 PR、修正現有 PR，或讓 Copilot CLI 根據分支狀態自動決定。
 
 ```bash
 copilot
@@ -657,7 +658,7 @@ $(git diff main..HEAD)"
 
 ### 用 /delegate 處理背景任務
 
-`/delegate` 指令可將工作交給 GitHub Copilot 雲端 agent。用 `/delegate` 斜線指令（或 `&` 快捷鍵）將明確定義的任務交給背景 agent 處理。
+`/delegate` 指令會將工作交給 GitHub Copilot 雲端 agent。用 `/delegate` slash 指令（或 `&` 快捷鍵）將明確的任務交給背景 agent 處理。
 
 ```bash
 copilot
@@ -669,16 +670,16 @@ copilot
 
 # Copilot CLI：
 # 1. 將你的變更提交到新分支
-# 2. 開啟草稿 pull request
-# 3. 在 GitHub 背景作業
+# 2. 開啟草稿 PR
+# 3. 在 GitHub 背景處理
 # 4. 完成後請你審查
 ```
 
-這很適合你想專注其他工作時，讓明確任務自動處理。
+這很適合你想專注其他工作時，讓明確任務在背景自動完成。
 
-### 用 /diff 審查本次工作階段變更
+### 用 /diff 檢視會話變更
 
-`/diff` 指令會顯示你本次工作階段所有變更。用這個斜線指令，檢視 Copilot CLI 修改過的所有檔案的視覺化差異，方便你在提交前審查。
+`/diff` 指令會顯示你本次會話期間所有變更。用這個 slash 指令，在提交前檢視 Copilot CLI 修改過的所有檔案差異。
 
 ```bash
 copilot
@@ -686,7 +687,7 @@ copilot
 # 做了一些變更後...
 > /diff
 
-# 顯示本次工作階段所有檔案的視覺化差異
+# 顯示本會話所有被修改檔案的視覺化差異
 # 很適合提交前審查
 ```
 
@@ -694,9 +695,9 @@ copilot
 
 ---
 
-## 快速技巧：規劃或寫程式前先研究
+## 快速技巧：規劃或編碼前先研究
 
-當你需要調查函式庫、了解最佳實踐，或探索陌生主題時，請用 `/research` 先做深入研究再寫程式：
+當你需要調查某個函式庫、了解最佳實踐，或探索陌生主題時，請用 `/research` 先進行深入研究，再開始寫程式：
 
 ```bash
 copilot
@@ -704,56 +705,54 @@ copilot
 > /research What are the best Python libraries for validating user input in CLI apps?
 ```
 
-Copilot 會搜尋 GitHub 儲存庫與網路資源，然後回傳摘要與參考資料。這在你準備開發新功能、想先做出明智決策時特別有用。你也可以用 `/share` 分享研究結果。
-
-> 💡 **小技巧**：`/research` 最適合在 `/plan` 之前使用。先研究方法，再規劃實作。
+Copilot 會搜尋 GitHub 儲存庫與網路資源，然後回傳帶有參考資料的摘要。這在你準備開發新功能、想先做出明智決策時特別有用。你也可以用 `/share` 分享研究結果。> 💡 **提示**：`/research` 最適合在 `/plan` *之前* 使用。先研究解決方法，再規劃實作步驟。
 
 ---
 
-## 整合應用：完整錯誤修正流程
+## 整合應用：修復錯誤的工作流程
 
-這是一個修正回報錯誤的完整工作流程：
+以下是一個完整的修復回報錯誤的工作流程：
 
 ```bash
 
 # 1. 了解錯誤回報
 copilot
 
-```> 使用者回報：「以作者名稱搜尋書籍時，無法以部分名稱找到」
-> @samples/book-app-project/books.py 分析並找出可能原因
+> Users report: 'Finding books by author name doesn't work for partial names'
+> @samples/book-app-project/books.py Analyze and identify the likely cause
 
-# 2. 偵錯問題並修正（在同一個 session 繼續）
-> 根據分析，請顯示 find_by_author 函式並說明問題
+# 2. 偵錯並修正（在同一會話中繼續）
+> Based on the analysis, show me the find_by_author function and explain the issue
 
-> 修正 find_by_author 函式，使其能處理部分名稱比對
+> Fix the find_by_author function to handle partial name matches
 
-# 3. 產生修正的測試
-> @samples/book-app-project/books.py 針對以下情境產生 pytest 測試：
-> - 完整作者名稱比對
-> - 部分作者名稱比對
-> - 不區分大小寫比對
-> - 找不到作者名稱
+# 3. 針對修正產生測試
+> @samples/book-app-project/books.py Generate pytest tests specifically for:
+> - Full author name match
+> - Partial author name match
+> - Case-insensitive matching
+> - Author name not found
 
-# 結束互動式 session
+# 離開互動式會話
 
 > /exit
 
 # 4. 執行 git add
 
-# 將變更加入暫存區，讓 git diff --staged 有內容可用
+# 將變更暫存，讓 git diff --staged 有內容可比對
 git add .
 
 # 5. 產生提交訊息
 copilot -p "Generate commit message for: $(git diff --staged)"
 
-# 範例輸出："fix(books): support partial author name search"
+# 範例輸出: "fix(books): support partial author name search"
 
 # 6. 提交變更（可選）
 
 git commit -m "<paste generated message>"
 ```
 
-### Bug 修正工作流程摘要
+### 修復錯誤工作流程總結
 
 | 步驟 | 動作 | Copilot 指令 |
 |------|--------|-----------------|
@@ -768,9 +767,9 @@ git commit -m "<paste generated message>"
 
 # 練習
 
-<img src="../images/practice.png" alt="溫暖桌面擺設，螢幕顯示程式碼、檯燈、咖啡杯與耳機，準備實作練習" width="800"/>
+<img src="../assets/practice.png" alt="溫馨桌面擺設，螢幕顯示程式碼、檯燈、咖啡杯與耳機，準備動手練習" width="800"/>
 
-現在輪到你實際應用這些工作流程。
+現在輪到你實作這些工作流程。
 
 ---
 
@@ -778,17 +777,17 @@ git commit -m "<paste generated message>"
 
 完成示範後，請嘗試以下變化：
 
-1. **錯誤偵探挑戰**：請 Copilot CLI 偵錯 `samples/book-app-buggy/books_buggy.py` 中的 `mark_as_read` 函式。它有解釋為什麼這個函式會把所有書都標記為已讀，而不是只標記一本嗎？
+1. **錯誤偵探挑戰**：請 Copilot CLI 偵錯 `samples/book-app-buggy/books_buggy.py` 中的 `mark_as_read` 函式。它有解釋為什麼這個函式會將*所有*書籍都標記為已讀，而不是只標記一本嗎？
 
 2. **測試挑戰**：為書籍應用程式中的 `add_book` 函式產生測試。計算 Copilot CLI 包含了多少你原本沒想到的邊界情境。
 
-3. **提交訊息挑戰**：對書籍應用程式的任一檔案做小修改，暫存（`git add .`）後執行：
+3. **提交訊息挑戰**：對書籍應用程式的任一檔案做個小變更，暫存（`git add .`），然後執行：
    ```bash
    copilot -p "Generate a conventional commit message for: $(git diff --staged)"
    ```
-   產生的訊息比你自己快速寫的還好嗎？
+   這個訊息比你自己快速寫的還要好嗎？
 
-**自我檢查**：當你能解釋為什麼「debug this bug」比「find bugs」更有力（情境很重要！），就代表你已理解開發工作流程。
+**自我檢查**：當你能解釋為什麼「debug this bug」比「find bugs」更有力時（情境很重要！），你就理解開發工作流程了！
 
 ---
 
@@ -796,17 +795,17 @@ git commit -m "<paste generated message>"
 
 ### 主要挑戰：重構、測試並發佈
 
-實作範例聚焦於 `find_book_by_title` 和程式碼審查。現在請在 `book-app-project` 其他函式上練習相同的工作流程技巧：
+實作範例聚焦於 `find_book_by_title` 與程式碼審查。現在請在 `book-app-project` 中的其他函式練習相同的工作流程技巧：
 
-1. **審查**：請 Copilot CLI 審查 `books.py` 中的 `remove_book()`，檢查邊界情境與潛在問題：
+1. **審查**：請 Copilot CLI 審查 `books.py` 中的 `remove_book()`，找出邊界情境與潛在問題：
    `@samples/book-app-project/books.py Review the remove_book() function. What happens if the title partially matches another book (e.g., "Dune" vs "Dune Messiah")? Are there any edge cases not handled?`
-2. **重構**：請 Copilot CLI 改善 `remove_book()`，讓它能處理像是不區分大小寫比對，以及在找不到書時回傳有用的回饋
-3. **測試**：針對改進後的 `remove_book()` 函式產生 pytest 測試，涵蓋：
-   - 移除存在的書
-   - 不區分大小寫的標題比對
-   - 找不到書時回傳適當回饋
-   - 從空集合移除
-4. **審查**：將變更加入暫存區並執行 `/review`，檢查是否還有遺漏的問題
+2. **重構**：請 Copilot CLI 改善 `remove_book()`，讓它能處理像是不分大小寫比對、找不到書時回傳有用訊息等邊界情境
+3. **測試**：針對改良後的 `remove_book()` 產生 pytest 測試，涵蓋：
+   - 移除存在的書籍
+   - 不分大小寫的標題比對
+   - 找不到書時回傳適當訊息
+   - 從空的集合移除
+4. **審查**：暫存變更後執行 `/review`，檢查是否還有遺漏的問題
 5. **提交**：產生一則 conventional commit 訊息：
    `copilot -p "Generate a conventional commit message for: $(git diff --staged)"`
 
@@ -838,17 +837,17 @@ copilot
 > Generate a conventional commit message for this refactor
 ```
 
-**小技巧：** 改善完 `remove_book()` 後，試著問 Copilot CLI：「這個檔案裡還有哪些函式可以用同樣的方式改進？」它可能會建議你對 `find_book_by_title()` 或 `find_by_author()` 做類似的調整。
+**提示：** 改善完 `remove_book()` 後，試著問 Copilot CLI：「這個檔案中還有哪些函式也適合做同樣的改善？」它可能會建議你對 `find_book_by_title()` 或 `find_by_author()` 做類似調整。
 
 </details>
 
-### 進階挑戰：用 Copilot CLI 建立一個應用程式
+### 加分挑戰：用 Copilot CLI 建立一個應用程式
 
-> 💡 **注意**：本 GitHub Skills 練習使用 **Node.js** 而非 Python。你將練習的 GitHub Copilot CLI 技巧——建立議題、產生程式碼、在終端機協作——適用於任何語言。
+> 💡 **注意**：這個 GitHub Skills 練習使用 **Node.js** 而非 Python。你將練習的 GitHub Copilot CLI 技巧——建立議題、產生程式碼、從終端機協作——適用於任何語言。
 
-這個練習會教你如何用 GitHub Copilot CLI 在建立 Node.js 計算機應用程式的過程中，建立議題、產生程式碼、並從終端機協作。你會安裝 CLI、使用範本與 Agent，並練習以指令列為主的反覆開發。
+這個練習會教你如何用 GitHub Copilot CLI 建立議題、產生程式碼，並在開發 Node.js 計算機應用程式時從終端機協作。你會安裝 CLI、使用範本與 Agent，並練習以指令列為主的反覆開發。
 
-##### <img src="../images/github-skills-logo.png" width="28" align="center" /> [開始「Create applications with the Copilot CLI」技能練習](https://github.com/skills/create-applications-with-the-copilot-cli)
+##### <img src="../assets/github-skills-logo.png" width="28" align="center" /> [開始「使用 Copilot CLI 建立應用程式」技能練習](https://github.com/skills/create-applications-with-the-copilot-cli)
 
 ---
 
@@ -859,14 +858,14 @@ copilot
 
 | 錯誤 | 結果 | 修正方式 |
 |---------|--------------|-----|
-| 使用模糊的提示詞如 "Review this code" | 得到泛泛而談、忽略具體問題的回饋 | 具體描述：「Review for SQL injection, XSS, and auth issues」 |
-| 沒用 `/review` 進行程式碼審查 | 錯過最佳化的程式碼審查 Agent | 使用 `/review`，它專為高訊雜比設計 |
-| 只說 "find bugs" 沒有情境 | Copilot CLI 不知道你遇到什麼 bug | 描述症狀：「Users report X happens when Y」 |
-| 產生測試時沒指定框架 | 測試可能用錯語法或斷言函式庫 | 指定：「Generate tests using Jest」或「using pytest」 |
+| 使用模糊提示如「Review this code」 | 回饋很籠統，容易漏掉重點 | 具體說明：「Review for SQL injection, XSS, and auth issues」 |
+| 沒用 `/review` 做程式碼審查 | 錯過最佳化的程式碼審查 Agent | 使用 `/review`，它專為高訊噪比輸出而設計 |
+| 沒有情境就要求「find bugs」 | Copilot CLI 不知道你遇到什麼問題 | 描述症狀：「Users report X happens when Y」 |
+| 產生測試時沒指定框架 | 測試可能用錯語法或斷言庫 | 指定：「Generate tests using Jest」或「using pytest」 |
 
 ### 疑難排解
 
-**審查結果不完整** —— 請更明確說明要檢查什麼：
+**審查結果不完整**——請更明確說明要檢查什麼：
 
 ```bash
 copilot
@@ -878,7 +877,7 @@ copilot
 > Review @samples/book-app-project/book_app.py for input validation, error handling, and edge cases
 ```
 
-**測試與我的框架不符** —— 指定測試框架：
+**測試與我的框架不符**——請指定框架：
 
 ```bash
 copilot
@@ -886,7 +885,7 @@ copilot
 > @samples/book-app-project/books.py Generate tests using pytest (not unittest)
 ```
 
-**重構改變了行為** —— 請 Copilot CLI 保持行為一致：
+**重構後行為改變**——請 Copilot CLI 保持原有行為：
 
 ```bash
 copilot
@@ -898,16 +897,16 @@ copilot
 
 ---
 
-# 摘要
+# 小結
 
 ## 🔑 重要重點
 
-<img src="images/specialized-workflows.png" alt="每個任務的專業工作流程：程式碼審查、重構、偵錯、測試與 Git 整合" width="800"/>
+<img src="assets/specialized-workflows.png" alt="每個任務的專業化工作流程：程式碼審查、重構、偵錯、測試與 Git 整合" width="800"/>
 
-1. **程式碼審查**：具體的提示詞讓審查更全面
-2. **重構**：先產生測試再重構，讓重構更安全
-3. **偵錯**：同時給 Copilot CLI 錯誤訊息和程式碼，效果最佳
-4. **測試產生**：應涵蓋邊界情境與錯誤狀況
+1. **程式碼審查**：用具體提示讓審查更全面
+2. **重構**：先產生測試再重構更安全
+3. **偵錯**：同時給 Copilot CLI 錯誤訊息與程式碼，效果最佳
+4. **測試產生**：要涵蓋邊界情境與錯誤狀況
 5. **Git 整合**：自動產生提交訊息與 PR 描述
 
 > 📋 **快速參考**：完整指令與捷徑請見 [GitHub Copilot CLI 指令參考](https://docs.github.com/en/copilot/reference/cli-command-reference)。
@@ -918,25 +917,25 @@ copilot
 
 **恭喜！** 你現在已具備 GitHub Copilot CLI 的所有核心技能：
 
-| 技能 | 章節 | 你現在能夠... |
+| 技能 | 章節 | 你現在可以... |
 |-------|---------|----------------|
-| 基本指令 | Ch 01 | 使用互動模式、規劃模式、程式化模式（-p）與斜線指令 |
-| 情境 | Ch 02 | 以 `@` 參照檔案、管理 session、理解 context window |
+| 基本指令 | Ch 01 | 使用互動模式、規劃模式、程式化模式（-p）、slash 指令 |
+| 情境 | Ch 02 | 用 `@` 引用檔案、管理會話、理解 context window |
 | 工作流程 | Ch 03 | 程式碼審查、重構、偵錯、產生測試、與 git 整合 |
 
-第 04-06 章還有更多進階功能，值得學習。
+第 04-06 章介紹更多進階功能，非常值得學習。
 
 ---
 
 ## 🛠️ 建立你的個人工作流程
 
-沒有唯一正確的 GitHub Copilot CLI 使用方式。以下是幾個建立自己習慣的建議：
+沒有唯一正確的 GitHub Copilot CLI 用法。以下是幾個在建立自己習慣時的建議：
 
-> 📚 **官方文件**：[Copilot CLI 最佳實踐](https://docs.github.com/copilot/how-tos/copilot-cli/cli-best-practices)，收錄 GitHub 推薦的工作流程與技巧。
+> 📚 **官方文件**：[Copilot CLI 最佳實踐](https://docs.github.com/copilot/how-tos/copilot-cli/cli-best-practices)，內含推薦工作流程與 GitHub 團隊的技巧。
 
-- **遇到複雜任務先用 `/plan`**。先規劃再執行——好計畫帶來好結果。
-- **保存有效的提示詞。** 當 Copilot CLI 出錯時，記下問題。久而久之，這會成為你的個人攻略。
-- **勇於嘗試。** 有些開發者喜歡長提示詞，有些偏好短句加追問。多嘗試，找出最適合自己的方式。
+- **遇到複雜任務先用 `/plan`**。先規劃再執行——好計畫帶來好成果。
+- **保存有效的提示詞。** 當 Copilot CLI 出錯時，記下錯誤原因。久而久之，這會成為你的個人攻略本。
+- **盡情嘗試。** 有些開發者喜歡長提示，有些偏好短提示加追問。多方嘗試，找出最適合自己的方式。
 
 > 💡 **預告**：第 04、05 章將教你如何把最佳實踐寫成自動載入的自訂指令與技能。
 
@@ -948,11 +947,11 @@ copilot
 
 | 章節 | 內容 | 適用時機 |
 |---------|----------------|---------------------|
-| Ch 04: Agents | 建立專業 AI 角色 | 需要領域專家（前端、安全性）時 |
-| Ch 05: Skills | 任務自動載入指令 | 常重複相同提示詞時 |
+| Ch 04: Agents | 建立專業化 AI 角色 | 需要領域專家（前端、安全性）時 |
+| Ch 05: Skills | 任務自動載入指令 | 經常重複相同提示時 |
 | Ch 06: MCP | 連接外部服務 | 需要 GitHub、資料庫等即時資料時 |
 
-**建議**：先用一週核心工作流程，有特定需求時再回來看 04-06 章。
+**建議**：先用一週核心工作流程，有特定需求時再回來看第 04-06 章。
 
 ---
 
@@ -960,11 +959,11 @@ copilot
 
 在 **[第 04 章：Agents 與自訂指令](../04-agents-custom-instructions/README.md)**，你將學到：
 
-- 使用內建 agent（`/plan`、`/review`）
-- 用 `.agent.md` 檔案建立專業 agent（前端專家、安全審查員）
-- 多 agent 協作模式
-- 專案標準的自訂指令檔
+- 使用內建 Agent（`/plan`、`/review`）
+- 用 `.agent.md` 檔案建立專業化 Agent（前端專家、安全審查員）
+- 多 Agent 協作模式
+- 專案標準的自訂指令檔案
 
 ---
 
-**[← 回到第 02 章](../02-context-conversations/README.md)** | **[繼續到第 04 章 →](../04-agents-custom-instructions/README.md)**
+**[← 回到第 02 章](../02-context-conversations/README.md)** | **[繼續前往第 04 章 →](../04-agents-custom-instructions/README.md)**
