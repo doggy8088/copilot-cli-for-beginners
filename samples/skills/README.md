@@ -1,42 +1,42 @@
-# Skills 範例
+# 範例 Skill
 
-適用於 GitHub Copilot CLI 的現成 skill 範本。複製任一 skill 資料夾即可立即使用。
+GitHub Copilot CLI 的現成 skill 範本。複製任一 skill 資料夾即可立即使用。
 
 ## 快速開始
 
 ```bash
-# Copy a skill to your personal skills folder
+# 複製 skill 到你的個人 skills 資料夾
 cp -r hello-world ~/.copilot/skills/
 
-# Or copy to your project for team sharing
+# 或複製到你的專案中以便團隊共享
 cp -r code-checklist .github/skills/
 ```
 
-## 可用的 Skills
+## 可用的 Skill
 
-| Skill | 說明 | 適用情境 |
-|-------|------|----------|
-| `hello-world` | 最簡範例（學習格式用） | 初次建立 skill 的人 |
-| `code-checklist` | Python 程式碼品質檢查清單（PEP 8、型別提示、驗證） | 維持一致的品質標準 |
-| `pytest-gen` | 生成完整的 pytest 測試 | 結構化測試生成 |
-| `commit-message` | 慣例式提交訊息 | 標準化的 git 歷史紀錄 |
+| Skill | 說明 | 最適用於 |
+|-------|-------------|----------|
+| `hello-world` | 最簡範例（學習格式用） | 首次建立 skill 的使用者 |
+| `code-checklist` | Python 程式碼品質檢查清單（PEP 8、型別提示、驗證） | 一致的品質檢查 |
+| `pytest-gen` | 產生完整的 pytest 測試 | 結構化測試產生 |
+| `commit-message` | Conventional Commit 訊息 | 標準化 git 歷史 |
 
-## Skills 的運作方式
+## Skill 如何運作
 
-當你的提示符合 skill 的 `description` 欄位時，Skills 會**自動觸發**，無需手動呼叫。
+當你的提示詞符合 skill 的 `description` 欄位時，Skill 會**自動觸發**。你不需要手動呼叫它們。
 
 ```bash
 copilot
 
 > Check this code for quality issues
-# Copilot detects this matches "code-checklist" skill and loads it automatically
+# Copilot 偵測到這符合 "code-checklist" skill 並自動載入
 
 > Generate a commit message
-# Copilot loads the "commit-message" skill
+# Copilot 載入 "commit-message" skill
 ```
 
-你也可以直接呼叫 skills：
-```bash
+你也可以直接呼叫 skill：
+```
 > /code-checklist Check books.py
 > /pytest-gen Generate tests for BookCollection
 > /commit-message
@@ -48,32 +48,32 @@ copilot
 
 ```
 skill-name/
-└── SKILL.md    # Required: Contains frontmatter + instructions
+└── SKILL.md    # 必要：包含 frontmatter 與指令說明
 ```
 
-`SKILL.md` 檔案包含 YAML 前置區塊，`name` 和 `description` 均為必填欄位：
+`SKILL.md` 檔案需有 YAML frontmatter，包含 `name` 和 `description`（兩者皆必填）：
 
 ```markdown
 ---
 name: my-skill
-description: What this skill does and when to use it
+description: 這個 skill 的用途與適用時機
 ---
 
-# Skill Instructions
+# Skill 指令說明
 
-Your instructions here...
+在這裡撰寫你的指令說明...
 ```
 
-## 探索更多 Skills
+## 尋找更多 Skill
 
-- **[github/awesome-copilot](https://github.com/github/awesome-copilot)** - GitHub 官方資源，收錄社群 skills
-- **`/plugin marketplace`** - 在 Copilot CLI 內瀏覽並安裝 skills
+- **[github/awesome-copilot](https://github.com/github/awesome-copilot)** - 官方 GitHub 資源與社群 skill
+- **`/plugin marketplace`** - 直接在 Copilot CLI 內瀏覽並安裝 skill
 
-## 建立你自己的 Skill
+## 自行建立 Skill
 
 1. 建立資料夾：`mkdir ~/.copilot/skills/my-skill`
-2. 建立包含前置區塊的 `SKILL.md`
+2. 建立帶有 frontmatter 的 `SKILL.md`
 3. 加入你的指令說明
-4. 向 Copilot 提問符合你描述的問題，進行測試
+4. 測試：請 Copilot 執行符合你描述的內容
 
-詳細說明請參閱 [第 05 章：Skills](../../05-skills/README.md)。
+詳細教學請參見 [第 05 章：Skill](../../05-skills/README.md)。
